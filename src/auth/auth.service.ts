@@ -76,7 +76,7 @@ export class AuthService {
 
      return {
        ...user,
-       token: this.getJwtToken({ email: user.email })
+       token: this.getJwtToken({ id: user.id })
      };
     //return user;
   }
@@ -93,7 +93,7 @@ export class AuthService {
   async checkAuthStatus( user: Users ){
     return {
       ...user,
-      token: this.getJwtToken({ email: user.email })
+      token: this.getJwtToken({ id: user.id })
     };
 
   }
