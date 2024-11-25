@@ -1,26 +1,106 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { 
+          BadRequestException, 
+          Injectable, 
+          InternalServerErrorException 
+       } from '@nestjs/common';
+import { 
+          CreateUserDto,
+          LoginUserDto 
+       } from './dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Users } from './entities/users.entity';
+import { Repository } from 'typeorm';
+
+import * as bcrypt from 'bcrypt';
+
+
+
+
+
+
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+
+
+  constructor( 
+    
+    @InjectRepository( Users )
+    private readonly userRepository: Repository<Users>,
+    // private readonly jwtService: JwtService,
+
+  ){}
+
+
+  async create( createUserDto: CreateUserDto) {
+    
+    try {
+
+      const { password, ...userData } = createUserDto;
+      
+      const user = this.userRepository.create({
+        ...userData,
+        password: bcrypt.hashSync( password, 10 )
+      });
+
+      await this.userRepository.save( user )
+      delete user.password;
+
+      return {
+        ...user,
+        token: {} //token: this.getJwtToken({ id: user.id })
+      };
+      // TODO: Retornar el JWT de acceso
+
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
+
   }
 
-  findAll() {
-    return `This action returns all auth`;
+
+
+
+  public async login( LoginUserDto: LoginUserDto){
+
+    
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+
+
+
+
+  async checkAuthStatus( user: Users ){
+    return {
+      ...user,
+      //token: this.getJwtToken({ id: user.id })
+    };
+
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  private handleDBErrors( error: any ): never {
+    if ( error.code === '23505' ) 
+      throw new BadRequestException( error.detail );
+
+    console.log(error)
+
+    throw new InternalServerErrorException('Please check server logs');
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  // private getJwtToken( payload: JwtPayload ) {
+
+  //   const token = this.jwtService.sign( payload );
+  //   return token;
+
+  // }
+
+  private handleBDerror ( error: any ): never {
+    if ( error.code == '23585')
+      throw new BadRequestException();
+      throw new InternalServerErrorException(' pleasr check server logs ');
   }
+
+
 }
