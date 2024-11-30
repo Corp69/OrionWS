@@ -39,7 +39,8 @@ export class AuthService {
       
       const user = this.userRepository.create({
         ...userData,
-        password: bcrypt.hashSync( password, 10 )
+       // password: bcrypt.hashSync( password, 10 ) //? Esta linea encripta contraseñas
+        password:  password //? Esta linea encripta contraseñas
       });
 
       await this.userRepository.save( user )
@@ -47,7 +48,7 @@ export class AuthService {
 
       return {
         ...user,
-        token: {} //token: this.getJwtToken({ id: user.id })
+        token: this.getJwtToken({ id: user.id })
       };
       // TODO: Retornar el JWT de acceso
 
@@ -71,7 +72,8 @@ export class AuthService {
 
     if ( !user )
       throw new UnauthorizedException('Credentials are not valid (email)');
-    if ( !bcrypt.compareSync( password, user.password ) )
+    //if ( !bcrypt.compareSync( password, user.password ) ) //? esta linea de codigo compara si tenemos encryotada la contraseña
+    if ( !(LoginUserDto.password == user.password)  )
       throw new UnauthorizedException('Credentials are not valid (password)');
 
      return {
@@ -107,13 +109,6 @@ export class AuthService {
     throw new InternalServerErrorException('Please check server logs');
 
   }
-
-  // private getJwtToken( payload: JwtPayload ) {
-
-  //   const token = this.jwtService.sign( payload );
-  //   return token;
-
-  // }
 
   private handleBDerror ( error: any ): never {
     if ( error.code == '23585')
