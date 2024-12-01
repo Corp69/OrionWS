@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  HttpException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException
@@ -72,19 +74,20 @@ export class AuthService {
       // Retorna la respuesta estructurada
       return {
         Success: true,
-        Titulo:  "OrionWS webservice - Modulo - Authenticacion.",
+        Titulo: "OrionWS webservice - Modulo - Authenticacion.",
         Mensaje: "Operacion Realizada con exito.",
         Response: data,
       };
     } catch (error) {
-      return {
-        Success:  false,
-        Titulo:   "OrionWS webservice - Modulo - Authenticacion.",
-        Mensaje:  "Operacion no se realizó",
-        Response: error,
-      };
-      // Manejo de errores
-      this.handleDBErrors(error);
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: "OrionWS webservice - Modulo - Autenticación.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
