@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { Users } from './entities/users.entity';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { eccs_empresas } from './entities';
 
 @Module({
   controllers: [AuthController],
@@ -15,13 +16,13 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     ConfigModule,
 
-    TypeOrmModule.forFeature([ Users ]),
+    TypeOrmModule.forFeature([ Users, eccs_empresas  ]),
 
     PassportModule.register({ defaultStrategy: 'jwt' }),
 
     JwtModule.registerAsync({
       imports: [ ConfigModule ],
-      inject: [ ConfigService ],
+      inject:  [ ConfigService ],
       useFactory: ( configService: ConfigService ) => {
         // console.log('JWT Secret', configService.get('JWT_SECRET') )
         // console.log('JWT SECRET', process.env.JWT_SECRET)

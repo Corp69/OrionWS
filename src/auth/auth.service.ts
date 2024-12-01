@@ -1,49 +1,56 @@
-import { 
-          BadRequestException, 
-          Injectable, 
-          InternalServerErrorException, 
-          UnauthorizedException
-       } from '@nestjs/common';
-import { 
-          CreateUserDto,
-          LoginUserDto 
-       } from './dto';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException
+} from '@nestjs/common';
+import {
+  CreateEccsEmpresasDto,
+  CreateUserDto,
+  LoginUserDto
+} from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entities/users.entity';
+import { eccs_empresas } from './entities/eccs_empresas.entity';
 import { Repository } from 'typeorm';
 
-import * as bcrypt from 'bcrypt';
+//import * as bcrypt from 'bcrypt';
 
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces';
+import { ResponseDto } from 'src/shared/dtos/response.dto';
+
 
 
 @Injectable()
 export class AuthService {
 
 
-  constructor( 
-    
-    @InjectRepository( Users )
+  constructor(
+
+    @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
+
+    @InjectRepository(eccs_empresas)
+    private readonly eccs_empresasRepository: Repository<eccs_empresas>,
+
     private readonly jwtService: JwtService,
 
-  ){}
+  ) { }
 
+  async create(createUserDto: CreateUserDto) {
 
-  async create( createUserDto: CreateUserDto) {
-    
     try {
 
       const { password, ...userData } = createUserDto;
-      
+
       const user = this.userRepository.create({
         ...userData,
-       // password: bcrypt.hashSync( password, 10 ) //? Esta linea encripta contraseñas
-        password:  password //? Esta linea encripta contraseñas
+        // password: bcrypt.hashSync( password, 10 ) //? Esta linea encripta contraseñas
+        password: password //? Esta linea encripta contraseñas
       });
 
-      await this.userRepository.save( user )
+      await this.userRepository.save(user)
       delete user.password;
 
       return {
@@ -58,41 +65,61 @@ export class AuthService {
 
   }
 
+  async Prospecto(createEccsEmpresasDto: CreateEccsEmpresasDto): Promise<ResponseDto<CreateEccsEmpresasDto>> {
+    try {
+      // Guarda la entidad usando el DTO recibido
+      const data = await this.eccs_empresasRepository.save(createEccsEmpresasDto);
+      // Retorna la respuesta estructurada
+      return {
+        Success: true,
+        Titulo:  "OrionWS webservice - Modulo - Authenticacion.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data,
+      };
+    } catch (error) {
+      return {
+        Success:  false,
+        Titulo:   "OrionWS webservice - Modulo - Authenticacion.",
+        Mensaje:  "Operacion no se realizó",
+        Response: error,
+      };
+      // Manejo de errores
+      this.handleDBErrors(error);
+    }
+  }
 
-
-
-  public async login( LoginUserDto: LoginUserDto){
+  public async login(LoginUserDto: LoginUserDto) {
 
     const { password, email } = LoginUserDto;
 
-    const user = await this.userRepository.findOne({ 
-      where:  { email },
+    const user = await this.userRepository.findOne({
+      where: { email },
       select: { email: true, password: true }
     });
 
-    if ( !user )
+    if (!user)
       throw new UnauthorizedException('Credentials are not valid (email)');
     //if ( !bcrypt.compareSync( password, user.password ) ) //? esta linea de codigo compara si tenemos encryotada la contraseña
-    if ( !(LoginUserDto.password == user.password)  )
+    if (!(LoginUserDto.password == user.password))
       throw new UnauthorizedException('Credentials are not valid (password)');
 
-     return {
-       ...user,
-       token: this.getJwtToken({ id: user.id })
-     };
+    return {
+      ...user,
+      token: this.getJwtToken({ id: user.id })
+    };
     //return user;
   }
 
 
 
-  private getJwtToken( payload: JwtPayload ) {
+  private getJwtToken(payload: JwtPayload) {
 
-    const token = this.jwtService.sign( payload );
+    const token = this.jwtService.sign(payload);
     return token;
 
   }
 
-  async checkAuthStatus( user: Users ){
+  async checkAuthStatus(user: Users) {
     return {
       ...user,
       token: this.getJwtToken({ id: user.id })
@@ -100,9 +127,9 @@ export class AuthService {
 
   }
 
-  private handleDBErrors( error: any ): never {
-    if ( error.code === '23505' ) 
-      throw new BadRequestException( error.detail );
+  private handleDBErrors(error: any): never {
+    if (error.code === '23505')
+      throw new BadRequestException(error.detail);
 
     console.log(error)
 
@@ -110,10 +137,10 @@ export class AuthService {
 
   }
 
-  private handleBDerror ( error: any ): never {
-    if ( error.code == '23585')
+  private handleBDerror(error: any): never {
+    if (error.code == '23585')
       throw new BadRequestException();
-      throw new InternalServerErrorException(' pleasr check server logs ');
+    throw new InternalServerErrorException(' pleasr check server logs ');
   }
 
 
