@@ -37,3 +37,53 @@ export class UserRoleGuard implements CanActivate {
     );
   }
 }
+
+
+  // @Get('private')
+  // @UseGuards( AuthGuard() )
+  // testingPrivateRoute(
+  //           @Req() request: Express.Request,
+  //           @GetUser() user: Users,
+  //           @GetUser('email') userEmail: string,
+            
+  //           @RawHeaders() rawHeaders: string[],
+  //           @Headers() headers: IncomingHttpHeaders,
+  // ) {
+  //   return {
+  //     ok: true,
+  //     message: 'Hola Mundo Private',
+  //     user,
+  //     userEmail,
+  //     rawHeaders,
+  //     headers
+  //   }
+  // }
+
+
+    // @SetMetadata('roles', ['admin','super-user'])
+
+    // @Get('private2')
+    // @RoleProtected( ValidRoles.superUser, ValidRoles.admin )
+    // @UseGuards( AuthGuard(), UserRoleGuard )
+    // privateRoute2(
+    //   @GetUser() user: Users
+    // ) {
+  
+    //   return {
+    //     ok: true,
+    //     user
+    //   }
+    // }
+  
+  
+    // @Get('private3')
+    // @Auth( ValidRoles.admin )
+    // privateRoute3(
+    //   @GetUser() user: Users
+    // ) {
+  
+    //   return {
+    //     ok: true,
+    //     user
+    //   }
+    // }

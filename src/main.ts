@@ -1,11 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('orion/ws/api');
+  
+
+  app.setGlobalPrefix('orionws/api');
 
      app.useGlobalPipes(
        new ValidationPipe({
@@ -14,6 +17,22 @@ async function bootstrap() {
        })
      );
 
+  const config = new DocumentBuilder()
+     .setTitle(`ECCS: Bienvenido al Proyecto Estimado/a`)
+     .setDescription(`OrionWS:
+                Es un placer darte la bienvenida a nuestro equipo de desarrollo. 
+                Estamos muy emocionados de contar con tu talento y experiencia en este proyecto,
+                La documentación está organizada de manera que te permitirá entender rápidamente la estructura del proyecto,
+                el flujo de trabajo y las funcionalidades más importantes. 
+                Además, podrás encontrar detalles sobre el entorno de desarrollo, 
+                los procesos de integración continua y cómo realizar tus contribuciones de manera eficiente.
+                `)
+     .setVersion('copyright')
+     .addTag('ORIONWS')
+     .build();
+   const documentFactory = () => SwaggerModule.createDocument(app, config);
+   SwaggerModule.setup('api', app, documentFactory);
+ 
 
   await app.listen(3000);
 }
