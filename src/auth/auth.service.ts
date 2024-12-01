@@ -86,7 +86,7 @@ export class AuthService {
           Mensaje: "Operación no se realizó",
           Response: error.message || error,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
   }

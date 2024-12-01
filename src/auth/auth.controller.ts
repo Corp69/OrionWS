@@ -10,16 +10,17 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   
   
-  @Post('register')
-  @ApiResponse({ status: 200, description: 'OrionWS - Peticion Exitosa!' })
-  @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada' })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.authService.create( createUserDto );
-  }   
+  // @Post('register')
+  // @ApiResponse({ status: 200, description: 'OrionWS - Peticion Exitosa!' })
+  // @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada' })
+  // create(@Body() createUserDto: CreateUserDto) {
+  //   return this.authService.create( createUserDto );
+  // }   
 
   @Post('prospecto')
-  @ApiResponse({ status: 200, description: 'OrionWS - Peticion Exitosa!' })
-  @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada' })
+  @ApiResponse({ status: 201, description: 'OrionWS - Peticion Exitosa !' })
+  @ApiResponse({ status: 205, description: 'OrionWS - llave duplicada viola restricción de unicidad.' })
+  @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada.' })
   Newempresa(@Body() CreateEccsEmpresasDto: CreateEccsEmpresasDto) {
     return this.authService.Prospecto( CreateEccsEmpresasDto );
   }   
