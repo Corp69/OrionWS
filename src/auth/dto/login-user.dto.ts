@@ -1,18 +1,30 @@
-import { IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 export class LoginUserDto {
 
+    @ApiProperty({
+        example: "corp",
+        description: 'Usario: identificador Usuario para acceder a la empresa de forma individual.',
+        uniqueItems: true
+    })
     @IsString()
-    @IsEmail()
-    email: string;
+    @MinLength(4)
+    @MaxLength(10)
+    usuario: string;
 
+    @ApiProperty({
+        example: "Corp1",
+        description: 'Pass: identificador contraseña para acceder.',
+        uniqueItems: true
+    })
     @IsString()
-    @MinLength(6)
-    @MaxLength(50)
+    @MinLength(4)
+    @MaxLength(15)
     @Matches(
         /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-        message: 'The password must have a Uppercase, lowercase letter and a number'
+        message: 'La contraseña debe tener a un caracter mayuscula, minuscula y un numero'
     })
-    password: string;
+    pass: string;
     
 }

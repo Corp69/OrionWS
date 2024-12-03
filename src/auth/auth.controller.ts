@@ -39,6 +39,8 @@ export class AuthController {
   }   
 
   @Post('login')
+  @ApiResponse({ status: 201, description: 'OrionWS - Peticion Creada de forma Exitosa !' })
+  @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada.' })
   loginUser(@Body() LoginUserDto: LoginUserDto) {
     return this.authService.login( LoginUserDto );
   }   

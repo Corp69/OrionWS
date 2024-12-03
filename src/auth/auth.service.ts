@@ -22,50 +22,16 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces';
 import { ResponseDto } from 'src/shared/dtos/response.dto';
 
-
-
 @Injectable()
 export class AuthService {
-
-
   constructor(
-
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
-
     @InjectRepository(eccs_empresas)
     private readonly eccs_empresasRepository: Repository<eccs_empresas>,
-
     private readonly jwtService: JwtService,
-
   ) { }
 
-  public async create(createUserDto: CreateUserDto) {
-
-    try {
-
-      const { password, ...userData } = createUserDto;
-
-      const user = this.userRepository.create({
-        ...userData,
-        // password: bcrypt.hashSync( password, 10 ) //? Esta linea encripta contraseñas
-        password: password //? Esta linea encripta contraseñas
-      });
-
-      await this.userRepository.save(user)
-      delete user.password;
-
-      return {
-        ...user,
-        token: this.getJwtToken({ id: user.id })
-      };
-      // TODO: Retornar el JWT de acceso
-
-    } catch (error) {
-      this.handleDBErrors(error);
-    }
-
-  }
 
   public async Prospecto(createEccsEmpresasDto: CreateEccsEmpresasDto): Promise<ResponseDto<CreateEccsEmpresasDto>> {
     try {
@@ -118,21 +84,21 @@ export class AuthService {
 
   public async login(LoginUserDto: LoginUserDto) {
 
-    const { password, email } = LoginUserDto;
+    const { pass, usuario } = LoginUserDto;
 
     const user = await this.userRepository.findOne({
-      where: { email },
-      select: { email: true, password: true }
+      where:  { usuario },
+      select: { id: true, usuario: true, pass: true }
     });
 
     if (!user)
-      throw new UnauthorizedException('Credentials are not valid (email)');
+      throw new UnauthorizedException('Usuario no es valido | no se encontró (usuario)');
     //if ( !bcrypt.compareSync( password, user.password ) ) //? esta linea de codigo compara si tenemos encryotada la contraseña
-    if (!(LoginUserDto.password == user.password))
-      throw new UnauthorizedException('Credentials are not valid (password)');
+    if (LoginUserDto.pass != user.pass)
+      throw new UnauthorizedException('password no se encontró coincidencia.');
 
     return {
-      ...user,
+      usuario: user.usuario,
       token: this.getJwtToken({ id: user.id })
     };
     //return user;
@@ -141,13 +107,11 @@ export class AuthService {
 
 
   private getJwtToken(payload: JwtPayload) {
-
     const token = this.jwtService.sign(payload);
     return token;
-
   }
 
-  async checkAuthStatus(user: Users) {
+  public async checkAuthStatus(user: Users) {
     return {
       ...user,
       token: this.getJwtToken({ id: user.id })
@@ -170,6 +134,33 @@ export class AuthService {
       throw new BadRequestException();
     throw new InternalServerErrorException(' pleasr check server logs ');
   }
+
+
+  // public async create(createUserDto: CreateUserDto) {
+  //   try {
+
+  //     const { password, ...userData } = createUserDto;
+
+  //     const user = this.userRepository.create({
+  //       ...userData,
+  //       // password: bcrypt.hashSync( password, 10 ) //? Esta linea encripta contraseñas
+  //       password: password //? Esta linea encripta contraseñas
+  //     });
+
+  //     await this.userRepository.save(user)
+  //     delete user.password;
+
+  //     return {
+  //       ...user,
+  //       token: this.getJwtToken({ id: user.id })
+  //     };
+  //     // TODO: Retornar el JWT de acceso
+
+  //   } catch (error) {
+  //     this.handleDBErrors(error);
+  //   }
+
+  // }
 
 
 }
