@@ -40,7 +40,7 @@ export class AuthService {
 
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  public async create(createUserDto: CreateUserDto) {
 
     try {
 
@@ -67,7 +67,7 @@ export class AuthService {
 
   }
 
-  async Prospecto(createEccsEmpresasDto: CreateEccsEmpresasDto): Promise<ResponseDto<CreateEccsEmpresasDto>> {
+  public async Prospecto(createEccsEmpresasDto: CreateEccsEmpresasDto): Promise<ResponseDto<CreateEccsEmpresasDto>> {
     try {
       // Guarda la entidad usando el DTO recibido
       const data = await this.eccs_empresasRepository.save(createEccsEmpresasDto);
@@ -77,6 +77,31 @@ export class AuthService {
         Titulo: "OrionWS webservice - Modulo - Authenticacion.",
         Mensaje: "Operacion Realizada con exito.",
         Response: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: "OrionWS webservice - Modulo - Autenticación.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  public async ComprobantePago( id: number ): Promise<ResponseDto<CreateEccsEmpresasDto>> {
+    try {
+      const data = await this.eccs_empresasRepository.query(
+        `SELECT eccs_fn_ins_empresas_pagos(${id})`
+      );
+      // Retorna la respuesta estructurada
+      return {
+        Success: true,
+        Titulo: "OrionWS webservice - Modulo - Authenticacion.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data[0].eccs_fn_ins_empresas_pagos,
       };
     } catch (error) {
       throw new HttpException(
