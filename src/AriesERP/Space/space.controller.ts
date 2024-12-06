@@ -4,11 +4,10 @@ import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
 @ApiTags('AriesERP - SPACE - Modulo Presentación.')
-@Controller('space')
+@Controller('AriesERP/space')
 export class SpaceController {
 
   constructor(private readonly Service: SpaceService ) {}
-  
   
    @Post('contacto')
    @Post()
