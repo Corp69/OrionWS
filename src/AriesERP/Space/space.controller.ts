@@ -66,7 +66,7 @@ export class SpaceController {
 
    @Post('mision')
    @Post()
-   @ApiOperation({ summary: ' AriesERP - Space - Mision Obtiene los datos de Mision' })
+   @ApiOperation({ summary: ' AriesERP - Space - Mision Obtiene los datos de misión' })
    @ApiResponse({
      status: 200,
      description: 'OrionWS: AriesERP - Space - Vision.',
