@@ -9,17 +9,18 @@ export class SpaceController {
 
   constructor(private readonly Service: SpaceService ) {}
   
+   //===========================================================================================
    @Post('contacto')
    @Post()
-   @ApiOperation({ summary: 'Obtiene los datos de contacto' })
+   @ApiOperation({ summary: 'AriesERP - Space - Contacto Obtiene los datos de contacto' })
    @ApiResponse({
      status: 200,
-     description: 'Contacto obtenido correctamente',
+     description: 'OrionWS: AriesERP - Space - Contacto.',
      content: {
        'application/json': {
          example: {
            Success: true,
-           Titulo: "OrionWS webservice - Modulo - Authenticacion.",
+           Titulo: "OrionWS: AriesERP - Space - Contacto.",
            Mensaje: "Operacion Realizada con exito.",
            Response: {
              Nombre: "Elizandro Carballo Casillas",
@@ -35,11 +36,36 @@ export class SpaceController {
    })
    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-   @ApiOperation({ summary: 'OrionWS: AriesERP - Space - Datos de contacto' })
    getContacto() {
       return this.Service.Contacto();
    }   
 
+   //===========================================================================================
+   @Post('vision')
+   @Post()
+   @ApiOperation({ summary: ' AriesERP - Space - Vision Obtiene los datos de vision' })
+   @ApiResponse({
+     status: 200,
+     description: 'OrionWS: AriesERP - Space - Vision.',
+     content: {
+       'application/json': {
+         example: {
+            "Success": true,
+            "Titulo": "OrionWS: AriesERP - Space - Vision.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": {
+                "Vision": "En ECCS, AriesERP 2025."
+            }
+         },
+       },
+     },
+   })
+   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+   getVision() {
+      return this.Service.Vision();
+   }   
 
+  //===========================================================================================
 
 }
