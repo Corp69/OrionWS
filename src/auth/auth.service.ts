@@ -20,7 +20,7 @@ import { Repository } from 'typeorm';
 
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces';
-import { ResponseDto } from '../shared/dtos/response.dto';
+import { ResponseDto } from 'src/shared/dtos/Response.dto';
 
 
 @Injectable()

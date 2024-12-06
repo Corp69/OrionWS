@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DataSource } from 'typeorm';
-import { ResponseDto } from '../../shared/dtos/response.dto';
 
 @Injectable()
 export class SpaceService {
