@@ -68,7 +68,7 @@ export class SpaceService {
           Mensaje: "Operación no se realizó",
           Response: error.message || error,
         },
-        HttpStatus.BAD_REQUEST
+        HttpStatus.OK
       );
     }
   }
@@ -90,7 +90,7 @@ export class SpaceService {
           Mensaje: "Operación no se realizó",
           Response: error.message || error,
         },
-        HttpStatus.BAD_REQUEST
+        HttpStatus.OK
       );
     }
   }
