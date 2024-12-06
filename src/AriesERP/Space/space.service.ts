@@ -51,6 +51,50 @@ export class SpaceService {
     }
   }
 
+  public async Mision(): Promise<ResponseDto<any>> {
+    try {
+      const data = await this.dataSource.query(`SELECT "space".AriesERP_mision()`);
+      return {
+        Success: true,
+        Titulo: "OrionWS: AriesERP - Space - Mision.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data[0].arieserp_mision,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo:  "OrionWS: AriesERP - Space - Mision.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  public async Nosotros(): Promise<ResponseDto<any>> {
+    try {
+      const data = await this.dataSource.query(`SELECT "space".AriesERP_nosotros()`);
+      return {
+        Success: true,
+        Titulo: "OrionWS: AriesERP - Space - Nosotros.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data[0].arieserp_nosotros,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo:  "OrionWS: AriesERP - Space - Nosotros.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
 
 
 
