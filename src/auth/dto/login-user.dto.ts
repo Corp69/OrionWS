@@ -4,7 +4,7 @@ import { IsString, Matches, MaxLength, MinLength } from "class-validator";
 export class LoginUserDto {
 
     @ApiProperty({
-        example: "corp",
+        example: "eccs",
         description: 'Usario: identificador Usuario para acceder a la empresa de forma individual.',
         uniqueItems: true
     })
@@ -14,7 +14,7 @@ export class LoginUserDto {
     usuario: string;
 
     @ApiProperty({
-        example: "Corp1",
+        example: "Eccs4",
         description: 'Pass: identificador contraseña para acceder.',
         uniqueItems: true
     })
