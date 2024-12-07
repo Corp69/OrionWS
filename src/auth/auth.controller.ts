@@ -39,8 +39,30 @@ export class AuthController {
   }   
 
   @Post('login')
-  @ApiResponse({ status: 201, description: 'OrionWS - Peticion Creada de forma Exitosa !' })
-  @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada.' })
+  @ApiResponse({
+    status: 200,
+    description: 'ECCS: OrionWS - Auth - Login.',
+    content: {
+      'application/json': {
+        example: {
+           "Success": true,
+           "Titulo": "ECCS: OrionWS - Auth - Login.",
+           "Mensaje": "Operacion Realizada con exito.",
+           "Response": {
+            "id": 1,
+            "id_usuario": 1,
+            "usuario": "eccs",
+            "estadolicencia": "Pagado",
+            "observaciones": "ECCS - AGRADECE SU PAGO LICENCIA ACTIVA",
+            "validahasta": "2024-12-22"
+        },
+        "token": "eyJhbGci6X7xXY1U"
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'ECCS: OrionWS - Auth - Login. - Ruta desactivada.' })
+  @ApiResponse({ status: 500, description: 'ECCS: OrionWS - Auth - Login. - Error en el server.' })
   loginUser(@Body() LoginUserDto: LoginUserDto) {
     return this.authService.login( LoginUserDto );
   }   

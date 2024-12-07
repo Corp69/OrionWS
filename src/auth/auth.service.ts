@@ -3,18 +3,16 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  InternalServerErrorException,
-  UnauthorizedException
+  InternalServerErrorException
 } from '@nestjs/common';
 import {
   CreateEccsEmpresasDto,
-  CreateUserDto,
   LoginUserDto
 } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entities/users.entity';
 import { eccs_empresas } from './entities/eccs_empresas.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 //import * as bcrypt from 'bcrypt';
 
@@ -26,11 +24,10 @@ import { ResponseDto } from 'src/shared/dtos/Response.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(Users)
-    private readonly userRepository: Repository<Users>,
     @InjectRepository(eccs_empresas)
     private readonly eccs_empresasRepository: Repository<eccs_empresas>,
     private readonly jwtService: JwtService,
+    private readonly dataSource: DataSource
   ) { }
 
 
@@ -84,23 +81,32 @@ export class AuthService {
   }
 
   public async login(LoginUserDto: LoginUserDto) {
-    const { pass, usuario } = LoginUserDto;
-    const user = await this.userRepository.findOne({
-      where:  { usuario },
-      select: { id: true, usuario: true, pass: true }
-    });
 
-    if (!user)
-      throw new UnauthorizedException('Usuario no es valido | no se encontró (usuario)');
-    //if ( !bcrypt.compareSync( password, user.password ) ) //? esta linea de codigo compara si tenemos encryotada la contraseña
-    if (LoginUserDto.pass != user.pass)
-      throw new UnauthorizedException('password no se encontró coincidencia.');
+    console.log( LoginUserDto.usuario, LoginUserDto.pass  );
+    
 
-    return {
-      usuario: user.usuario,
-      token: this.getJwtToken({ id: user.id })
-    };
-    //return user;
+    try {
+      const data = await this.dataSource.query(`SELECT "orion".login('${LoginUserDto.usuario}','${LoginUserDto.pass}')`);
+      return {
+        Success: true,
+        Titulo: "ECCS: OrionWS - Auth - Login.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data[0].login,
+        token: this.getJwtToken({ id: data[0].login.id })
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: "ECCS: OrionWS - Auth - Login.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.OK
+      );
+    }
+
+
   }
 
 
@@ -161,5 +167,35 @@ export class AuthService {
 
   // }
 
+  // public async login(LoginUserDto: LoginUserDto) {
+  //   const { pass, usuario } = LoginUserDto;
+  //   const user = await this.userRepository.findOne({
+  //     where:  { usuario },
+  //     select: { id: true, usuario: true, pass: true }
+  //   });
+
+  //   if (!user)
+  //     throw new UnauthorizedException('Usuario no es valido | no se encontró (usuario)');
+  //   //if ( !bcrypt.compareSync( password, user.password ) ) //? esta linea de codigo compara si tenemos encryotada la contraseña
+  //   if (LoginUserDto.pass != user.pass)
+  //     throw new UnauthorizedException('password no se encontró coincidencia.');
+
+  //   return {
+  //     usuario: user.usuario,
+  //     token: this.getJwtToken({ id: user.id })
+  //   };
+  //   //return user;
+
+
+    
+
+
+
+
+
+
+
+
+  // }
 
 }
