@@ -9,7 +9,7 @@ async function bootstrap() {
   app.setGlobalPrefix('orionws');
 
       app.enableCors({
-        origin: ['http://localhost:4200', 'https://ec.arieserp.com.mx/'], // Dominios permitidos
+        origin: ['http://localhost:4200', 'https://ec.arieserp.com.mx'], // Dominios permitidos
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos HTTP permitidos
         credentials: true, // Permitir cookies u otras credenciales
         allowedHeaders: 'Content-Type, Authorization', // Encabezados permitidos
