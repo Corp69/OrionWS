@@ -114,5 +114,31 @@ export class SpaceController {
    getNosotros() {
       return this.Service.Nosotros();
    }   
+ 
+ 
+   @Post('objetivo')
+   @Post()
+   @ApiOperation({ summary: ' AriesERP - Space - Objetivo Obtiene los datos de objetivo' })
+   @ApiResponse({
+     status: 200,
+     description: 'OrionWS: AriesERP - Space - Objetivo.',
+     content: {
+       'application/json': {
+         example: {
+            "Success": true,
+            "Titulo": "OrionWS: AriesERP - Space - Objetivo.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": {
+                "Vision": "En ECCS, AriesERP 2025."
+            }
+         },
+       },
+     },
+   })
+   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+   getObjetivo() {
+      return this.Service.Objetivo();
+   }   
 
 }

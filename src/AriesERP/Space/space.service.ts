@@ -95,6 +95,28 @@ export class SpaceService {
     }
   }
 
+  public async Objetivo(): Promise<ResponseDto<any>> {
+    try {
+      const data = await this.dataSource.query(`SELECT "space".AriesERP_objetivo()`);
+      return {
+        Success: true,
+        Titulo: "OrionWS: AriesERP - Space - Objetivo.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data[0].arieserp_objetivo,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo:  "OrionWS: AriesERP - Space - Objetivo.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.OK
+      );
+    }
+  }
+
 
 
 
