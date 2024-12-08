@@ -15,10 +15,9 @@ import { eccs_empresas } from './entities';
   providers: [AuthService, JwtStrategy ],
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([ 
-        Users, 
-        eccs_empresas  
-      ]),
+
+    TypeOrmModule.forFeature([ Users, eccs_empresas  ]),
+
     PassportModule.register({ defaultStrategy: 'jwt' }),
 
     JwtModule.registerAsync({

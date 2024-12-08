@@ -8,14 +8,14 @@ import { EccsCodigoDTO } from './dto/EccsCodigo.dto';
 export class EccsService {
   constructor(private readonly dataSource: DataSource) {}
 
-  public async getActualizaciones(EccsDTO: EccsDTO): Promise<ResponseDto<any>> {
+  public async getVersion(EccsDTO: EccsDTO): Promise<ResponseDto<any>> {
     try {
       const data = await this.dataSource.query(
         `SELECT "eccs".Orion_Update_version( ${EccsDTO._idempresa})`,
       );
       return {
         Success: true,
-        Titulo: 'ECCS: AriesERP - Actualizaciones.',
+        Titulo: 'ECCS: AriesERP - Version.',
         Mensaje: 'Operacion Realizada con exito.',
         Response: data[0].Orion_update_version,
       };
@@ -23,7 +23,7 @@ export class EccsService {
       throw new HttpException(
         {
           Success: false,
-          Titulo: 'ECCS: AriesERP - Actualizaciones.',
+          Titulo: 'ECCS: AriesERP - Version.',
           Mensaje: 'Operación no se realizó',
           Response: error.message || error,
         },
@@ -32,13 +32,13 @@ export class EccsService {
     }
   }
 
-  public async getEjecutarQuery( EccsCodigoDTO: EccsCodigoDTO ): Promise<ResponseDto<any>> {
+  public async getUpdate( EccsCodigoDTO: EccsCodigoDTO ): Promise<ResponseDto<any>> {
     try {
       const dataCodigo = await this.dataSource.query( `select sum( id + 0 ) id  from eccs_empresas_actualizacion where codigo = '${EccsCodigoDTO._codigo}' and id_eccs_empresas = ${EccsCodigoDTO._idempresa} and id_eccs_status = 9`);
       if ( dataCodigo[0].id == null ) {
         return {
           Success: true,
-          Titulo: 'ECCS: AriesERP - Actualizaciones.',
+          Titulo: 'ECCS: AriesERP - Update.',
           Mensaje: 'Operación Realizada con éxito.',
           Response: 'Verificar el codigo de seguridad.',
         }
@@ -87,13 +87,13 @@ export class EccsService {
       return queries.length == 0
           ? {
               Success: true,
-              Titulo: 'ECCS: AriesERP - Actualizaciones.',
+              Titulo: 'ECCS: AriesERP - Update.',
               Mensaje: 'Operación Realizada con éxito.',
-              Response: 'No hay Actualizaciones Pendientes.',
+              Response: 'No hay Update Pendientes.',
             }
           : {
               Success: true,
-              Titulo: 'ECCS: AriesERP - Actualizaciones.',
+              Titulo: 'ECCS: AriesERP - Update.',
               Mensaje: 'Operación Realizada con éxito.',
               Response: act,
             };
@@ -101,7 +101,7 @@ export class EccsService {
       throw new HttpException(
         {
           Success: false,
-          Titulo: 'ECCS: AriesERP - Actualizaciones.',
+          Titulo: 'ECCS: AriesERP - Update.',
           Mensaje: 'Operación no se realizó',
           Response: error.message || error,
         },
