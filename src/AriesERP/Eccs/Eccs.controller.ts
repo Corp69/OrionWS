@@ -12,7 +12,7 @@ export class EccsController {
 
   constructor(private readonly Service: EccsService ) {}
   
-  @ApiOperation({ summary: 'ECCS - Muestra Version Muestra la siguiente Act. Pendiente.' })
+  @ApiOperation({ summary: 'ECCS - Muestra - Version: la siguiente Act. Pendiente.' })
   @ApiResponse({
     status: 200,
     description: 'ECCS: AriesERP - Version.',
@@ -60,7 +60,7 @@ export class EccsController {
     return this.Service.getVersion( EccsDTO );
   }   
 
-  @ApiOperation({ summary: 'ECCS - Muestra Update Realiza la actualizacion pendiente.' })
+  @ApiOperation({ summary: 'ECCS - Muestra Update: Realiza la actualizacion pendiente.' })
   @ApiResponse({
     status: 200,
     description: 'ECCS: AriesERP - Actualizaciones.',
@@ -71,16 +71,10 @@ export class EccsController {
           Titulo: "ECCS: AriesERP - Actualizaciones.",
           Mensaje: "Operacion Realizada con exito.",
           Response: {
-            "actualizaciones": [
-              {
-                  "id": 1,
-                  "modulo": "LOGIN",
-                  "actualizacion": "Actualizacion Login",
-                  "fechadisponible": "2024-12-08",
-                  "actividad": "Se agrega Validacion de pago.",
-                  "query": "data cargada... "
-              }
-          ]
+                    "Success": true,
+                    "Titulo": "ECCS: AriesERP - Actualizaciones.",
+                    "Mensaje": "Operación Realizada con éxito.",
+                    "Response": "Verificar el codigo de seguridad."      
           },
         },
       },
