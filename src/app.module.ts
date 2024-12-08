@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { SpaceModule } from './AriesERP/Space/space.module';
+import { EccsModule } from './AriesERP/Eccs/Eccs.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SpaceModule } from './AriesERP/Space/space.module';
     AuthModule,
     CommonModule,
     SpaceModule,
+    EccsModule,
   ],
 })
 export class AppModule {}

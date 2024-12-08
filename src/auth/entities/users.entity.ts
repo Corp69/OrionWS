@@ -11,7 +11,6 @@ export class Users {
     id: number;
 
     @Column('int')                       id_eccs_status:     number;
-    @Column('int')                       id_eccs_empresa:    number;
     @Column('varchar', { unique: true }) usuario:            string;
     @Column('varchar')                   pass:               string;
 

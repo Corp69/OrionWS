@@ -65,6 +65,8 @@ export class AuthController {
   @ApiResponse({ status: 404, description: 'ECCS: OrionWS - Auth - Login. - Ruta desactivada.' })
   @ApiResponse({ status: 500, description: 'ECCS: OrionWS - Auth - Login. - Error en el server.' })
   loginUser(@Body() LoginUserDto: LoginUserDto) {
+    console.log( LoginUserDto );
+    
     return this.authService.login( LoginUserDto );
   }   
 
