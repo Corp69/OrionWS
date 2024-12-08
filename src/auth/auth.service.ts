@@ -19,6 +19,7 @@ import { DataSource, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces';
 import { ResponseDto } from 'src/shared/dtos/Response.dto';
+import { TokenDTO } from './dto/Token.dto';
 
 
 @Injectable()
@@ -81,10 +82,6 @@ export class AuthService {
   }
 
   public async login(LoginUserDto: LoginUserDto) {
-
-    console.log( LoginUserDto.usuario, LoginUserDto.pass  );
-    
-
     try {
       const data = await this.dataSource.query(`SELECT "orion".login('${LoginUserDto.usuario}','${LoginUserDto.pass}')`);
       return {
@@ -105,11 +102,29 @@ export class AuthService {
         HttpStatus.OK
       );
     }
-
-
   }
 
-
+  public async GetToken( TokenDTO: TokenDTO ): Promise<ResponseDto<TokenDTO>> {
+    try {
+      const decodedToken = this.jwtService.verify( TokenDTO.token ); // Verifica el token
+      return {
+        Success: true,
+        Titulo: "ECCS: OrionWS - Auth - Check Token.",
+        Mensaje: "Token válido.",
+        Response: decodedToken, // Información contenida en el token
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: "ECCS: OrionWS - Auth - Check Token.",
+          Mensaje: "Token no válido o expirado.",
+          Response: error.message || error,
+        },
+        HttpStatus.UNAUTHORIZED // Usa un estado adecuado, como UNAUTHORIZED
+      );
+    }
+  }
 
   private getJwtToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
@@ -124,21 +139,21 @@ export class AuthService {
 
   }
 
-  private handleDBErrors(error: any): never {
-    if (error.code === '23505')
-      throw new BadRequestException(error.detail);
+  // private handleDBErrors(error: any): never {
+  //   if (error.code === '23505')
+  //     throw new BadRequestException(error.detail);
 
-    console.log(error)
+  //   console.log(error)
 
-    throw new InternalServerErrorException('Please check server logs');
+  //   throw new InternalServerErrorException('Please check server logs');
 
-  }
+  // }
 
-  private handleBDerror(error: any): never {
-    if (error.code == '23585')
-      throw new BadRequestException();
-    throw new InternalServerErrorException(' pleasr check server logs ');
-  }
+  // private handleBDerror(error: any): never {
+  //   if (error.code == '23585')
+  //     throw new BadRequestException();
+  //   throw new InternalServerErrorException(' pleasr check server logs ');
+  // }
 
 
   // public async create(createUserDto: CreateUserDto) {

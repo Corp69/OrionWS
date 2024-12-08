@@ -2,6 +2,7 @@ import { Controller, Post, Body, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateEccsEmpresasDto, CreateUserDto, LoginUserDto } from './dto';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { TokenDTO } from './dto/Token.dto';
 
 
 @ApiTags('Auth - Modulo Authenticacion.')
@@ -65,6 +66,50 @@ export class AuthController {
   @ApiResponse({ status: 500, description: 'ECCS: OrionWS - Auth - Login. - Error en el server.' })
   loginUser(@Body() LoginUserDto: LoginUserDto) {
     return this.authService.login( LoginUserDto );
+  }   
+
+
+  @Post('token')
+  @ApiResponse({
+    status: 201,
+    description: 'ECCS: OrionWS - Auth - Token.',
+    content: {
+      'application/json': {
+        example: {
+         
+              "Success": true,
+              "Titulo": "ECCS: OrionWS - Auth - Check Token.",
+              "Mensaje": "Token válido.",
+              "Response": {
+                  "id": 1,
+                  "iat": 1733626907,
+                  "exp": 1733634107
+              }
+        
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'ECCS: OrionWS - Auth - Token.',
+    content: {
+      'application/json': {
+        example: {
+         
+          "Success": false,
+          "Titulo": "ECCS: OrionWS - Auth - Check Token.",
+          "Mensaje": "Token no válido o expirado.",
+          "Response": "invalid signature"
+        
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'ECCS: OrionWS - Auth - Token. - Ruta desactivada.' })
+  @ApiResponse({ status: 500, description: 'ECCS: OrionWS - Auth - Token. - Error en el server.' })
+  Tokken(@Body() TokenDTO: TokenDTO ) {
+    return this.authService.GetToken( TokenDTO );
   }   
 
 
