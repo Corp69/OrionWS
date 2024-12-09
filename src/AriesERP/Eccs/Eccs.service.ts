@@ -11,13 +11,13 @@ export class EccsService {
   public async getVersion(EccsDTO: EccsDTO): Promise<ResponseDto<any>> {
     try {
       const data = await this.dataSource.query(
-        `SELECT "eccs".Orion_Update_version( ${EccsDTO._idempresa})`,
+        `SELECT "eccs".orion_update_version( ${EccsDTO._idempresa})`,
       );
       return {
         Success: true,
         Titulo: 'ECCS: AriesERP - Version.',
         Mensaje: 'Operacion Realizada con exito.',
-        Response: data[0].Orion_update_version,
+        Response: data[0].orion_update_version,
       };
     } catch (error) {
       throw new HttpException(
