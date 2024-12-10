@@ -1,9 +1,7 @@
 import {
-  BadRequestException,
   HttpException,
   HttpStatus,
-  Injectable,
-  InternalServerErrorException
+  Injectable
 } from '@nestjs/common';
 import {
   CreateEccsEmpresasDto,
@@ -20,6 +18,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces';
 import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { TokenDTO } from './dto/Token.dto';
+import { DBErrorHandlerService } from '../shared/errors/DBErrorHandlerService';
 
 
 @Injectable()
@@ -28,20 +27,20 @@ export class AuthService {
     @InjectRepository(eccs_empresas)
     private readonly eccs_empresasRepository: Repository<eccs_empresas>,
     private readonly jwtService: JwtService,
-    private readonly dataSource: DataSource
+    private readonly dataSource: DataSource,
+    private readonly dbErrorHandlerService: DBErrorHandlerService, // Inyectamos el servicio de manejo de errores
+
   ) { }
 
 
   public async Prospecto(createEccsEmpresasDto: CreateEccsEmpresasDto): Promise<ResponseDto<CreateEccsEmpresasDto>> {
     try {
-      // Guarda la entidad usando el DTO recibido
       const data = await this.eccs_empresasRepository.save(createEccsEmpresasDto);
-      // Retorna la respuesta estructurada
       return {
         Success: true,
         Titulo: "OrionWS webservice - Modulo - Authenticacion.",
         Mensaje: "Operacion Realizada con exito.",
-        Response: data,
+        Response: data
       };
     } catch (error) {
       throw new HttpException(
@@ -49,9 +48,9 @@ export class AuthService {
           Success: false,
           Titulo: "OrionWS webservice - Modulo - Autenticación.",
           Mensaje: "Operación no se realizó",
-          Response: error.message || error,
+          Response:  this.dbErrorHandlerService.handleDBErrors(error) || error,
         },
-        HttpStatus.BAD_REQUEST
+        HttpStatus.CONFLICT
       );
     }
   }
@@ -138,22 +137,6 @@ export class AuthService {
     };
 
   }
-
-  // private handleDBErrors(error: any): never {
-  //   if (error.code === '23505')
-  //     throw new BadRequestException(error.detail);
-
-  //   console.log(error)
-
-  //   throw new InternalServerErrorException('Please check server logs');
-
-  // }
-
-  // private handleBDerror(error: any): never {
-  //   if (error.code == '23585')
-  //     throw new BadRequestException();
-  //   throw new InternalServerErrorException(' pleasr check server logs ');
-  // }
 
 
   // public async create(createUserDto: CreateUserDto) {

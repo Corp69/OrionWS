@@ -4,14 +4,6 @@ import { IsEmail, IsNumber, IsString, Max, MaxLength, Min, MinLength } from "cla
 export class CreateEccsEmpresasDto {
 
     @ApiProperty({
-        example: 1,
-        description: 'ID: identificador unico e irepetible de cada registro.',
-        uniqueItems: true
-    })
-    @IsNumber()
-    id: number;
-
-    @ApiProperty({
         example: 4,
         description: 'id_eccs_status: Estatus del cliente. Default 4 ( En proceso )',
     })

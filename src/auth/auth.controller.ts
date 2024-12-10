@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateEccsEmpresasDto, CreateUserDto, LoginUserDto } from './dto';
+import { CreateEccsEmpresasDto, LoginUserDto } from './dto';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TokenDTO } from './dto/Token.dto';
 
@@ -9,18 +9,47 @@ import { TokenDTO } from './dto/Token.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  
-  
-  // @Post('register')
-  // @ApiResponse({ status: 200, description: 'OrionWS - Peticion Creada de forma Exitosa!' })
-  // @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada' })
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.authService.create( createUserDto );
-  // }   
 
   @Post('prospecto')
-  @ApiResponse({ status: 201, description: 'OrionWS - Peticion Creada de forma Exitosa !' })
-  @ApiResponse({ status: 205, description: 'OrionWS - llave duplicada viola restricción de unicidad.' })
+  @ApiResponse({
+    status: 201,
+    description: 'ECCS: Orion webservice - Modulo - Authenticacion.',
+    content: {
+      'application/json': {
+        example: {
+            "Success": true,
+            "Titulo": "OrionWS webservice - Modulo - Authenticacion.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": {
+                "id_eccs_status": 4,
+                "rfc": "XAXE43010101000",
+                "nombre_comercial": "ECCS",
+                "ext_tel": "+52",
+                "telefono": 4651068560,
+                "correo": "test@eccs.com.mx",
+                "id": 28
+            }
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'ECCS: Orion webservice - Modulo - Authenticacion.',
+    content: {
+      'application/json': {
+        example: {
+              "Success": false,
+              "Titulo": "OrionWS webservice - Modulo - Autenticación.",
+              "Mensaje": "Operación no se realizó",
+              "Response": {
+                  "Mensaje": "RFC ya existe",
+                  "Error": "duplicate key value violates unique constraint \"eccs_empresas_rfc_key\""
+              }
+          },
+      },
+    },
+  })
   @ApiResponse({ status: 404, description: 'OrionWS - Ruta Deshabilitada.' })
   public Newempresa(@Body() CreateEccsEmpresasDto: CreateEccsEmpresasDto) {
     return this.authService.Prospecto( CreateEccsEmpresasDto );
@@ -65,8 +94,6 @@ export class AuthController {
   @ApiResponse({ status: 404, description: 'ECCS: OrionWS - Auth - Login. - Ruta desactivada.' })
   @ApiResponse({ status: 500, description: 'ECCS: OrionWS - Auth - Login. - Error en el server.' })
   loginUser(@Body() LoginUserDto: LoginUserDto) {
-    console.log( LoginUserDto );
-    
     return this.authService.login( LoginUserDto );
   }   
 
