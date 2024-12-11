@@ -10,10 +10,11 @@ import { Users } from './entities/users.entity';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { eccs_empresas } from './entities';
 import { DBErrorHandlerService } from '../shared/errors/DBErrorHandlerService';
+import { EccsService } from '../shared/eccs/EccsService';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, DBErrorHandlerService ],
+  providers: [AuthService, JwtStrategy, DBErrorHandlerService, EccsService ],
   imports: [
     ConfigModule,
 

@@ -19,6 +19,7 @@ import { JwtPayload } from './interfaces';
 import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { TokenDTO } from './dto/Token.dto';
 import { DBErrorHandlerService } from '../shared/errors/DBErrorHandlerService';
+import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 
 
 @Injectable()
@@ -29,7 +30,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly dataSource: DataSource,
     private readonly dbErrorHandlerService: DBErrorHandlerService, // Inyectamos el servicio de manejo de errores
+    
 
+    private readonly dbConnectionService: DatabaseConnectionService
+  
+  
+  
   ) { }
 
 
@@ -58,9 +64,8 @@ export class AuthService {
   public async ComprobantePago( id: number ): Promise<ResponseDto<CreateEccsEmpresasDto>> {
     try {
       const data = await this.eccs_empresasRepository.query(
-        `SELECT eccs_fn_ins_empresas_pagos(${id})`
+        `SELECT "eccs".eccs_fn_ins_empresas_pagos(${id})`
       );
-      // Retorna la respuesta estructurada
       return {
         Success: true,
         Titulo: "OrionWS webservice - Modulo - Authenticacion.",
@@ -72,6 +77,33 @@ export class AuthService {
         {
           Success: false,
           Titulo: "OrionWS webservice - Modulo - Autenticación.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  public async test( clientId ): Promise<ResponseDto<CreateEccsEmpresasDto>> {
+    try {
+     // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      // Ejecutar la consulta en la base de datos seleccionada.
+      const data = await connection.query(
+        `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`
+      );
+      return {
+        Success: true,
+        Titulo: "OrionWS webservice - Modulo - Datasource.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: "OrionWS webservice - Modulo - Datasource.",
           Mensaje: "Operación no se realizó",
           Response: error.message || error,
         },
@@ -137,63 +169,5 @@ export class AuthService {
     };
 
   }
-
-
-  // public async create(createUserDto: CreateUserDto) {
-  //   try {
-
-  //     const { password, ...userData } = createUserDto;
-
-  //     const user = this.userRepository.create({
-  //       ...userData,
-  //       // password: bcrypt.hashSync( password, 10 ) //? Esta linea encripta contraseñas
-  //       password: password //? Esta linea encripta contraseñas
-  //     });
-
-  //     await this.userRepository.save(user)
-  //     delete user.password;
-
-  //     return {
-  //       ...user,
-  //       token: this.getJwtToken({ id: user.id })
-  //     };
-  //     // TODO: Retornar el JWT de acceso
-
-  //   } catch (error) {
-  //     this.handleDBErrors(error);
-  //   }
-
-  // }
-
-  // public async login(LoginUserDto: LoginUserDto) {
-  //   const { pass, usuario } = LoginUserDto;
-  //   const user = await this.userRepository.findOne({
-  //     where:  { usuario },
-  //     select: { id: true, usuario: true, pass: true }
-  //   });
-
-  //   if (!user)
-  //     throw new UnauthorizedException('Usuario no es valido | no se encontró (usuario)');
-  //   //if ( !bcrypt.compareSync( password, user.password ) ) //? esta linea de codigo compara si tenemos encryotada la contraseña
-  //   if (LoginUserDto.pass != user.pass)
-  //     throw new UnauthorizedException('password no se encontró coincidencia.');
-
-  //   return {
-  //     usuario: user.usuario,
-  //     token: this.getJwtToken({ id: user.id })
-  //   };
-  //   //return user;
-
-
-    
-
-
-
-
-
-
-
-
-  // }
 
 }

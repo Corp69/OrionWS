@@ -10,6 +10,11 @@ import { TokenDTO } from './dto/Token.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Post('test')
+  public Test() {
+    return this.authService.test();
+  }   
+
   @Post('prospecto')
   @ApiResponse({
     status: 201,
