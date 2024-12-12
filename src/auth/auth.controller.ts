@@ -12,7 +12,7 @@ export class AuthController {
 
   @Post('test')
   public Test() {
-    return this.authService.test();
+    return this.authService.test(1);
   }   
 
   @Post('prospecto')

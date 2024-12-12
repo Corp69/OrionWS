@@ -85,10 +85,10 @@ export class AuthService {
     }
   }
 
-  public async test( clientId ): Promise<ResponseDto<CreateEccsEmpresasDto>> {
+  public async test( clientId: number ): Promise<ResponseDto<CreateEccsEmpresasDto>> {
     try {
      // Obtener la conexión adecuada según el cliente.
-      const connection = await this.dbConnectionService.getConnection(clientId);
+      const connection = await this.dbConnectionService.getConnection( clientId );
       // Ejecutar la consulta en la base de datos seleccionada.
       const data = await connection.query(
         `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`

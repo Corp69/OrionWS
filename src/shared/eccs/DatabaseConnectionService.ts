@@ -4,13 +4,13 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 @Injectable()
 export class DatabaseConnectionService {
-  private readonly connections: Map<string, DataSource> = new Map();
+  private readonly connections: Map<number, DataSource> = new Map();
 
-  async getConnection(clientId: string): Promise<DataSource> {
+  async getConnection(clientId: number ): Promise<DataSource> {
     const dbConfig = this.getDatabaseConfig(clientId);
 
-    if (this.connections.has(clientId)) {
-      return this.connections.get(clientId);
+    if (this.connections.has( clientId )) {
+      return this.connections.get( clientId );
     }
 
     const newConnection = new DataSource({
@@ -29,9 +29,9 @@ export class DatabaseConnectionService {
     return newConnection;
   }
 
-  private getDatabaseConfig(clientId: string) {
+  private getDatabaseConfig(clientId: number) {
     // Aquí defines las reglas para seleccionar la base de datos.
-    if (clientId === 'dev') {
+    if (clientId === 1) {
       return {
         type: 'postgres',
         host: 'localhost',
@@ -40,7 +40,7 @@ export class DatabaseConnectionService {
         password: '$2580dev',
         database: 'eccs',
       };
-    } else if (clientId === 'eccs') {
+    } else if (clientId === 2) {
       return {
         type: 'postgres',
         host: 'localhost',
@@ -49,7 +49,7 @@ export class DatabaseConnectionService {
         password: '$2580dev',
         database: 'Dev',
       };
-    } else if (clientId === 'postgresql') {
+    } else if (clientId === 3) {
       return {
         type: 'postgres',
         host: 'localhost',
