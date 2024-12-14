@@ -41,6 +41,15 @@ export class DatabaseConnectionService {
           password: '3Gc5c63C4Ca*dAc3A-gbe54*A1DGE2e*',
           database: 'Dev',
         };
+      case 2:
+        return {
+          type: 'postgres',
+          host: 'localhost',
+          port: 5432,
+          username: 'postgres',
+          password: '12345dev',
+          database: 'rsAriesERP',
+        };
       default:
         throw new Error(`No database configuration found for clientId: ${clientId}`);
     }
