@@ -8,15 +8,14 @@ import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionSer
 @Injectable()
 export class EccsService {
   constructor(
-      private readonly dataSource: DataSource,
-      private readonly dbConnectionService: DatabaseConnectionService
-        
-    ) {}
+    private readonly dataSource: DataSource,
+    private readonly dbConnectionService: DatabaseConnectionService
+  ) { }
 
-  public async getVersion(EccsDTO: EccsDTO): Promise<ResponseDto<any>> {
+  public async getVersion(idUser: number): Promise<ResponseDto<any>> {
     try {
       const data = await this.dataSource.query(
-        `SELECT "eccs".orion_update_version( ${EccsDTO._idempresa})`,
+        `SELECT "eccs".orion_update_version( ${idUser})`,
       );
       return {
         Success: true,
@@ -37,10 +36,10 @@ export class EccsService {
     }
   }
 
-  public async getUpdate( EccsCodigoDTO: EccsCodigoDTO ): Promise<ResponseDto<any>> {
+  public async getUpdate(EccsCodigoDTO: EccsCodigoDTO, idUser: number ): Promise<ResponseDto<any>> {
     try {
-      const dataCodigo = await this.dataSource.query( `select sum( id + 0 ) id  from eccs_empresas_actualizacion where codigo = '${EccsCodigoDTO._codigo}' and id_eccs_empresas = ${EccsCodigoDTO._idempresa} and id_eccs_status = 9`);
-      if ( dataCodigo[0].id == null ) {
+      const dataCodigo = await this.dataSource.query(`select sum( id + 0 ) id  from eccs_empresas_actualizacion where codigo = '${EccsCodigoDTO._codigo}' and id_eccs_empresas = ${idUser} and id_eccs_status = 9`);
+      if (dataCodigo[0].id == null) {
         return {
           Success: true,
           Titulo: 'ECCS: AriesERP - Update.',
@@ -49,7 +48,7 @@ export class EccsService {
         }
       }
       const data = await this.dataSource.query(
-        `SELECT "eccs".Orion_excute_query( ${EccsCodigoDTO._idempresa},'${EccsCodigoDTO._codigo}')`,
+        `SELECT "eccs".Orion_excute_query( ${idUser},'${EccsCodigoDTO._codigo}')`,
       );
       // Si query es un array, lo procesamos como un conjunto de queries
       const queries = Array.isArray(data[0].orion_excute_query.query)
@@ -90,18 +89,18 @@ export class EccsService {
       // Almacenar el estado final de todas las actividades
       act.actividadStatus.push(actividadStatus);
       return queries.length == 0
-          ? {
-              Success: true,
-              Titulo: 'ECCS: AriesERP - Update.',
-              Mensaje: 'Operación Realizada con éxito.',
-              Response: 'No hay Update Pendientes.',
-            }
-          : {
-              Success: true,
-              Titulo: 'ECCS: AriesERP - Update.',
-              Mensaje: 'Operación Realizada con éxito.',
-              Response: act,
-            };
+        ? {
+          Success: true,
+          Titulo: 'ECCS: AriesERP - Update.',
+          Mensaje: 'Operación Realizada con éxito.',
+          Response: 'No hay Update Pendientes.',
+        }
+        : {
+          Success: true,
+          Titulo: 'ECCS: AriesERP - Update.',
+          Mensaje: 'Operación Realizada con éxito.',
+          Response: act,
+        };
     } catch (error) {
       throw new HttpException(
         {
@@ -115,33 +114,33 @@ export class EccsService {
     }
   }
 
-    public async test( idUser: number ): Promise<ResponseDto<any>> {
-      try {
-       // Obtener la conexión adecuada según el cliente.
-        const connection = await this.dbConnectionService.getConnection( idUser );
-        // Ejecutar la consulta en la base de datos seleccionada.
-        const data = await connection.query(
-          `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`
-        );
-        return {
-          Success: true,
+  public async test(idUser: number): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      let connection = await this.dbConnectionService.getConnection(idUser);
+      // Ejecutar la consulta en la base de datos seleccionada.
+      const data = await connection.query(
+        `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`
+      );
+      return {
+        Success: true,
+        Titulo: "OrionWS webservice - Modulo - Datasource.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
           Titulo: "OrionWS webservice - Modulo - Datasource.",
-          Mensaje: "Operacion Realizada con exito.",
-          Response: data,
-        };
-      } catch (error) {
-        throw new HttpException(
-          {
-            Success: false,
-            Titulo: "OrionWS webservice - Modulo - Datasource.",
-            Mensaje: "Operación no se realizó",
-            Response: error.message || error,
-          },
-          HttpStatus.BAD_REQUEST
-        );
-      }
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.BAD_REQUEST
+      );
     }
-  
+  }
+
 
 
 

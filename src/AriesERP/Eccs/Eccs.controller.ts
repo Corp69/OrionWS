@@ -1,11 +1,9 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { EccsService } from './Eccs.service';
-import { EccsDTO } from './dto/Eccs.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { EccsCodigoDTO } from './dto/EccsCodigo.dto';
 
 import { Auth, GetUser } from '../../auth/decorators/index';
-import { Users } from '../../auth/entities/users.entity';
 
 @ApiTags('ECCS - OrionWS - Modulo Actualizaciones.')
 @Controller('eccs/base')
@@ -58,8 +56,8 @@ export class EccsController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   @Post('version')
-  getActualizaciones( @Body() EccsDTO: EccsDTO ) {
-    return this.Service.getVersion( EccsDTO );
+  getActualizaciones( @GetUser('id') idUser: number ) {
+    return this.Service.getVersion( idUser );
   }   
 
   @ApiOperation({ summary: 'ECCS - Muestra Update: Realiza la actualizacion pendiente.' })
@@ -100,8 +98,11 @@ export class EccsController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   @Post('update')
-  getActualiza( @Body() EccsCodigoDTO: EccsCodigoDTO ) {
-    return this.Service.getUpdate( EccsCodigoDTO );
+  getActualiza( 
+      @Body() EccsCodigoDTO: EccsCodigoDTO,
+      @GetUser('id') idUser: number
+    ) {
+    return this.Service.getUpdate( EccsCodigoDTO, idUser );
   }   
 
   @Post('test')

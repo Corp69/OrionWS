@@ -35,38 +35,11 @@ export class DatabaseConnectionService {
       case 1:
         return {
           type: 'postgres',
-          host: 'localhost',
-          port: 5432,
+          host: 'roundhouse.proxy.rlwy.net',
+          port: 14774,
           username: 'postgres',
-          password: '12345dev',
-          database: 'eccs',
-        };
-      case 34:
-        return {
-          type: 'postgres',
-          host: 'localhost',
-          port: 5432,
-          username: 'postgres',
-          password: '12345dev',
-          database: 'base01',
-        };
-      case 3:
-        return {
-          type: 'postgres',
-          host: 'localhost',
-          port: 5432,
-          username: 'postgres',
-          password: '12345dev',
-          database: 'base02',
-        };
-      case 3:
-        return {
-          type: 'postgres',
-          host: 'localhost',
-          port: 5432,
-          username: 'postgres',
-          password: '12345dev',
-          database: 'base03',
+          password: '3Gc5c63C4Ca*dAc3A-gbe54*A1DGE2e*',
+          database: 'Dev',
         };
       default:
         throw new Error(`No database configuration found for clientId: ${clientId}`);
