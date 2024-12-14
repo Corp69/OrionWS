@@ -123,10 +123,6 @@ export class EccsService {
         const data = await connection.query(
           `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`
         );
-
-        // Cerrar la conexión después de usarla.
-        await this.dbConnectionService.closeConnection(idUser);
-
         return {
           Success: true,
           Titulo: "OrionWS webservice - Modulo - Datasource.",
