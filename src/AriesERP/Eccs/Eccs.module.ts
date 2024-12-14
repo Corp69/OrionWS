@@ -6,10 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EccsService } from './Eccs.service';
 import { EccsController } from './Eccs.controller';
 import { AuthModule } from 'src/auth/auth.module';
+import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 
 @Module({
     controllers: [ EccsController ],
-    providers:   [ EccsService    ],
+    providers:   [ EccsService, DatabaseConnectionService    ],
     imports: [
         AuthModule,
         ConfigModule,

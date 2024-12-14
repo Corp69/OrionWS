@@ -3,10 +3,15 @@ import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DataSource } from 'typeorm';
 import { EccsDTO } from './dto/Eccs.dto';
 import { EccsCodigoDTO } from './dto/EccsCodigo.dto';
+import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 
 @Injectable()
 export class EccsService {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+      private readonly dataSource: DataSource,
+      private readonly dbConnectionService: DatabaseConnectionService
+        
+    ) {}
 
   public async getVersion(EccsDTO: EccsDTO): Promise<ResponseDto<any>> {
     try {
@@ -109,6 +114,38 @@ export class EccsService {
       );
     }
   }
+
+
+
+    public async test(): Promise<ResponseDto<any>> {
+      try {
+       // Obtener la conexión adecuada según el cliente.
+        const connection = await this.dbConnectionService.getConnection( 34 );
+        // Ejecutar la consulta en la base de datos seleccionada.
+        const data = await connection.query(
+          `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`
+        );
+        return {
+          Success: true,
+          Titulo: "OrionWS webservice - Modulo - Datasource.",
+          Mensaje: "Operacion Realizada con exito.",
+          Response: data,
+        };
+      } catch (error) {
+        throw new HttpException(
+          {
+            Success: false,
+            Titulo: "OrionWS webservice - Modulo - Datasource.",
+            Mensaje: "Operación no se realizó",
+            Response: error.message || error,
+          },
+          HttpStatus.BAD_REQUEST
+        );
+      }
+    }
+  
+
+
 
 
 }

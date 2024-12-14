@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { EccsService } from './Eccs.service';
 import { EccsDTO } from './dto/Eccs.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -101,5 +101,13 @@ export class EccsController {
   getActualiza( @Body() EccsCodigoDTO: EccsCodigoDTO ) {
     return this.Service.getUpdate( EccsCodigoDTO );
   }   
+
+  @Post('test')
+  getTest() {
+    return this.Service.test();
+  }   
+
+
+
 
 }
