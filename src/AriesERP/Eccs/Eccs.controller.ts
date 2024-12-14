@@ -2,8 +2,10 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { EccsService } from './Eccs.service';
 import { EccsDTO } from './dto/Eccs.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Auth } from 'src/auth/decorators';
 import { EccsCodigoDTO } from './dto/EccsCodigo.dto';
+
+import { Auth, GetUser } from '../../auth/decorators/index';
+import { Users } from '../../auth/entities/users.entity';
 
 @ApiTags('ECCS - OrionWS - Modulo Actualizaciones.')
 @Controller('eccs/base')
@@ -103,8 +105,9 @@ export class EccsController {
   }   
 
   @Post('test')
-  getTest() {
-    return this.Service.test();
+  getTest(
+    @GetUser('id') idUser: number) {
+    return this.Service.test( idUser );
   }   
 
 

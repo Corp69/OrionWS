@@ -115,16 +115,18 @@ export class EccsService {
     }
   }
 
-
-
-    public async test(): Promise<ResponseDto<any>> {
+    public async test( idUser: number ): Promise<ResponseDto<any>> {
       try {
        // Obtener la conexión adecuada según el cliente.
-        const connection = await this.dbConnectionService.getConnection( 34 );
+        const connection = await this.dbConnectionService.getConnection( idUser );
         // Ejecutar la consulta en la base de datos seleccionada.
         const data = await connection.query(
           `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`
         );
+
+        // Cerrar la conexión después de usarla.
+        await this.dbConnectionService.closeConnection(idUser);
+
         return {
           Success: true,
           Titulo: "OrionWS webservice - Modulo - Datasource.",

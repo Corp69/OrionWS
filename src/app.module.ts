@@ -9,7 +9,6 @@ import { EccsModule } from './AriesERP/Eccs/Eccs.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-
      TypeOrmModule.forRoot({
        type: 'postgres',
        host: process.env.DB_HOST,
@@ -19,6 +18,9 @@ import { EccsModule } from './AriesERP/Eccs/Eccs.module';
        password: process.env.DB_PASSWORD,      
        autoLoadEntities: true,
        synchronize: false,
+       extra: {
+        idleTimeoutMillis: 120000  // Tiempo de inactividad para cerrar en milisegundos (5 minutos)
+      }
      }),
     AuthModule,
     CommonModule,

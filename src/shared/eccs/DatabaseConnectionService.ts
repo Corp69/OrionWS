@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-
 @Injectable()
 export class DatabaseConnectionService {
   private readonly connections: Map<number, DataSource> = new Map();
 
-  async getConnection(clientId: number ): Promise<DataSource> {
+  public async getConnection(clientId: number): Promise<DataSource> {
     const dbConfig = this.getDatabaseConfig(clientId);
-    if (this.connections.has( clientId )) {
-      return this.connections.get( clientId );
+    if (this.connections.has(clientId)) {
+      return this.connections.get(clientId);
     }
     const newConnection = new DataSource({
       type: dbConfig.type,
@@ -19,7 +18,12 @@ export class DatabaseConnectionService {
       password: dbConfig.password,
       database: dbConfig.database,
       synchronize: false,
-    }as DataSourceOptions);
+      extra: {
+        max: 5,                   // Número máximo de conexiones en el pool
+        min: 2,                   // Número mínimo de conexiones en el pool
+        idleTimeoutMillis: 300000 // Tiempo de inactividad para cerrar  5 min.
+      },
+    } as DataSourceOptions);
     await newConnection.initialize();
     this.connections.set(clientId, newConnection);
     return newConnection;
@@ -67,6 +71,14 @@ export class DatabaseConnectionService {
       default:
         throw new Error(`No database configuration found for clientId: ${clientId}`);
     }
+  }
+
+  public async closeConnection(clientId: number): Promise<void> {
+    const connection = this.connections.get(clientId);
+    if (connection && connection.isInitialized) {
+      await connection.destroy();
+      this.connections.delete(clientId);
+     }
   }
 
 }

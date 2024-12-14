@@ -25,19 +25,13 @@ export class JwtStrategy extends PassportStrategy( Strategy ) {
 
 
     async validate( payload: JwtPayload ): Promise<Users> {
-        
         const { id } = payload;
-
-        console.log(payload );
-        
         const user = await this.userRepository.findOneBy({ id });
         if ( !user ) 
             throw new UnauthorizedException('Token no encontro un token valido, Inicia Session.')
             
         if ( user.id_eccs_status == 3 ) 
             throw new UnauthorizedException('Usuario esta cancelado');
-        
-
         return user;
     }
 
