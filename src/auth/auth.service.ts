@@ -105,7 +105,7 @@ export class AuthService {
           Success: false,
           Titulo: "OrionWS webservice - Modulo - Datasource.",
           Mensaje: "Operación no se realizó",
-          Response: error.message || error,
+          Response:  error.message || error,
         },
         HttpStatus.BAD_REQUEST
       );
@@ -128,7 +128,7 @@ export class AuthService {
           Success: false,
           Titulo: "ECCS: OrionWS - Auth - Login.",
           Mensaje: "Operación no se realizó",
-          Response: error.message || error,
+          Response: "No Inicio Sesion correctamente ! verificar estatus.",
         },
         HttpStatus.OK
       );
