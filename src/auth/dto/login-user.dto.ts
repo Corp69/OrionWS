@@ -21,10 +21,10 @@ export class LoginUserDto {
     @IsString()
     @MinLength(4)
     @MaxLength(15)
-    @Matches(
-        /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-        message: 'La contraseña debe tener a un caracter mayuscula, minuscula y un numero'
-    })
+    // @Matches(
+    //     /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    //     message: 'La contraseña debe tener a un caracter mayuscula, minuscula y un numero'
+    // })
     pass: string;
     
 }

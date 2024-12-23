@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { SpaceModule } from './AriesERP/Space/space.module';
 import { EccsModule } from './AriesERP/Eccs/Eccs.module';
 import { ElaModule } from './OpenIA/Ela/Ela.module';
+import { ConfiguracionesModule } from './AriesERP/configuraciones/configuraciones.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ElaModule } from './OpenIA/Ela/Ela.module';
       CommonModule,
       //AriesERP
       SpaceModule,
+      ConfiguracionesModule,
       //OpenIA
       EccsModule,
       ElaModule
