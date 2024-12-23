@@ -35,10 +35,10 @@ export class DatabaseConnectionService {
       case 1:
         return {
           type: 'postgres',
-          host: 'roundhouse.proxy.rlwy.net',
-          port: 14774,
+          host: 'autorack.proxy.rlwy.net',
+          port: 29695,
           username: 'postgres',
-          password: '3Gc5c63C4Ca*dAc3A-gbe54*A1DGE2e*',
+          password: 'uoSVslGJOokvCiiBltRKiQTYIYAMYupi',
           database: 'Dev',
         };
       case 2:
