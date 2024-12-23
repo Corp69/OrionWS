@@ -4,7 +4,7 @@ import { OrthographyService } from '../services/Orthography.service';
 import { OrthographyDto } from '../dtos/orthography.dto';
 
 
-@ApiTags('ECCS - OrionWS - OpenIA - ELA.')
+@ApiTags('OrionWS - OpenIA - ELA.')
 @Controller('openia/ela')
 export class OrthographyController {
 

@@ -3,7 +3,7 @@ import { SpaceService } from './space.service';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
-@ApiTags('AriesERP - SPACE - Modulo Presentación.')
+@ApiTags('OrionWS - SPACE - ECCS Presentación.')
 @Controller('AriesERP/space')
 export class SpaceController {
 

@@ -7,6 +7,7 @@ import { SpaceModule } from './AriesERP/Space/space.module';
 import { EccsModule } from './AriesERP/Eccs/Eccs.module';
 import { ElaModule } from './OpenIA/Ela/Ela.module';
 import { ConfiguracionesModule } from './AriesERP/configuraciones/configuraciones.module';
+import { OrionMailModule } from './OrionMail/OrionMail.module';
 
 @Module({
   imports: [
@@ -24,15 +25,16 @@ import { ConfiguracionesModule } from './AriesERP/configuraciones/configuracione
         idleTimeoutMillis: 120000  // Tiempo de inactividad para cerrar en milisegundos (5 minutos)
       }
      }),
+      //OpenIA
+      EccsModule,
+      ElaModule,
       //OrionWS
       AuthModule,
+      OrionMailModule,
       CommonModule,
       //AriesERP
       SpaceModule,
-      ConfiguracionesModule,
-      //OpenIA
-      EccsModule,
-      ElaModule
+      ConfiguracionesModule
   ],
 })
 export class AppModule {}
