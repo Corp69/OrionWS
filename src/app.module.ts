@@ -8,6 +8,8 @@ import { EccsModule } from './AriesERP/Eccs/Eccs.module';
 import { ElaModule } from './OpenIA/Ela/Ela.module';
 import { ConfiguracionesModule } from './AriesERP/configuraciones/configuraciones.module';
 import { OrionMailModule } from './OrionMail/OrionMail.module';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -25,6 +27,17 @@ import { OrionMailModule } from './OrionMail/OrionMail.module';
         idleTimeoutMillis: 120000  // Tiempo de inactividad para cerrar en milisegundos (5 minutos)
       }
      }),
+
+     MailerModule.forRoot({
+      transport: {
+        host: String(process.env.MAIL_HOST),
+        auth: {
+          user: process.env.MAIL_USER,
+          pass: process.env.MAIL_PASS,
+        },
+      }
+    }),
+
       //OpenIA
       EccsModule,
       ElaModule,
