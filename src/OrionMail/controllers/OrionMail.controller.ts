@@ -5,12 +5,11 @@ import { OrionMailService } from '../services/OrionMail.service';
 
 @ApiTags('OrionWS - OrionMail - Modulo Correos.')
 @Controller('OrionMail')
-@Auth()
 export class OrionMailController {
 
   constructor(private readonly Service: OrionMailService ) {}
   
-    @Post('activas/:id')
+    @Post('test')
     @Post()
     @ApiParam({
       name: 'id',
@@ -47,8 +46,8 @@ export class OrionMailController {
     })
     @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
     @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-    getConf( @GetUser('id') idUser: number, @Param('id') id: number ) {
-       return this.Service.Configuraciones( idUser, id );
+    getConf() {
+       return this.Service.sendMail();
     }  
 
 
