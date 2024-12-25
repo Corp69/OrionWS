@@ -8,8 +8,10 @@ import { EccsModule } from './AriesERP/Eccs/Eccs.module';
 import { ElaModule } from './OpenIA/Ela/Ela.module';
 import { ConfiguracionesModule } from './AriesERP/configuraciones/configuraciones.module';
 import { OrionMailModule } from './OrionMail/OrionMail.module';
-import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ControlAppModule } from './AriesERP/controlapp/controlapp.module';
+import { ControlRhModule } from './AriesERP/controlrh/controlrh.module';
+import { ControlContabilidadModule } from './AriesERP/controlcontabilidad/controlcontabilidad.module';
 
 @Module({
   imports: [
@@ -46,6 +48,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
       OrionMailModule,
       CommonModule,
       //AriesERP
+      ControlAppModule,
+      ControlContabilidadModule,
+      ControlRhModule,
       SpaceModule,
       ConfiguracionesModule
   ],
