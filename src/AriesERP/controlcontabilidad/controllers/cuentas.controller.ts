@@ -1,14 +1,14 @@
 import { Controller, Post, Body, Param } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { ControlContabilidadService } from '../services/cuentas.service';
+import { CuentasService } from '../services/cuentas.service';
 
 @ApiTags('OrionWS - AriesERP - Modulo Configuraciones.')
 @Controller('arieserp/configuraciones')
 @Auth()
 export class CuentasController {
 
-  constructor(private readonly Service: ControlContabilidadService ) {}
+  constructor(private readonly Service: CuentasService ) {}
   
     @Post('activas/:id')
     @Post()

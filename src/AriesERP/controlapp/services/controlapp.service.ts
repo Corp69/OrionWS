@@ -33,6 +33,31 @@ export class ControlAppService {
       );
     }
   }
+  
+  public async Menu( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection( clientId );
+      //FUNCION
+      const data =  await connection.query(`SELECT "arieserp".app_menu( ${id} )`);
+      return {
+        Success: true,
+        Titulo: "OrionWS: AriesERP - Modulo Configuraciones - Menu.",
+        Mensaje: "Operacion Realizada con exito.",
+        Response: data[0].app_menu,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo:  "OrionWS: AriesERP - Modulo Configuraciones - Menu.",
+          Mensaje: "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.OK
+      );
+    }
+  }
 
-
+  
 }
