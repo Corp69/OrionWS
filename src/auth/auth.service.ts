@@ -21,6 +21,7 @@ import { TokenDTO } from './dto/Token.dto';
 import { DBErrorHandlerService } from '../shared/errors/DBErrorHandlerService';
 import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 
+import { MailerService as MailerMain } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class AuthService {
@@ -32,8 +33,8 @@ export class AuthService {
     private readonly dbErrorHandlerService: DBErrorHandlerService, // Inyectamos el servicio de manejo de errores
     
 
-    private readonly dbConnectionService: DatabaseConnectionService
-  
+    private readonly dbConnectionService: DatabaseConnectionService,
+    private readonly mailerMain: MailerMain    
   
   
   ) { }
@@ -42,10 +43,24 @@ export class AuthService {
   public async Prospecto(createEccsEmpresasDto: CreateEccsEmpresasDto): Promise<ResponseDto<CreateEccsEmpresasDto>> {
     try {
       const data = await this.eccs_empresasRepository.save(createEccsEmpresasDto);
+                   await this.eccs_empresasRepository.query( `INSERT INTO public.eccs_empresa_correo (id, id_eccs_empresa, id_eccs_correo_vista) VALUES (default, ${ data.id}, 1)`);
+     
+      const dataCorreo = await this.dataSource.query(`SELECT "eccs".correo_registro(${ data.id})`) ;
+
+      
+      await  this.mailerMain.sendMail({
+        to:       createEccsEmpresasDto.correo,
+        subject:  dataCorreo[0].correo_registro.Asunto,
+        //text: ' hola es un test de Orion WS'
+        html:     dataCorreo[0].correo_registro.correo
+      })
+      .then(() => {})
+      .catch((e) => {});
+
       return {
         Success: true,
         Titulo: "OrionWS webservice - Modulo - Authenticacion.",
-        Mensaje: "Operacion Realizada con exito.",
+        Mensaje: "Operacion Realizada con exito. | Revisar bandeja de correo",
         Response: data
       };
     } catch (error) {

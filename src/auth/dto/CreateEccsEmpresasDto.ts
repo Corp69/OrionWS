@@ -52,7 +52,7 @@ export class CreateEccsEmpresasDto {
     })
     @IsString()
     @MinLength(6)
-    @MaxLength(30)
+    @MaxLength(50)
     @IsEmail()
     correo: string;
     
