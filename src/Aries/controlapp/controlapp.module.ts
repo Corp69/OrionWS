@@ -5,10 +5,21 @@ import { AuthModule } from 'src/auth/auth.module';
 import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 import { ControlAppController } from './controllers/controlapp.controller';
 import { ControlAppService } from './services/controlapp.service';
+import { EmpresaService } from './services/empresa/empresa.service';
+import { EmpresaController } from './controllers/empresa/empresa.controller';
 
 @Module({
-    controllers: [ ControlAppController ],
-    providers:   [ ControlAppService, DatabaseConnectionService  ],
+    controllers: 
+    [ 
+      ControlAppController, 
+      EmpresaController  
+    ],
+    providers:   
+    [ 
+      ControlAppService,
+      DatabaseConnectionService, 
+      EmpresaService  
+    ],
     imports: [
         AuthModule,
         ConfigModule,

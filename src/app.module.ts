@@ -3,15 +3,19 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
-import { SpaceModule } from './AriesERP/Space/space.module';
-import { EccsModule } from './AriesERP/Eccs/Eccs.module';
 import { ElaModule } from './OpenIA/Ela/Ela.module';
-import { ConfiguracionesModule } from './AriesERP/configuraciones/configuraciones.module';
 import { OrionMailModule } from './OrionMail/OrionMail.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { ControlAppModule } from './AriesERP/controlapp/controlapp.module';
-import { ControlRhModule } from './AriesERP/controlrh/controlrh.module';
-import { ControlContabilidadModule } from './AriesERP/controlcontabilidad/controlcontabilidad.module';
+
+
+//AriesERP
+import { EccsModule }                 from './Aries/Eccs/Eccs.module';
+import { ControlAppModule }           from './Aries/controlapp/controlapp.module';
+import { ControlContabilidadModule }  from './Aries/controlcontabilidad/controlcontabilidad.module';
+import { ControlRhModule }            from './Aries/controlrh/controlrh.module';
+import { SpaceModule }                from './Aries/Space/space.module';
+import { ConfiguracionesModule }      from './Aries/configuraciones/configuraciones.module';
+
 
 @Module({
   imports: [
@@ -53,6 +57,6 @@ import { ControlContabilidadModule } from './AriesERP/controlcontabilidad/contro
       ControlRhModule,
       SpaceModule,
       ConfiguracionesModule
-  ],
+  ]
 })
 export class AppModule {}
