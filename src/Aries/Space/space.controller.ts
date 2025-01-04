@@ -10,7 +10,6 @@ export class SpaceController {
   constructor(private readonly Service: SpaceService ) {}
   
    @Post('contacto')
-   @Post()
    @ApiOperation({ summary: 'AriesERP - Space - Contacto Obtiene los datos de contacto' })
    @ApiResponse({
      status: 200,
@@ -40,7 +39,6 @@ export class SpaceController {
    }   
 
    @Post('vision')
-   @Post()
    @ApiOperation({ summary: ' AriesERP - Space - Vision Obtiene los datos de vision' })
    @ApiResponse({
      status: 200,
@@ -65,7 +63,6 @@ export class SpaceController {
    }   
 
    @Post('mision')
-   @Post()
    @ApiOperation({ summary: ' AriesERP - Space - Mision Obtiene los datos de misión' })
    @ApiResponse({
      status: 200,
@@ -91,7 +88,6 @@ export class SpaceController {
 
 
    @Post('nosotros')
-   @Post()
    @ApiOperation({ summary: ' AriesERP - Space - Nosotros Obtiene los datos de nosotros' })
    @ApiResponse({
      status: 200,
@@ -117,7 +113,6 @@ export class SpaceController {
  
  
    @Post('objetivo')
-   @Post()
    @ApiOperation({ summary: ' AriesERP - Space - Objetivo Obtiene los datos de objetivo' })
    @ApiResponse({
      status: 200,

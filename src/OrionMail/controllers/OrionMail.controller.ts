@@ -10,7 +10,6 @@ export class OrionMailController {
   constructor(private readonly Service: OrionMailService ) {}
   
     @Post('test')
-    @Post()
     @ApiParam({
       name: 'id',
       description: 'Filtro: ID AriesERP - Modulo Configuraciones. 0 = TODAS ',

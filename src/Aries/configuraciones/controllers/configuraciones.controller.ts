@@ -11,7 +11,6 @@ export class ConfiguracionesController {
   constructor(private readonly Service: ConfiguracionesService ) {}
   
     @Post('activas/:id')
-    @Post()
     @ApiParam({
       name: 'id',
       description: 'Filtro: ID AriesERP - Modulo Configuraciones. 0 = TODAS ',

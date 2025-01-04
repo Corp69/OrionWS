@@ -11,7 +11,6 @@ export class ControlAppController {
   constructor(private readonly Service: ControlAppService ) {}
   
     @Post('activas/:id')
-    @Post()
     @ApiParam({
       name: 'id',
       description: 'Filtro: ID AriesERP - Modulo Configuraciones. 0 = TODAS ',
@@ -53,7 +52,6 @@ export class ControlAppController {
 
 
     @Post('menu/:id')
-    @Post()
     @ApiParam({
       name: 'id',
       description: 'Filtro: ID Usuario - AriesERP - Modulo Configuraciones. ID = USUARIO.',
