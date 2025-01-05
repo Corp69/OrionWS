@@ -15,7 +15,9 @@ async function bootstrap() {
                 'https://ec.arieserp.com.mx', 
                 'https://eccs.arieserp.com.mx',
                 
-                'https://scorpio-production.up.railway.app'
+                'https://scorpio-production.up.railway.app',
+
+                 'http://localhost:8100'
               
               
               ], // Dominios permitidos
