@@ -6,8 +6,6 @@ import { AuthModule } from './auth/auth.module';
 import { ElaModule } from './OpenIA/Ela/Ela.module';
 import { OrionMailModule } from './OrionMail/OrionMail.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-
-
 //AriesERP
 import { EccsModule }                 from './Aries/Eccs/Eccs.module';
 import { ControlAppModule }           from './Aries/controlapp/controlapp.module';
@@ -15,6 +13,9 @@ import { ControlContabilidadModule }  from './Aries/controlcontabilidad/controlc
 import { ControlRhModule }            from './Aries/controlrh/controlrh.module';
 import { SpaceModule }                from './Aries/Space/space.module';
 import { ConfiguracionesModule }      from './Aries/configuraciones/configuraciones.module';
+
+//Scorpio XL 
+import { ScorpioModule } from './Scorpio/scorpio.module';
 
 
 @Module({
@@ -56,7 +57,9 @@ import { ConfiguracionesModule }      from './Aries/configuraciones/configuracio
       ControlContabilidadModule,
       ControlRhModule,
       SpaceModule,
-      ConfiguracionesModule
+      ConfiguracionesModule,
+      //Scorpio XL
+      ScorpioModule
   ]
 })
 export class AppModule {}

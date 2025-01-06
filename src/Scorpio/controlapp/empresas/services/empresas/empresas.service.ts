@@ -3,12 +3,12 @@ import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 
 @Injectable()
-export class EmpresaService {
-
-
-  constructor(
-    private readonly dbConnectionService: DatabaseConnectionService,
+export class EmpresasService {
+  
+  constructor( 
+     private readonly dbConnectionService: DatabaseConnectionService
   ) {}
+
 
   public async getEmpresa( clientId: number ): Promise<ResponseDto<any>> {
     try {
@@ -20,7 +20,7 @@ export class EmpresaService {
       );
       return {
         Success:  true,
-        Titulo:   'OrionWS: Scorpio - Modulo App - Empresas.',
+        Titulo:   'OrionWS: Scorpio XL - Modulo App - Empresas.',
         Mensaje:  'Operacion Realizada con exito.',
         Response: data[0].app_empresas,
       };
@@ -28,7 +28,7 @@ export class EmpresaService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: Scorpio - Modulo App - Empresas.',
+          Titulo:   'OrionWS: Scorpio XL- Modulo App - Empresas.',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -36,4 +36,12 @@ export class EmpresaService {
       );
     }
   }
+
+
+
+
+
+
+
+
 }
