@@ -17,7 +17,8 @@ async function bootstrap() {
                 
                 'https://scorpio-production.up.railway.app',
 
-                 'http://localhost:8100'
+                 'http://localhost:8100',
+                 'https://localhost'
               
               
               ], // Dominios permitidos
