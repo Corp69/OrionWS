@@ -9,7 +9,7 @@ import { SocialCreateDto,
 } from '../../dtos/social';
 
 
-@ApiTags('OrionWS - Scorpio XL - XML.')
+@ApiTags('OrionWS - Scorpio XL - XML - Empresas')
 @Controller('scorpio/social')
 //@Auth()
 export class SocialController {
