@@ -17,7 +17,6 @@ import { ConfiguracionesModule }      from './Aries/configuraciones/configuracio
 //Scorpio XL 
 import { ScorpioModule } from './Scorpio/scorpio.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -45,21 +44,23 @@ import { ScorpioModule } from './Scorpio/scorpio.module';
       }
     }),
 
+      //OrionWS
+      AuthModule,
+      //Scorpio XL
+      ScorpioModule,
       //OpenIA
       EccsModule,
       ElaModule,
-      //OrionWS
-      AuthModule,
       OrionMailModule,
       CommonModule,
       //AriesERP
       ControlAppModule,
       ControlContabilidadModule,
       ControlRhModule,
-      SpaceModule,
+      //datasource
       ConfiguracionesModule,
-      //Scorpio XL
-      ScorpioModule
+      //Space
+      SpaceModule,
   ]
 })
 export class AppModule {}

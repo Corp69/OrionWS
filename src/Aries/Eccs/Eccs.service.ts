@@ -19,7 +19,7 @@ export class EccsService {
       );
       return {
         Success: true,
-        Titulo: 'ECCS: AriesERP - Version.',
+        Titulo: 'OrionWS: ECCS - AriesERP - Version.',
         Mensaje: 'Operacion Realizada con exito.',
         Response: data[0].orion_update_version,
       };
@@ -27,7 +27,7 @@ export class EccsService {
       throw new HttpException(
         {
           Success: false,
-          Titulo: 'ECCS: AriesERP - Version.',
+          Titulo: 'OrionWS: ECCS - AriesERP - Version.',
           Mensaje: 'Operación no se realizó',
           Response: error.message || error,
         },
@@ -42,7 +42,7 @@ export class EccsService {
       if (dataCodigo[0].id == null) {
         return {
           Success: true,
-          Titulo: 'ECCS: AriesERP - Update.',
+          Titulo: 'OrionWS: ECCS - AriesERP - Update.',
           Mensaje: 'Operación Realizada con éxito.',
           Response: 'Verificar el codigo de seguridad.',
         }
@@ -91,13 +91,13 @@ export class EccsService {
       return queries.length == 0
         ? {
           Success: true,
-          Titulo: 'ECCS: AriesERP - Update.',
+          Titulo: 'OrionWS: ECCS - AriesERP - Update.',
           Mensaje: 'Operación Realizada con éxito.',
           Response: 'No hay Update Pendientes.',
         }
         : {
           Success: true,
-          Titulo: 'ECCS: AriesERP - Update.',
+          Titulo: 'OrionWS: ECCS - AriesERP - Update.',
           Mensaje: 'Operación Realizada con éxito.',
           Response: act,
         };
@@ -105,7 +105,7 @@ export class EccsService {
       throw new HttpException(
         {
           Success: false,
-          Titulo: 'ECCS: AriesERP - Update.',
+          Titulo: 'OrionWS: ECCS - AriesERP - Update.',
           Mensaje: 'Operación no se realizó',
           Response: error.message || error,
         },

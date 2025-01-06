@@ -5,22 +5,22 @@ import { EccsCodigoDTO } from './dto/EccsCodigo.dto';
 
 import { Auth, GetUser } from '../../auth/decorators/index';
 
-@ApiTags('ECCS - OrionWS - Modulo Actualizaciones.')
+@ApiTags('OrionWS - ECCS - Modulo Actualizaciones.')
 @Controller('eccs/base')
 @Auth()
 export class EccsController {
 
   constructor(private readonly Service: EccsService ) {}
   
-  @ApiOperation({ summary: 'ECCS - Muestra - Version: la siguiente Act. Pendiente.' })
+  @ApiOperation({ summary: 'OrionWS: ECCS - Muestra - Version: la siguiente Act. Pendiente.' })
   @ApiResponse({
     status: 200,
-    description: 'ECCS: AriesERP - Version.',
+    description: 'OrionWS: ECCS: AriesERP - Version.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: "ECCS: AriesERP - Version.",
+          Titulo: "OrionWS: ECCS - AriesERP - Version.",
           Mensaje: "Operacion Realizada con exito.",
           Response: {
             "actualizaciones": [
@@ -40,7 +40,7 @@ export class EccsController {
   })
   @ApiResponse({
     status: 401,
-    description: 'ECCS: AriesERP - Version.',
+    description: 'OrionWS: ECCS - AriesERP - Version.',
     content: {
       'application/json': {
         example: {
@@ -60,15 +60,15 @@ export class EccsController {
     return this.Service.getVersion( idUser );
   }   
 
-  @ApiOperation({ summary: 'ECCS - Muestra Update: Realiza la actualizacion pendiente.' })
+  @ApiOperation({ summary: 'OrionWS: ECCS - Muestra Update: Realiza la actualizacion pendiente.' })
   @ApiResponse({
     status: 200,
-    description: 'ECCS: AriesERP - Actualizaciones.',
+    description: 'OrionWS: ECCS - AriesERP - Actualizaciones.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: "ECCS: AriesERP - Actualizaciones.",
+          Titulo: "OrionWS: ECCS - AriesERP - Actualizaciones.",
           Mensaje: "Operacion Realizada con exito.",
           Response: {
                     "Success": true,
@@ -82,7 +82,7 @@ export class EccsController {
   })
   @ApiResponse({
     status: 401,
-    description: 'ECCS: AriesERP - Actualizaciones.',
+    description: 'OrionWS: ECCS - AriesERP - Actualizaciones.',
     content: {
       'application/json': {
         example: {

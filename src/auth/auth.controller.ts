@@ -5,7 +5,7 @@ import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TokenDTO } from './dto/Token.dto';
 
 
-@ApiTags('ECCS - OrionWS - Auth - Modulo Authenticacion.')
+@ApiTags('OrionWS - ECCS - Modulo Authenticacion.')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
