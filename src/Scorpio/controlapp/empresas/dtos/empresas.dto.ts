@@ -28,7 +28,6 @@ export class EmpresasDTO {
       'observaciones observaciones de la empresa informacion adicional '
   })
   @IsString()
-  @MinLength(5)
   @MaxLength(50)
   observaciones: string;
 
@@ -40,7 +39,7 @@ export class EmpresasDTO {
     uniqueItems: true,
   })
   @IsString()
-  @MinLength(10)
+  @MinLength(5)
   @MaxLength(30)
   nombrecomercial: string;
 
@@ -50,8 +49,6 @@ export class EmpresasDTO {
       'aviso privacidad por empresa'  
     })
   @IsString()
-  @MinLength(4)
-  @MaxLength(100)
   aviso_privacidad: string;
 
   @ApiProperty({
