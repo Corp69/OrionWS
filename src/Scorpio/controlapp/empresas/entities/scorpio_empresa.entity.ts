@@ -1,6 +1,4 @@
 import { 
-    BeforeInsert,
-    BeforeUpdate,
     Column,
     Entity,
     PrimaryGeneratedColumn 
@@ -9,7 +7,7 @@ import {
 @Entity('scorpio_empresa')
 export class scorpio_empresa {
 
-    @PrimaryGeneratedColumn() id:                                 number;
+    @PrimaryGeneratedColumn()            id:                      number;
     @Column('varchar', { unique: true }) rfc:                     string;
     @Column('varchar')                   observaciones:           string;
     @Column('varchar')                   nombrecomercial:         string;

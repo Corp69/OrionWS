@@ -9,7 +9,7 @@ export class EmpresasDTO {
     description: 'ID: identificador de la empresa dentro de ECCS. Puede Ser Opcional',
     uniqueItems: true,
   })
-  id?: number;
+  id: number;
 
   @ApiProperty({
     example: 'XAOXAX',

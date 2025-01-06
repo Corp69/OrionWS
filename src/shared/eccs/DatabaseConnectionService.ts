@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { scorpio_empresa } from 'src/Scorpio/controlapp/empresas/entities/scorpio_empresa.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 @Injectable()
@@ -18,6 +19,7 @@ export class DatabaseConnectionService {
       password: dbConfig.password,
       database: dbConfig.database,
       synchronize: false,
+      entities: [scorpio_empresa],  // Asegúrate de agregar la entidad aquí
       extra: {
         max: 5,                   // Número máximo de conexiones en el pool
         min: 2,                   // Número mínimo de conexiones en el pool
