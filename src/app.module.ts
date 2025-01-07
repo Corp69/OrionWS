@@ -16,6 +16,8 @@ import { ConfiguracionesModule }      from './Aries/configuraciones/configuracio
 
 //Scorpio XL 
 import { ScorpioModule } from './Scorpio/scorpio.module';
+//shared
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -61,6 +63,8 @@ import { ScorpioModule } from './Scorpio/scorpio.module';
       ConfiguracionesModule,
       //Space
       SpaceModule,
+      //Shared
+      SharedModule
   ]
 })
 export class AppModule {}
