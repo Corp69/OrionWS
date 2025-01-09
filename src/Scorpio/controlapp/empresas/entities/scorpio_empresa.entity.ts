@@ -15,5 +15,6 @@ export class scorpio_empresa {
     @Column('int')                       id_sat_usocfdi:          number;
     @Column('int')                       id_sat_regimenfiscal:    number;
     @Column('int')                       id_estatus:              number;
+    @Column('varchar')                   celular:                 string;
 
 }

@@ -1,74 +1,88 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsNumber,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 export class EmpresasDTO {
-  
   @IsNumber()
   @ApiProperty({
     example: 1,
-    description: 'ID: identificador de la empresa dentro de ECCS. Puede Ser Opcional',
+    description: 'ID: identificador de la empresa dentro de Scorpio',
     uniqueItems: true,
   })
-  id: number;
+  id?: number;
 
   @ApiProperty({
     example: 'XAOXAX',
-    description:
-      'RFC de la persona fisica o moral.',
+    description: 'RFC de la persona fisica o moral.',
     uniqueItems: true,
   })
-  @IsString()
-  @MinLength(12)
-  @MaxLength(13)
+  @IsString({ message: 'rfc: debe ser String' })
+  @MinLength(12, { message: 'debe tener al menos 12.' })
+  @MaxLength(14, { message: 'debe exceder a 14 digitos.' })
   rfc: string;
 
   @ApiProperty({
     example: 'XAOXAX',
     description:
-      'observaciones observaciones de la empresa informacion adicional '
+      'observaciones observaciones de la empresa informacion adicional ',
   })
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'observaciones: debe ser String' })
+  @MaxLength(50, { message: 'No debe exceder al 50 caracteres.' })
   observaciones: string;
-
 
   @ApiProperty({
     example: 'XAOXAX',
-    description:
-      'nombrecomercial: Nombre, definicion de la empresa',
+    description: 'nombrecomercial: Nombre, definicion de la empresa',
     uniqueItems: true,
   })
-  @IsString()
-  @MinLength(5)
-  @MaxLength(30)
+  @IsString({ message: 'nombrecomercial: debe ser String' })
+  @MinLength(3, { message: 'debe tener al menos 3 caracteres.' })
+  @MaxLength(50, { message: 'debe exceder a 50 caracteres.' })
   nombrecomercial: string;
 
   @ApiProperty({
     example: 'XAOXAX',
-    description:
-      'aviso privacidad por empresa'  
-    })
-  @IsString()
+    description: 'aviso privacidad por empresa',
+  })
+  @IsString({ message: 'aviso_privacidad: debe ser String' })
+  @MaxLength(50, { message: 'debe exceder a 50 caracteres.' })
   aviso_privacidad: string;
 
   @ApiProperty({
     example: 1,
-    description: 'ID: identificador de la empresa dentro de uso de CFDI'
+    description: 'ID: identificador de la empresa dentro de uso de CFDI',
   })
-  @IsNumber()
+  @IsNumber({}, { message: 'El id_sat_usocfdi debe ser un número.' })
+  @Min(1, { message: 'debe tener al menos 1.' })
+  @Max(99, { message: 'no debe tener más de 99.' })
   id_sat_usocfdi: number;
 
   @ApiProperty({
     example: 1,
-    description: 'ID: identificador de la empresa dentro del Regimen'
+    description: 'ID: identificador de la empresa dentro del Regimen',
   })
-  @IsNumber()
+  @IsNumber({}, { message: 'El id_sat_regimenfiscal debe ser un número.' })
+  @Min(1, { message: 'debe tener al menos 1.' })
+  @Max(99, { message: 'no debe tener más de 99.' })
   id_sat_regimenfiscal: number;
 
   @ApiProperty({
     example: 1,
-    description: 'ID: identificador de estatus de la empresa.'
+    description: 'ID: identificador de estatus de la empresa.',
   })
-  @IsNumber()
+  @IsNumber({}, { message: 'El id_estatus debe ser un número.' })
+  @Min(1, { message: 'debe tener al menos 1.' })
+  @Max(99, { message: 'no debe tener más de 99.' })
   id_estatus: number;
+
+  @IsString({ message: 'celular: debe ser String' })
+  @MinLength(3, { message: 'debe tener al menos 3 caracteres.' })
+  @MaxLength(50, { message: 'debe exceder a 50 caracteres.' })
+  readonly celular: string;
 }

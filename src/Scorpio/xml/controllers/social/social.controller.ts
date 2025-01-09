@@ -1,17 +1,31 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Param,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SocialService } from '../../services/social/social.service';
 
-import { SocialCreateDto,
+import {
+  SocialCreateDto,
   SocialUpdateDto,
   SocialDeleteDto,
-  SocialLstDto
+  SocialLstDto,
 } from '../../dtos/social';
 
+import { Auth, GetUser } from 'src/auth/decorators';
+//shared
+//files
+import { FileInterceptor } from '@nestjs/platform-express';
+import { fileFilterCer, fileFilterKey, fileFilterPfx, fileFilterTxt } from '@shared/file/helpers';
 
 @ApiTags('OrionWS - Scorpio XL - XML - Empresas')
 @Controller('scorpio/social')
-//@Auth()
+@Auth()
 export class SocialController {
   constructor(private readonly Service: SocialService) {}
 
@@ -39,8 +53,8 @@ export class SocialController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public lst(   @Body() SocialLstDto: SocialLstDto, ) {
-    return this.Service.XML_Social_Lst( SocialLstDto );
+  public lst(@Body() SocialLstDto: SocialLstDto) {
+    return this.Service.XML_Social_Lst(SocialLstDto);
   }
 
   @Post('agregar')
@@ -57,9 +71,15 @@ export class SocialController {
           Titulo: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
           Mensaje: 'Operación Realizada con exito.',
           Response: {
-            codigo: 0,
-            mensaje: 'No se encontró el parámetro userPade, favor de verificar',
-            respuesta: '',
+            id: 1,
+            rfc: 'CAVA03231997ECCS',
+            observaciones: 'empresa de inovacion',
+            nombrecomercial: 'ECCS',
+            aviso_privacidad: 'X',
+            id_sat_usocfdi: 1,
+            id_sat_regimenfiscal: 1,
+            id_estatus: 1,
+            celular: '+524651068560',
           },
         },
       },
@@ -67,8 +87,83 @@ export class SocialController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public Create(   @Body() SocialCreateDto: SocialCreateDto, ) {
-    return this.Service.XML_Social_Create( SocialCreateDto );
+  public Create(
+    @Body() SocialCreateDto: SocialCreateDto,
+    @GetUser('id') idUser: number,
+  ) {
+    return this.Service.XML_Social_Create(idUser, SocialCreateDto);
+  }
+
+  @Post('agregarKey/:id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: fileFilterKey,
+      // limits: { fileSize: 1000 }
+    }),
+  )
+ public key(
+  @Param('id')    id: number,
+  @GetUser('id')  idUser: number,
+  @UploadedFile() file: Express.Multer.File) { 
+  if (!file) {
+    throw new BadRequestException('No es un Archivo .key');
+  }
+   const base64Encoded = file.buffer.toString('base64');
+   return this.Service.XML_Social_Create_key( idUser, id, base64Encoded);
+  }
+
+  @Post('agregarCer/:id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: fileFilterCer,
+      // limits: { fileSize: 1000 }
+    }),
+  )
+ public Cer(
+  @Param('id')    id: number,
+  @GetUser('id')  idUser: number,
+  @UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No es un Archivo .cer');
+    }
+   const base64Encoded = file.buffer.toString('base64');
+   return this.Service.XML_Social_Create_cer( idUser, id, base64Encoded);
+  }
+
+  @Post('agregarTxt/:id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: fileFilterTxt,
+      // limits: { fileSize: 1000 }
+    }),
+  )
+ public Txt(
+  @Param('id')    id: number,
+  @GetUser('id')  idUser: number,
+  @UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No es un Archivo .txt');
+    }
+   const base64Encoded = file.buffer.toString('base64');
+   return this.Service.XML_Social_Create_txt( idUser, id, base64Encoded);
+  }
+
+  @Post('agregarPFX/:id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: fileFilterPfx,
+      // limits: { fileSize: 1000 }
+    }),
+  )
+ public Pfx(
+  @Param('id')    id: number,
+  @GetUser('id')  idUser: number,
+  @UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No es un Archivo .pfx');
+    }
+   const base64Encoded = file.buffer.toString('base64');
+   return this.Service.XML_Social_Create_pfx( idUser, id, base64Encoded);
   }
 
   @Post('actualizar')
@@ -95,10 +190,12 @@ export class SocialController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public Update(   @Body() SocialUpdateDto: SocialUpdateDto, ) {
-    return this.Service.XML_Social_Update( SocialUpdateDto );
+  public Update(
+    // @Param('id')    id: number,
+    @GetUser('id')  idUser: number,
+    @Body() SocialUpdateDto: SocialUpdateDto) {
+    return this.Service.XML_Social_Update( idUser, SocialUpdateDto);
   }
-
 
   @Post('eliminar')
   @ApiOperation({
@@ -124,9 +221,10 @@ export class SocialController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public Delete(   @Body() SocialDeleteDto: SocialDeleteDto, ) {
-    return this.Service.XML_Social_Delete( SocialDeleteDto );
+  public Delete(
+    // @Param('id')    id: number,
+    @GetUser('id')  idUser: number,
+    @Body() SocialDeleteDto: SocialDeleteDto) {
+    return this.Service.XML_Social_Delete(idUser, SocialDeleteDto);
   }
-
-
 }
