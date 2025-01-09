@@ -12,6 +12,7 @@ import { scorpio_empresa } from '../../../controlapp/empresas/entities/scorpio_e
 import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
 //openssl
 import * as openssl from 'openssl-nodejs';
+import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -212,71 +213,47 @@ export class SocialService {
     }
   }
 
-  public async XML_Social_Create_pfx( clientId: number, id: number, base64Encoded: string ): Promise<any> {
-    try {
-      // Obtener la conexión adecuada según el cliente.
-      const connection = await this.dbConnectionService.getConnection( clientId );
-      //FUNCION
-      const data =  await connection.query(`
-        update scorpio_empresa 
-            set 
-                txt = '${ base64Encoded }' where id = ${id}`);
-      return {
-        Success: true,
-        Titulo: 'Scorpio XL - pfx Agregado.',
-        Mensaje: 'Operacion Realizada con exito.',
-        Response: "Se Almaceno Certificado PFX Exitosamente !.",
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          Success: false,
-          Titulo: 'Scorpio XL - pfx No Agregado.',
-          Mensaje: 'Operación no se realizó',
-          Response: error.message || error,
-        },
-        HttpStatus.OK,
-      );
-    }
-  }
-  
   public async XML_Create_pfx(clientId: number, id: number): Promise<any> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       const data = await connection.query(`SELECT "scorpio".openssl_pfx_generar( ${id} )`);
-
+      
       // Decodificar los valores base64 a binario
-      const key = Buffer.from(data.openssl_pfx_generar.openssl.key, 'base64');
-      const cer = Buffer.from(data.openssl_pfx_generar.openssl.cer, 'base64');
-      const pass = Buffer.from(data.openssl_pfx_generar.openssl.txt, 'base64'); // pass
-
+      const key  = Buffer.from(data[0].openssl_pfx_generar.openssl.key, 'base64');
+      const cer  = Buffer.from(data[0].openssl_pfx_generar.openssl.cer, 'base64');
+      const pass = Buffer.from(data[0].openssl_pfx_generar.openssl.txt, 'base64'); // pass
+  
+      console.log( key );
+      
       // Archivos temporales para OpenSSL
       const privateKeyPath = path.join(__dirname, 'private.key');
-      const certPath = path.join(__dirname, 'certificate.crt');
+      const certPath = path.join(__dirname, 'certificate.cer');
       const caCertPath = path.join(__dirname, 'ca-cert.crt');
       const outputPfxPath = path.join(__dirname, 'output.pfx');
-
+  
       // Crear los archivos temporales con los buffers decodificados
       fs.writeFileSync(privateKeyPath, key);
       fs.writeFileSync(certPath, cer);
       fs.writeFileSync(caCertPath, pass);
-
+  
       // Promesa para ejecutar OpenSSL y generar el archivo PFX
       return new Promise((resolve, reject) => {
         const command = `openssl pkcs12 -export -out ${outputPfxPath} -inkey ${privateKeyPath} -in ${certPath} -certfile ${caCertPath} -password pass:${pass.toString('utf8')}`;
-
-        openssl.exec(command, (error, stdout, stderr) => {
+  
+        // Ejecutar el comando con exec
+        exec(command, (error, stdout, stderr) => {
           if (error) {
+            console.log(error);
             reject(`Error al generar el archivo PFX: ${stderr || error}`);
           }
-
-          console.log(stdout); // La salida de OpenSSL
-
+  
+          console.log(stdout); // La salida de OpenSSL  
+  
           // Leer el archivo PFX generado y convertirlo a base64
           const pfxBuffer = fs.readFileSync(outputPfxPath);
           const pfxBase64 = pfxBuffer.toString('base64');
-
+  
           // Eliminar archivos temporales creados
           try {
             fs.unlinkSync(privateKeyPath);
@@ -286,7 +263,7 @@ export class SocialService {
           } catch (cleanupError) {
             console.error('Error al eliminar archivos temporales:', cleanupError);
           }
-
+  
           // Retornar el archivo PFX en base64
           resolve({
             Success: true,
@@ -309,6 +286,5 @@ export class SocialService {
       );
     }
   }
-
 
 }
