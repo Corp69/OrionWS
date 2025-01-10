@@ -12,7 +12,6 @@ import { SocialService } from '../../services/social/social.service';
 
 import {
   SocialCreateDto,
-  SocialUpdateDto,
   SocialDeleteDto,
   SocialLstDto,
 } from '../../dtos/social';
@@ -157,11 +156,23 @@ export class SocialController {
   }
 
   @Post('agregarPFX/:id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: fileFilterPfx,
+      // limits: { fileSize: 1000 }
+    }),
+  )
   public Pfx(
-    @Param('id') id: number,
-    @GetUser('id') idUser: number
-  ) {
-    return this.Service.XML_Create_pfx(idUser, id);
+    @Param('id')    id:     number,
+    @GetUser('id')  idUser: number,
+    @UploadedFile() file:   Express.Multer.File,
+  ) 
+  {
+    if (!file) {
+    throw new BadRequestException('No es un Archivo .pfx');
+    }
+    const base64Encoded = file.buffer.toString('base64');
+    return this.Service.XML_Create_pfx(idUser, id, base64Encoded);
   }
 
   @Post('actualizar')
@@ -173,15 +184,21 @@ export class SocialController {
     description: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Actualizar.',
     content: {
       'application/json': {
-        example: {
-          Success: true,
-          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Actualizar',
-          Mensaje: 'Operación Realizada con exito.',
-          Response: {
-            codigo: 0,
-            mensaje: 'No se encontró el parámetro userPade, favor de verificar',
-            respuesta: '',
-          },
+          example: {
+            "Success": true,
+            "Titulo":  "OrionWS: Scorpio XL - Modulo App - Empresas Actualizar",
+            "Mensaje": "Operación realizada con éxito.",
+            "Response": {
+                "id":                   1,
+                "rfc":                  "asaseeeeeeeee",
+                "observaciones":        "test",
+                "nombrecomercial":      "Opticas Zac",
+                "aviso_privacidad":     "X",
+                "id_sat_usocfdi":       1,
+                "id_sat_regimenfiscal": 1,
+                "id_estatus":           1,
+                "celular":              "+524651068560"
+            }
         },
       },
     },
@@ -189,11 +206,10 @@ export class SocialController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Update(
-    // @Param('id')    id: number,
     @GetUser('id') idUser: number,
-    @Body() SocialUpdateDto: SocialUpdateDto,
+    @Body() SocialCreateDto: SocialCreateDto,
   ) {
-    return this.Service.XML_Social_Update(idUser, SocialUpdateDto);
+    return this.Service.XML_Social_Update(idUser, SocialCreateDto);
   }
 
   @Post('eliminar')

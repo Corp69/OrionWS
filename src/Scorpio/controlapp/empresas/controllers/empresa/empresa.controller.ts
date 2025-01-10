@@ -43,76 +43,72 @@ export class EmpresaController {
 
   @Post('agregar')
   @ApiOperation({
-    summary: 'ScorpioXL - Modulo App - Empresas agregar.',
+    summary: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
   })
   @ApiResponse({
     status: 200,
-    description: 'ScorpioXL - Modulo App - Empresas agregar.',
+    description: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'ScorpioXL - Modulo App - Empresas agregar.',
-          Mensaje: 'Operacion Realizada con exito.',
+          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
+          Mensaje: 'Operación Realizada con exito.',
           Response: {
-            Success: true,
-            Titulo: 'ECCS: AriesERP - Actualizaciones.',
-            Mensaje: 'Operación Realizada con éxito.',
-            Response: 'Verificar el codigo de seguridad.',
+            id: 1,
+            rfc: 'CAVA03231997ECCS',
+            observaciones: 'empresa de inovacion',
+            nombrecomercial: 'ECCS',
+            aviso_privacidad: 'X',
+            id_sat_usocfdi: 1,
+            id_sat_regimenfiscal: 1,
+            id_estatus: 1,
+            celular: '+524651068560',
           },
         },
       },
     },
   })
-  @ApiResponse({
-    status: 401,
-    description: 'ECCS: AriesERP - Actualizaciones.',
-    content: {
-      'application/json': {
-        example: {
-          message: 'Unauthorized',
-          statusCode: 401,
-        },
-      },
-    },
-  })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
-  @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public agregar(
+  public Create(
     @Body() EmpresasDTO: EmpresasDTO,
     @GetUser('id') idUser: number,
   ) {
     return this.Service.Agregar(idUser, EmpresasDTO);
   }
 
-
   @Post('actualizar')
   @ApiOperation({
-    summary: 'ScorpioXL - Modulo App - Empresas agregar.',
+    summary: 'ScorpioXL - Modulo App - Empresas Actualizar.',
   })
   @ApiResponse({
     status: 200,
-    description: 'ScorpioXL - Modulo App - Empresas actualizar.',
+    description: 'ScorpioXL - Modulo App - Empresas Actualizar.',
     content: {
       'application/json': {
-        example: {
-          Success: true,
-          Titulo: 'ScorpioXL - Modulo App - Empresas actualizar.',
-          Mensaje: 'Operacion Realizada con exito.',
-          Response: {
-            Success: true,
-            Titulo: 'ECCS: AriesERP - Actualizaciones.',
-            Mensaje: 'Operación Realizada con éxito.',
-            Response: 'Verificar el codigo de seguridad.',
-          },
-        },
+        example:{
+          "Success": true,
+          "Titulo": "OrionWS: Scorpio XL - Modulo App - Empresas Actualizar",
+          "Mensaje": "Operacion Realizada con exito.",
+          "Response": {
+              "id":                   1,
+              "rfc":                  "CAVA23197ECCS",
+              "observaciones":        "s",
+              "nombrecomercial":      "Opticas Zac",
+              "aviso_privacidad":     "x",
+              "id_sat_usocfdi":       1,
+              "id_sat_regimenfiscal": 1,
+              "id_estatus":           1,
+              "celular":              "+524651068560"
+          }
+      },
       },
     },
   })
   @ApiResponse({
     status: 401,
-    description: 'ECCS: AriesERP - Actualizaciones.',
+    description: 'ScorpioXL - Modulo App - Empresas Actualizar.',
     content: {
       'application/json': {
         example: {
@@ -129,7 +125,7 @@ export class EmpresaController {
     @Body() EmpresasDTO: EmpresasDTO,
     @GetUser('id') idUser: number,
   ) {
-    return this.Service.Agregar(idUser, EmpresasDTO);
+    return this.Service.Actualizar(idUser, EmpresasDTO);
   }
 
   @Post('eliminar/:id')
@@ -147,9 +143,8 @@ export class EmpresaController {
           Mensaje: 'Operacion Realizada con exito.',
           Response: {
             Success: true,
-            Titulo: 'ECCS: AriesERP - Actualizaciones.',
-            Mensaje: 'Operación Realizada con éxito.',
-            Response: 'Verificar el codigo de seguridad.',
+            Titulo:  'Registro eliminado',
+            Mensaje: 'Operación Realizada con éxito.'
           },
         },
       },
@@ -176,7 +171,4 @@ export class EmpresaController {
   ) {
     return this.Service.Eliminar(idUser, id);
   }
-
-
-  
 }

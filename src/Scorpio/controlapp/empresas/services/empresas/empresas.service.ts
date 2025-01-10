@@ -71,19 +71,17 @@ export class EmpresasService {
   
   public async Actualizar( clientId: number, EmpresasDTO: EmpresasDTO ): Promise<ResponseDto<any>> {
     try {
-      // Obtener la conexión adecuada según el cliente.
-      const connection = await this.dbConnectionService.getConnection(clientId);
-      
-      // Buscar la entidad existente utilizando el ID o algún otro identificador
-      const empresaExistente = await connection.manager.findOne(scorpio_empresa, {
-        where: { id: EmpresasDTO.id },  // Usamos el id desde el DTO para buscar
-      });
+
+      const connection        = await this.dbConnectionService.getConnection(clientId);
+      const Repository        = await connection.getRepository(scorpio_empresa);
+      const row               = await Repository.preload(EmpresasDTO);
+      const response          = await Repository.save(row);
 
       return {
         Success:  true,
         Titulo:   'OrionWS: Scorpio XL - Modulo App - Empresas Actualizar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: empresaExistente,
+        Response: response,
       };
     } catch (error) {
       throw new HttpException(
