@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ControlappService } from '@shared/Arieserp/services/controlapp/controlapp.service';
 import { Auth, GetUser } from 'src/auth/decorators';

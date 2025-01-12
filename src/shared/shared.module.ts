@@ -4,9 +4,10 @@ import { DatabaseConnectionService } from './eccs/DatabaseConnectionService';
 import { AuthModule } from 'src/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ControlappService } from './Arieserp/services/controlapp/controlapp.service';
-import { LstController } from './arieserp/controllers/lst/lst.controller';
+import { LstController } from './Arieserp/controllers/lst/lst.controller';
 
 @Module({
+  controllers: [LstController],
   providers:[ 
                 DatabaseConnectionService, 
                 ControlappService
@@ -16,7 +17,6 @@ import { LstController } from './arieserp/controllers/lst/lst.controller';
             ConfigModule, 
             TypeOrmModule.forFeature([])
           ],
-  exports: [TypeOrmModule],
-  controllers: [LstController],
+  exports: [TypeOrmModule]
 })
 export class SharedModule {}
