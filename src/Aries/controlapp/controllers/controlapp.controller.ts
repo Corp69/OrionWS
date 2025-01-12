@@ -17,7 +17,7 @@ export class ControlAppController {
       required: true,
       type: Number, // Especificamos que el tipo es un número
     })
-    @ApiOperation({ summary: 'AriesERP - Modulo Configuraciones - Activas.' })
+    @ApiOperation({ summary: 'OrionWS: AriesERP - Modulo Configuraciones - Activas.' })
     @ApiResponse({
       status: 200,
       description: 'AriesERP - Modulo Configuraciones - Activas.',
@@ -44,7 +44,20 @@ export class ControlAppController {
         },
       },
     })
+    @ApiResponse({
+      status: 401,
+      description: 'OrionWS: AriesERP - Modulo App - Empresas.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'Unauthorized',
+            statusCode: 401,
+          },
+        },
+      },
+    })
     @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
     @ApiResponse({ status: 500, description: 'Error interno del servidor' })
     getConf( @GetUser('id') idUser: number, @Param('id') id: number ) {
        return this.Service.Configuraciones( idUser, id );
@@ -104,13 +117,22 @@ export class ControlAppController {
         },
       },
     })
+    @ApiResponse({
+      status: 401,
+      description: 'OrionWS: AriesERP - Modulo Configuraciones - Menu.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'Unauthorized',
+            statusCode: 401,
+          },
+        },
+      },
+    })
     @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
     @ApiResponse({ status: 500, description: 'Error interno del servidor' })
     getMenu ( @GetUser('id') idUser: number, @Param('id') id: number ) {
        return this.Service.Menu( idUser, id );
     }  
-
-
-
-
 }

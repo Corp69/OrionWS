@@ -102,7 +102,7 @@ export class EmpresasService {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`delete from scorpio_empresa id =${ id }`);
+      const data = await connection.query(`delete from scorpio_empresa where id =${ id }`);
       return {
         Success:  true,
         Titulo:   'OrionWS: Scorpio XL - Modulo App - Empresas Elimiar',

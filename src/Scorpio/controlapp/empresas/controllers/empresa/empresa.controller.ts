@@ -52,7 +52,7 @@ export class EmpresaController {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
+          Titulo:  'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
           Mensaje: 'Operación Realizada con exito.',
           Response: {
             id: 1,

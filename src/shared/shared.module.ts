@@ -4,6 +4,7 @@ import { DatabaseConnectionService } from './eccs/DatabaseConnectionService';
 import { AuthModule } from 'src/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ControlappService } from './Arieserp/services/controlapp/controlapp.service';
+import { LstController } from './arieserp/controllers/lst/lst.controller';
 
 @Module({
   providers:[ 
@@ -16,5 +17,6 @@ import { ControlappService } from './Arieserp/services/controlapp/controlapp.ser
             TypeOrmModule.forFeature([])
           ],
   exports: [TypeOrmModule],
+  controllers: [LstController],
 })
 export class SharedModule {}
