@@ -2,8 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 
-import { EmpresasDTO } from '../../dtos/empresas.dto';
-import { arieserp_empresa } from '../../entities/scorpio_empresa.entity';
+import { EmpresasDTO } from '../../dtos/arieserp_empresas.dto';
+import { arieserp_empresa } from '../../entities/arieserp_empresa.entity';
 
 @Injectable()
 export class EmpresaService {
