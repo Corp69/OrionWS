@@ -43,16 +43,16 @@ export class EmpresaController {
 
   @Post('agregar')
   @ApiOperation({
-    summary: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
+    summary: 'Scorpio XL - Modulo XML - Razon Social Agregar',
   })
   @ApiResponse({
     status: 200,
-    description: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar.',
+    description: 'Scorpio XL - Modulo XML - Razon Social Agregar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo:  'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
+          Titulo:  'Scorpio XL - Modulo XML - Razon Social Agregar',
           Mensaje: 'Operación Realizada con exito.',
           Response: {
             id: 1,
@@ -112,7 +112,7 @@ export class EmpresaController {
     content: {
       'application/json': {
         example: {
-          message: 'Unauthorized',
+          message: 'No tienes Autorizacion.',
           statusCode: 401,
         },
       },
@@ -138,25 +138,21 @@ export class EmpresaController {
     content: {
       'application/json': {
         example: {
-          Success: true,
-          Titulo: 'ScorpioXL - Modulo App - Empresas Eliminar.',
-          Mensaje: 'Operacion Realizada con exito.',
-          Response: {
-            Success: true,
-            Titulo:  'Registro eliminado',
-            Mensaje: 'Operación Realizada con éxito.'
-          },
+          Success:  true,
+          Titulo:   'ScorpioXL - Modulo App - Empresas Eliminar.',
+          Mensaje:  'Operacion Realizada con exito.',
+          Response: 'Registro eliminado.'
         },
       },
     },
   })
   @ApiResponse({
     status: 401,
-    description: 'ECCS: AriesERP - Actualizaciones.',
+    description: 'ScorpioXL - Modulo App - Empresas Eliminar.',
     content: {
       'application/json': {
         example: {
-          message: 'Unauthorized',
+          message: 'No tienes Autorizacion.',
           statusCode: 401,
         },
       },

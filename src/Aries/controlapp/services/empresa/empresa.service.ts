@@ -23,7 +23,7 @@ export class EmpresaService {
       );
       return {
         Success:  true,
-        Titulo:   'OrionWS: AriesERP - Modulo App - Empresas.',
+        Titulo:   'AriesERP - Modulo App - Empresas.',
         Mensaje:  'Operacion Realizada con exito.',
         Response: data[0].app_empresas,
       };
@@ -31,7 +31,7 @@ export class EmpresaService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: AriesERP - Modulo App - Empresas.',
+          Titulo:   'AriesERP - Modulo App - Empresas.',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -49,7 +49,7 @@ export class EmpresaService {
       let savedEntity = await repository.save(repository.create(empresaData)); 
       return {
         Success:  true,
-        Titulo:   'OrionWS: AriesERP - Modulo App - Empresas Agregar',
+        Titulo:   'AriesERP - Modulo App - Empresas Agregar',
         Mensaje:  'Operacion Realizada con exito.',
         Response: savedEntity,
       };
@@ -57,7 +57,7 @@ export class EmpresaService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: AriesERP - Modulo App - Empresas Agregar',
+          Titulo:   'AriesERP - Modulo App - Empresas Agregar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -76,7 +76,7 @@ export class EmpresaService {
 
       return {
         Success:  true,
-        Titulo:   'OrionWS: AriesERP - Modulo App - Empresas Actualizar',
+        Titulo:   'AriesERP - Modulo App - Empresas Actualizar',
         Mensaje:  'Operacion Realizada con exito.',
         Response: response,
       };
@@ -84,7 +84,7 @@ export class EmpresaService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: AriesERP - Modulo App - Empresas Actualizar',
+          Titulo:   'AriesERP - Modulo App - Empresas Actualizar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -102,15 +102,15 @@ export class EmpresaService {
       const data = await connection.query(`delete from arieserp_empresa where id = ${ id }`);
       return {
         Success:  true,
-        Titulo:   'OrionWS: AriesERP - Modulo App - Empresas Elimiar',
+        Titulo:   'AriesERP - Modulo App - Empresas Elimiar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data,
+        Response: "Registro eliminado.",
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: AriesERP - Modulo App - Empresas Elimiar',
+          Titulo:   'AriesERP - Modulo App - Empresas Elimiar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },

@@ -15,8 +15,6 @@ export class EmpresasService {
     private readonly dbConnectionService: DatabaseConnectionService
   ) {}
 
-
-
   public async Agregar( clientId: number, EmpresasDTO: EmpresasDTO ): Promise<ResponseDto<any>> {
     try {
       let connection = await this.dbConnectionService.getConnection(clientId);
@@ -25,9 +23,9 @@ export class EmpresasService {
       let savedEntity = await repository.save(repository.create(empresaData)); 
       return {
         Success:  true,
-        Titulo:   'OrionWS: Scorpio XL - Modulo App - Empresas Agregar',
+        Titulo:   'Scorpio XL - Modulo App - Empresas Agregar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: savedEntity,
+        Response: 'Se Almacenó Correctamente !',
       };
     } catch (error) {
       console.log( error );
@@ -35,7 +33,7 @@ export class EmpresasService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: Scorpio XL- Modulo App - Empresas Agregar',
+          Titulo:   'Scorpio XL- Modulo App - Empresas Agregar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -52,7 +50,7 @@ export class EmpresasService {
       const data = await connection.query(`SELECT "scorpio".app_empresas()`);
       return {
         Success:  true,
-        Titulo:   'OrionWS: Scorpio XL - Modulo App - Empresas.',
+        Titulo:   'Scorpio XL - Modulo App - Empresas.',
         Mensaje:  'Operacion Realizada con exito.',
         Response: data[0].app_empresas,
       };
@@ -60,7 +58,7 @@ export class EmpresasService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: Scorpio XL- Modulo App - Empresas.',
+          Titulo:   'Scorpio XL- Modulo App - Empresas.',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -79,15 +77,15 @@ export class EmpresasService {
 
       return {
         Success:  true,
-        Titulo:   'OrionWS: Scorpio XL - Modulo App - Empresas Actualizar',
+        Titulo:   'Scorpio XL - Modulo App - Empresas Actualizar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: response,
+        Response: 'Se Actualizó Correctamente!',
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: Scorpio XL- Modulo App - Empresas Actualizar',
+          Titulo:   'Scorpio XL- Modulo App - Empresas Actualizar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -95,25 +93,24 @@ export class EmpresasService {
       );
     }
   }
-
 
   public async Eliminar( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`delete from scorpio_empresa where id =${ id }`);
+      const data = await connection.query(`delete from scorpio_empresa where id = ${ id }`);
       return {
         Success:  true,
-        Titulo:   'OrionWS: Scorpio XL - Modulo App - Empresas Elimiar',
+        Titulo:   'Scorpio XL - Modulo App - Empresas Elimiar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data,
+        Response: "Registro eliminado",
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'OrionWS: Scorpio XL- Modulo App - Empresas Elimiar',
+          Titulo:   'Scorpio XL- Modulo App - Empresas Elimiar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -121,6 +118,5 @@ export class EmpresasService {
       );
     }
   }
-
-
+  
 }

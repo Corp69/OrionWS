@@ -14,15 +14,15 @@ export class EmpresaController {
 
 
   @Get('Obtener')
-  @ApiOperation({ summary: 'OrionWS: AriesERP - Modulo App - Empresas.' })
+  @ApiOperation({ summary: 'AriesERP - Modulo App - Empresas.' })
   @ApiResponse({
     status: 200,
-    description: 'OrionWS: AriesERP - Modulo App - Empresas.',
+    description: 'AriesERP - Modulo App - Empresas.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo:  'OrionWS: AriesERP - Modulo App - Empresas.',
+          Titulo:  'AriesERP - Modulo App - Empresas.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: {
             empresas: [
@@ -44,11 +44,11 @@ export class EmpresaController {
   })
   @ApiResponse({
     status: 401,
-    description: 'OrionWS: AriesERP - Modulo App - Empresas.',
+    description: 'AriesERP - Modulo App - Empresas.',
     content: {
       'application/json': {
         example: {
-          message: 'Unauthorized',
+          message: 'No tienes Autorizacion.',
           statusCode: 401,
         },
       },
@@ -64,16 +64,16 @@ export class EmpresaController {
   
   @Post('agregar')
   @ApiOperation({
-    summary: 'OrionWS: AriesERP - Modulo App - Empresas Agregar',
+    summary: 'AriesERP - Modulo App - Empresas Agregar',
   })
   @ApiResponse({
     status: 200,
-    description: 'OrionWS: AriesERP - Modulo App - Empresas Agregar.',
+    description: 'AriesERP - Modulo App - Empresas Agregar.',
     content: {
       'application/json': {
         example: {
           Success:  true,
-          Titulo:   'OrionWS: AriesERP - Modulo App - Empresas Agregar',
+          Titulo:   'AriesERP - Modulo App - Empresas Agregar',
           Mensaje:  'Operación Realizada con exito.',
           Response: "Su licencia solo permite 1 empresa(s)"
         },
@@ -82,11 +82,11 @@ export class EmpresaController {
   })
   @ApiResponse({
     status: 401,
-    description: 'OrionWS: AriesERP - Modulo App - Empresas Agregar.',
+    description: 'AriesERP - Modulo App - Empresas Agregar.',
     content: {
       'application/json': {
         example: {
-          message: 'Unauthorized',
+          message: 'No tienes Autorizacion.',
           statusCode: 401,
         },
       },
@@ -105,16 +105,16 @@ export class EmpresaController {
 
   @Post('actualizar')
   @ApiOperation({
-    summary: "OrionWS: AriesERP - Modulo App - Empresas Actualizar",
+    summary: "AriesERP - Modulo App - Empresas Actualizar",
   })
   @ApiResponse({
     status: 200,
-    description: "OrionWS: AriesERP - Modulo App - Empresas Actualizar.",
+    description: "AriesERP - Modulo App - Empresas Actualizar.",
     content: {
       'application/json': {
         example: {
           Success:  true,
-          Titulo:   "OrionWS: AriesERP - Modulo App - Empresas Actualizar",
+          Titulo:   "AriesERP - Modulo App - Empresas Actualizar",
           Mensaje:  "Operacion Realizada con exito.",
           Response: {
               "id":                   1,
@@ -133,11 +133,11 @@ export class EmpresaController {
   })
   @ApiResponse({
     status: 401,
-    description: 'OrionWS: AriesERP - Modulo App - Empresas Actualizar.',
+    description: 'AriesERP - Modulo App - Empresas Actualizar.',
     content: {
       'application/json': {
         example: {
-          message: 'Unauthorized',
+          message: 'No tienes Autorizacion.',
           statusCode: 401,
         },
       },
@@ -167,22 +167,18 @@ export class EmpresaController {
           Success: true,
           Titulo:  'AriesERP - Modulo App - Empresas Eliminar.',
           Mensaje: 'Operacion Realizada con exito.',
-          Response: {
-            Success: true,
-            Titulo:  'Registro eliminado',
-            Mensaje: 'Operación Realizada con éxito.'
-          },
+          Response: "Registro eliminado."
         },
       },
     },
   })
   @ApiResponse({
     status: 401,
-    description: 'OrionWS: AriesERP - Modulo App - Empresas Eliminar.',
+    description: 'AriesERP - Modulo App - Empresas Eliminar.',
     content: {
       'application/json': {
         example: {
-          message: 'Unauthorized',
+          message: 'No tienes Autorizacion.',
           statusCode: 401,
         },
       },
