@@ -6,14 +6,22 @@ import { AuthModule } from 'src/auth/auth.module';
 //SERVICIO GLOBAL
 import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 //CONTROLLERS
-import { EmpleadosController } from './controllers/empleados.controller';
+import { EmpleadodomicilioController } from './controllers/empleadodomicilio/empleadodomicilio.controller';
+import { EmpleadoController } from './controllers/empleado/empleado.controller';
 //SERVICIOS
-import { EmpleadosService } from './services/empleados.service';
+import { EmpleadoDomicilioService } from './services/empleadodomicilio/empleadodomicilio.service';
+import { EmpleadoService } from './services/empleado/empleado.service';
 
 
 @Module({
-    controllers: [ EmpleadosController ],
-    providers:   [ EmpleadosService, DatabaseConnectionService  ],
+    controllers: [ 
+      EmpleadoController, 
+      EmpleadodomicilioController 
+    ],
+    providers:   [ 
+        EmpleadoService, 
+        EmpleadoDomicilioService, 
+        DatabaseConnectionService  ],
     imports: [
         AuthModule,
         ConfigModule,
