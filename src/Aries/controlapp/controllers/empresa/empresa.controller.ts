@@ -4,7 +4,7 @@ import { Auth, GetUser } from 'src/auth/decorators';
 import { EmpresaService } from '../../services/empresa/empresa.service';
 
 
-import { EmpresasDTO } from '../../dtos/empresas.dto';
+import { EmpresasDTO } from '../../dtos/arieserp_empresas.dto';
 
 @ApiTags('OrionWS - AriesERP - Modulo App.')
 @Controller('arieserp/empresa')
