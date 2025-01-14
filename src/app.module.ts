@@ -18,11 +18,11 @@ import { ConfiguracionesModule }      from './Aries/configuraciones/configuracio
 import { ScorpioModule } from './Scorpio/scorpio.module';
 //shared
 import { SharedModule } from './shared/shared.module';
-import { ControlcomprasModule } from './aries/controlcompras/controlcompras.module';
-import { ControllogisticaModule } from './aries/controllogistica/controllogistica.module';
-import { ControlventasModule } from './aries/controlventas/controlventas.module';
-import { ControlpmiModule } from './aries/controlpmi/controlpmi.module';
-import { ControlpuntoventaModule } from './aries/controlpuntoventa/controlpuntoventa.module';
+import { ControlcomprasModule } from './Aries/controlcompras/controlcompras.module';
+import { ControllogisticaModule } from './Aries/controllogistica/controllogistica.module';
+import { ControlventasModule } from './Aries/controlventas/controlventas.module';
+import { ControlpmiModule } from './Aries/controlpmi/controlpmi.module';
+import { ControlpuntoventaModule } from './Aries/controlpuntoventa/controlpuntoventa.module';
 
 @Module({
   imports: [
