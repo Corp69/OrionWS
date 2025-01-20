@@ -26,10 +26,12 @@ import { ControlsatModule }           from './controlsat/controlsat.module';
 import { ControlsoporteModule }       from './controlsoporte/controlsoporte.module';
 import { ControlverificacionModule }  from './controlverificacion/controlverificacion.module';
 import { ControlexportacionesModule } from './controlexportaciones/controlexportaciones.module';
+import { ConfiguracionesController } from './controlapp/controllers/configuraciones/configuraciones.controller';
 import { ControlimpuestosModule }     from './controlimpuestos/controlimpuestos.module';
 import { ControlbancoModule }         from './controlbanco/controlbanco.module';
 import { ControlconfigModule }        from './controlconfig/controlconfig.module';
 import { ControlbitacoraModule }      from './controlbitacora/controlbitacora.module';
+import { ConfiguracionesService } from './controlapp/services/configuraciones/configuraciones.service';
 
 @Module({
     controllers: 
@@ -40,7 +42,8 @@ import { ControlbitacoraModule }      from './controlbitacora/controlbitacora.mo
       SyncController, 
       ComprobantesController, 
       MulticomController, 
-      CertificadosController
+      CertificadosController, 
+      ConfiguracionesController
 
       //MODULO SCORPIO
    ],
@@ -52,6 +55,7 @@ import { ControlbitacoraModule }      from './controlbitacora/controlbitacora.mo
       //control app
       EmpresasService,     
       CertificadosService,
+      ConfiguracionesService,
       
       //XML
       SocialService, 
