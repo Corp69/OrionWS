@@ -13,10 +13,10 @@ export class EmpresasDTO {
   @ApiProperty({
     example: 1,
     description:
-      'ID: identificador de la empresa dentro de Scorpio',
+      'ID: identificador de la empresa dentro de AriesERP',
     uniqueItems: true,
   })
-  id?: number;
+  id: number;
 
   @ApiProperty({
     example: 'XAOXAX',
@@ -24,8 +24,8 @@ export class EmpresasDTO {
     uniqueItems: true,
   })
   @IsString({ message: 'rfc: debe ser String' })
-  @MinLength(12, { message: 'debe tener al menos 12.' })
-  @MaxLength(14, { message: 'debe exceder a 14 digitos.' })
+  @MinLength(12, { message: 'El RFC debe tener al menos 12 caracteres.' })
+  @MaxLength(14, { message: 'El RFC no debe exceder a 14 digitos.' })
   rfc: string;
 
   @ApiProperty({
