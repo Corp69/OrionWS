@@ -19,7 +19,6 @@ import { ProveedorDomicilioService } from './services/proveedordomicilio/proveed
     ],
     providers:[ 
       DatabaseConnectionService,
-      ProveedorController, 
       ProveedorService, 
       ProveedorDomicilioService   
     ],
