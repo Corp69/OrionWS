@@ -1,229 +1,158 @@
 import {
-  BadRequestException,
-  Body,
   Controller,
-  Param,
-  Post,
-  UploadedFile,
-  UseInterceptors,
+  Post
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SocialService } from '../../services/social/social.service';
-
-import {
-  SocialCreateDto,
-  SocialDeleteDto,
-  SocialLstDto,
-} from '../../dtos/social';
-
 import { Auth, GetUser } from 'src/auth/decorators';
-//shared
-//files
-import { FileInterceptor } from '@nestjs/platform-express';
-import {
-  fileFilterCer,
-  fileFilterKey,
-  fileFilterPfx,
-  fileFilterTxt,
-} from '@shared/file/helpers';
 
 @ApiTags('OrionWS - Scorpio XL - XML - Empresas')
 @Controller('scorpio/social')
 @Auth()
 export class SocialController {
+  
   constructor(private readonly Service: SocialService) {}
 
   @Post('lst')
   @ApiOperation({
-    summary: 'OrionWS: Scorpio XL - Modulo XML - Lista Razon Social',
+    summary: 'Scorpio XL - Modulo XML - Lista Razon Social',
   })
   @ApiResponse({
     status: 200,
-    description: 'OrionWS: Scorpio XL - Modulo XML - Lista Razon Social.',
+    description: 'Scorpio XL - Modulo XML - Lista Razon Social.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Lista Razon Social',
+          Titulo: 'Scorpio XL - Modulo XML - Lista Razon Social',
           Mensaje: 'Operación Realizada con exito.',
           Response: {
-            codigo: 0,
-            mensaje: 'No se encontró el parámetro userPade, favor de verificar',
-            respuesta: '',
+            "razonesSociales": [
+              {
+                  "fecha_inicio_sync": "2025-01-01",
+                  "fecha_ult_sync": "2025-01-16",
+                  "habilitado": 1,
+                  "id_csd": "",
+                  "id_razon_social": 545,
+                  "maxComprobantesMensual": 100,
+                  "numero_certificado": "00001000000508406949",
+                  "razon_social": "JUAN ARAIZA HERRERA",
+                  "rfc": "AAHJ800303EH9",
+                  "sync": "fiel"
+              }
+          ]
           },
         },
       },
     },
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Scorpio XL - Modulo XML - Lista Razon Social',
+    content: {
+      'application/json': {
+        example: {
+          message: 'No tienes Autorizacion.',
+          statusCode: 401,
+        },
+      },
+    },
+  })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public lst(@Body() SocialLstDto: SocialLstDto) {
-    return this.Service.XML_Social_Lst(SocialLstDto);
+  public lst( @GetUser('id') idUser: number ) {
+    return this.Service.XML_Social_Lst(idUser);
   }
 
   @Post('agregar')
   @ApiOperation({
-    summary: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
+    summary: 'Scorpio XL - Modulo XML - Razon Social Agregar',
   })
   @ApiResponse({
     status: 200,
-    description: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar.',
+    description: 'Scorpio XL - Modulo XML - Razon Social Agregar.',
     content: {
       'application/json': {
         example: {
-          Success: true,
-          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
-          Mensaje: 'Operación Realizada con exito.',
-          Response: {
-            id: 1,
-            rfc: 'CAVA03231997ECCS',
-            observaciones: 'empresa de inovacion',
-            nombrecomercial: 'ECCS',
-            aviso_privacidad: 'X',
-            id_sat_usocfdi: 1,
-            id_sat_regimenfiscal: 1,
-            id_estatus: 1,
-            celular: '+524651068560',
-          },
+          Success:  true,
+          Titulo:   "Scorpio XL - Modulo XML - Razon Social Agregar",
+          Mensaje:  "Operación Realizada con exito.",
+          Response: "Se Agrego la empresa syncronizando con el SAT.",
+        },
+      },
+    },
+  })  
+  @ApiResponse({
+    status: 401,
+    description: 'Scorpio XL - Modulo XML - Razon Social Agregar',
+    content: {
+      'application/json': {
+        example: {
+          message: 'No tienes Autorizacion.',
+          statusCode: 401,
         },
       },
     },
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public Create(
-    @Body() SocialCreateDto: SocialCreateDto,
-    @GetUser('id') idUser: number,
-  ) {
-    return this.Service.XML_Social_Create(idUser, SocialCreateDto);
-  }
-
-  @Post('agregarKey/:id')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      fileFilter: fileFilterKey,
-      // limits: { fileSize: 1000 }
-    }),
-  )
-  public key(
-    @Param('id') id: number,
-    @GetUser('id') idUser: number,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    if (!file) {
-      throw new BadRequestException('No es un Archivo .key');
-    }
-    const base64Encoded = file.buffer.toString('base64');
-    return this.Service.XML_Social_Create_key(idUser, id, base64Encoded);
-  }
-
-  @Post('agregarCer/:id')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      fileFilter: fileFilterCer,
-      // limits: { fileSize: 1000 }
-    }),
-  )
-  public Cer(
-    @Param('id') id: number,
-    @GetUser('id') idUser: number,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    if (!file) {
-      throw new BadRequestException('No es un Archivo .cer');
-    }
-    const base64Encoded = file.buffer.toString('base64');
-    return this.Service.XML_Social_Create_cer(idUser, id, base64Encoded);
-  }
-
-  @Post('agregarTxt/:id')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      fileFilter: fileFilterTxt,
-      // limits: { fileSize: 1000 }
-    }),
-  )
-  public Txt(
-    @Param('id') id: number,
-    @GetUser('id') idUser: number,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    if (!file) {
-      throw new BadRequestException('No es un Archivo .txt');
-    }
-    const base64Encoded = file.buffer.toString('base64');
-    return this.Service.XML_Social_Create_txt(idUser, id, base64Encoded);
-  }
-
-  @Post('agregarPFX/:id')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      fileFilter: fileFilterPfx,
-      // limits: { fileSize: 1000 }
-    }),
-  )
-  public Pfx(
-    @Param('id')    id:     number,
-    @GetUser('id')  idUser: number,
-    @UploadedFile() file:   Express.Multer.File,
-  ) 
-  {
-    if (!file) {
-    throw new BadRequestException('No es un Archivo .pfx');
-    }
-    const base64Encoded = file.buffer.toString('base64');
-    return this.Service.XML_Create_pfx(idUser, id, base64Encoded);
+  public Create( @GetUser('id') idUser: number ) {
+    return this.Service.XML_Social_Create(idUser);
   }
 
   @Post('actualizar')
   @ApiOperation({
-    summary: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Actualizar',
+    summary: 'Scorpio XL - Modulo XML - Razon Social Actualizar',
   })
   @ApiResponse({
     status: 200,
-    description: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Actualizar.',
+    description: 'Scorpio XL - Modulo XML - Razon Social Actualizar.',
     content: {
       'application/json': {
           example: {
             "Success": true,
-            "Titulo":  "OrionWS: Scorpio XL - Modulo App - Empresas Actualizar",
+            "Titulo":  "Scorpio XL - Modulo XML - Razon Social Actualizar",
             "Mensaje": "Operación realizada con éxito.",
-            "Response": {
-                "id":                   1,
-                "rfc":                  "asaseeeeeeeee",
-                "observaciones":        "test",
-                "nombrecomercial":      "Opticas Zac",
-                "aviso_privacidad":     "X",
-                "id_sat_usocfdi":       1,
-                "id_sat_regimenfiscal": 1,
-                "id_estatus":           1,
-                "celular":              "+524651068560"
-            }
+            "Response": "Se Actualizó Correctamente"
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Scorpio XL - Modulo XML - Razon Social Actualizar',
+    content: {
+      'application/json': {
+        example: {
+          message: 'No tienes Autorizacion.',
+          statusCode: 401,
         },
       },
     },
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Update(
-    @GetUser('id') idUser: number,
-    @Body() SocialCreateDto: SocialCreateDto,
+    @GetUser('id') idUser: number
   ) {
-    return this.Service.XML_Social_Update(idUser, SocialCreateDto);
+    return this.Service.XML_Social_Update(idUser);
   }
 
   @Post('eliminar')
   @ApiOperation({
-    summary: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Eliminar',
+    summary: 'Scorpio XL - Modulo XML - Razon Social Eliminar',
   })
   @ApiResponse({
     status: 200,
-    description: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Eliminar.',
+    description: 'Scorpio XL - Modulo XML - Razon Social Eliminar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Razon Social Eliminar',
+          Titulo: 'Scorpio XL - Modulo XML - Razon Social Eliminar',
           Mensaje: 'Operación Realizada con exito.',
           Response: {
             codigo: 0,
@@ -237,10 +166,8 @@ export class SocialController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Delete(
-    // @Param('id')    id: number,
-    @GetUser('id') idUser: number,
-    @Body() SocialDeleteDto: SocialDeleteDto,
+    @GetUser('id') idUser: number
   ) {
-    return this.Service.XML_Social_Delete(idUser, SocialDeleteDto);
+    return this.Service.XML_Social_Delete(idUser);
   }
 }

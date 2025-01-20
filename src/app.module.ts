@@ -18,6 +18,11 @@ import { ConfiguracionesModule }      from './Aries/configuraciones/configuracio
 import { ScorpioModule } from './Scorpio/scorpio.module';
 //shared
 import { SharedModule } from './shared/shared.module';
+import { ControlcomprasModule } from './Aries/controlcompras/controlcompras.module';
+import { ControllogisticaModule } from './Aries/controllogistica/controllogistica.module';
+import { ControlventasModule } from './Aries/controlventas/controlventas.module';
+import { ControlpmiModule } from './Aries/controlpmi/controlpmi.module';
+import { ControlpuntoventaModule } from './Aries/controlpuntoventa/controlpuntoventa.module';
 
 @Module({
   imports: [
@@ -59,6 +64,11 @@ import { SharedModule } from './shared/shared.module';
       ControlAppModule,
       ControlContabilidadModule,
       ControlRhModule,
+      ControlcomprasModule,
+      ControllogisticaModule,
+      ControlventasModule,
+      ControlpmiModule,
+      ControlpuntoventaModule,
       //datasource
       ConfiguracionesModule,
       //Space

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 import { arieserp_empresa } from 'src/Aries/controlapp/entities/arieserp_empresa.entity';
-import { scorpio_empresa }  from 'src/Scorpio/controlapp/empresas/entities/scorpio_empresa.entity';
+import { scorpio_empresa }  from 'src/Scorpio/controlapp/entities/empresa/scorpio_empresa.entity';
 
 
 @Injectable()

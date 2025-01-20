@@ -1,28 +1,34 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post
+} from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+//dtos
+import { EmpresasDTO } from '../../dtos/empresa/empresas.dto'
+// modulo - decorador
 import { Auth, GetUser } from 'src/auth/decorators';
-import { EmpresaService } from '../../services/empresa/empresa.service';
+//services
+import { EmpresasService } from '../../services/empresas/empresas.service';
 
-
-import { EmpresasDTO } from '../../dtos/arieserp_empresas.dto';
-
-@ApiTags('OrionWS - AriesERP - Modulo App.')
-@Controller('arieserp/empresa')
+@ApiTags('OrionWS - Scorpio XL - Modulo App - Empresas')
+@Controller('scorpio/empresas')
 @Auth()
 export class EmpresaController {
-  constructor(private readonly Service: EmpresaService) {}
-
+  constructor(private readonly Service: EmpresasService) {}
 
   @Get('obtener')
-  @ApiOperation({ summary: 'AriesERP - Modulo App - Empresas.' })
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - Empresas.' })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Empresas.',
+    description: 'Scorpio XL - Modulo App - Empresas.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo:  'AriesERP - Modulo App - Empresas.',
+          Titulo:  'Scorpio XL - Modulo App - Empresas.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: {
             empresas: [
@@ -44,7 +50,7 @@ export class EmpresaController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Empresas.',
+    description: 'Scorpio XL - Modulo App - Empresas.',
     content: {
       'application/json': {
         example: {
@@ -61,39 +67,36 @@ export class EmpresaController {
     return this.Service.getEmpresa(idUser);
   }
 
-  
   @Post('agregar')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Empresas Agregar',
+    summary: 'OrionWS: Scorpio XL - Modulo App - Razon Social Agregar',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Empresas Agregar.',
+    description: 'OrionWS: Scorpio XL - Modulo App - Razon Social Agregar.',
     content: {
       'application/json': {
         example: {
-          Success:  true,
-          Titulo:   'AriesERP - Modulo App - Empresas Agregar',
-          Mensaje:  'Operación Realizada con exito.',
-          Response: "Su licencia solo permite 1 empresa(s)"
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'AriesERP - Modulo App - Empresas Agregar.',
-    content: {
-      'application/json': {
-        example: {
-          message: 'No tienes Autorizacion.',
-          statusCode: 401,
+          Success: true,
+          Titulo: 'OrionWS: Scorpio XL - Modulo App - Razon Social Agregar',
+          Mensaje: 'Operación Realizada con exito.',
+          Response: {
+                id: 1,
+                rfc: 'CAVA03231997ECCS',
+                observaciones: 'empresa de inovacion',
+                nombrecomercial: 'ECCS',
+                aviso_privacidad: 'X',
+                id_sat_usocfdi: 1,
+                id_sat_regimenfiscal: 1,
+                id_estatus: 1,
+                celular: '+524651068560',
+                maxcomprobantesmensual: 1000,
+          },
         },
       },
     },
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
-  @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Create(
     @Body() EmpresasDTO: EmpresasDTO,
@@ -102,70 +105,56 @@ export class EmpresaController {
     return this.Service.Agregar(idUser, EmpresasDTO);
   }
 
-
   @Post('actualizar')
   @ApiOperation({
-    summary: "AriesERP - Modulo App - Empresas Actualizar",
+    summary: 'OrionWS: Scorpio XL - Modulo App - Razon Social Actualizar',
   })
   @ApiResponse({
     status: 200,
-    description: "AriesERP - Modulo App - Empresas Actualizar.",
+    description: 'OrionWS: Scorpio XL - Modulo App - Razon Social Actualizar.',
     content: {
       'application/json': {
-        example: {
-          Success:  true,
-          Titulo:   "AriesERP - Modulo App - Empresas Actualizar",
-          Mensaje:  "Operacion Realizada con exito.",
-          Response: {
-              "id":                   1,
-              "rfc":                  "CAVA23197ECCS",
-              "observaciones":        "s",
-              "nombrecomercial":      "Opticas Zac",
-              "aviso_privacidad":     "x",
-              "id_sat_usocfdi":       1,
-              "id_sat_regimenfiscal": 1,
-              "id_estatus":           1,
-              "celular":              "+524651068560"
-          }
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'AriesERP - Modulo App - Empresas Actualizar.',
-    content: {
-      'application/json': {
-        example: {
-          message: 'No tienes Autorizacion.',
-          statusCode: 401,
+          example: {
+              Success: true,
+              Titulo:  "OrionWS: Scorpio XL - Modulo App - Empresas Actualizar",
+              Mensaje: "Operación realizada con éxito.",
+              Response: {
+                  id:                   1,
+                  rfc:                  "CAVA102344FFK",
+                  observaciones:        "test",
+                  nombrecomercial:      "Opticas Zac",
+                  aviso_privacidad:     "X",
+                  id_sat_usocfdi:       1,
+                  id_sat_regimenfiscal: 1,
+                  id_estatus:           1,
+                  celular:              "+524651068560",
+                  maxcomprobantesmensual: 1000
+            }
         },
       },
     },
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
-  @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Update(
-    @Body() EmpresasDTO: EmpresasDTO,
     @GetUser('id') idUser: number,
+    @Body() EmpresasDTO: EmpresasDTO,
   ) {
     return this.Service.Actualizar(idUser, EmpresasDTO);
   }
 
-  
   @Post('eliminar/:id')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Empresas Eliminar.',
+    summary: 'Scorpio XL - Modulo App - Empresas Eliminar.',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Empresas Eliminar.',
+    description: 'Scorpio XL - Modulo App - Empresas Eliminar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo:  'AriesERP - Modulo App - Empresas Eliminar.',
+          Titulo:  'Scorpio XL - Modulo App - Empresas Eliminar.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: "Registro eliminado."
         },
@@ -174,7 +163,7 @@ export class EmpresaController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Empresas Eliminar.',
+    description: 'Scorpio XL - Modulo App - Empresas Eliminar.',
     content: {
       'application/json': {
         example: {
@@ -193,6 +182,5 @@ export class EmpresaController {
   ) {
     return this.Service.Eliminar(idUser, id);
   }
-
 
 }
