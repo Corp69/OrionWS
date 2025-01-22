@@ -6,15 +6,15 @@ import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionServic
 // Modulos heredados
 import { AuthModule } from 'src/auth/auth.module';
 /// controllers
-import { ClineteController } from './controllers/cliente/cliente.controller';
+import { ClientesController } from './controllers/clientes/clientes.controller';
 import { ClientedomicilioController } from './controllers/clientedomicilio/clientedomicilio.controller';
 // servicios 
 import { ClienteDomicilioService } from './services/clientedomicilio/clientedomicilio.service';
-import { ClienteService } from './services/cliente/cliente.service';
+import { ClienteService } from './services/clientes/cliente.service';
 
 @Module({
     controllers: [ 
-        ClineteController,
+        ClientesController,
         ClientedomicilioController
     ],
     providers:   [ 

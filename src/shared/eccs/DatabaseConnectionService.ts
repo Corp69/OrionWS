@@ -3,6 +3,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import { arieserp_empresa } from 'src/Aries/controlapp/entities/arieserp_empresa.entity';
 import { scorpio_empresa }  from 'src/Scorpio/controlapp/entities/empresa/scorpio_empresa.entity';
+import { eccs_cliente } from 'src/Aries/controlventas/entities/eccs_cliente.entity';
 
 
 @Injectable()
@@ -26,6 +27,11 @@ export class DatabaseConnectionService {
           
         //AriesERP
         arieserp_empresa,
+        eccs_cliente,
+
+
+
+
         //Scorpio XL 
         scorpio_empresa
       
