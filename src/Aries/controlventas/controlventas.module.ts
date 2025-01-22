@@ -30,3 +30,4 @@ import { ClienteService } from './services/cliente/cliente.service';
     exports: [ TypeOrmModule ]
 })
 export class ControlventasModule {}
+

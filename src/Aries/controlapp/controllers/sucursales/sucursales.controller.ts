@@ -14,7 +14,7 @@ export class SucursalesController {
 
 
       
-      @Get('Obtener')
+      @Get('obtener')
       @ApiOperation({ summary: 'AriesERP - Modulo App - Sucursal.' })
       @ApiResponse({
         status: 200,
