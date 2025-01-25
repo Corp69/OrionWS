@@ -16,7 +16,7 @@ async function bootstrap() {
                 'https://eccs.arieserp.com.mx',
                 
                 'https://scorpio-production.up.railway.app',
-                'https://scorpio.eccs.com.mx/',
+                'https://scorpio.eccs.com.mx',
 
                  'http://localhost:8100',
                  'https://localhost'
