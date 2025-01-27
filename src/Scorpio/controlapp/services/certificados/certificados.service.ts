@@ -10,7 +10,39 @@ export class CertificadosService {
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService
   ) {}
+  //=============================================================
+  // Certificados DE base64 a BD 
+  //=============================================================
+  public async getCerfiticados( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(`SELECT "scorpio".fn_count_certificados(${ id })`);
+      return {
+        Success:  true,
+        Titulo:   'Scorpio XL - Modulo App - Certificados - Obtener.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data[0].fn_count_certificados,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'Scorpio XL- Modulo App - Certificados - Obtener.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+  
 
+
+  //=============================================================
+  // Certificados DE tipo File a base64  BD
+  //=============================================================
   public async XML_Social_Create_key( clientId: number, id: number, base64Encoded: string ):Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
