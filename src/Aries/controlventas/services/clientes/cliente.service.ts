@@ -26,7 +26,7 @@ export class ClienteService {
         Success:  true,
         Titulo:   'AriesERP - Modulo Ventas - Obtener Clientes.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].app_sucursales,
+        Response: data[0].fn_clientes,
       };
     } catch (error) {
       throw new HttpException(
