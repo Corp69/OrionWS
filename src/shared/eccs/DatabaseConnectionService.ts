@@ -6,6 +6,7 @@ import { scorpio_empresa }  from 'src/Scorpio/controlapp/entities/empresa/scorpi
 import { eccs_cliente } from 'src/Aries/controlventas/entities/eccs_cliente.entity';
 import { eccs_proveedor } from 'src/Aries/controlcompras/entities/eccs_proveedor.entity';
 import { arieserp_sucursal } from 'src/Aries/controlapp/entities/arieserp_sucursal.entity';
+import { arieserp_sucursal_domicilio } from 'src/Aries/controlapp/entities/arieserp_sucursaldomicilio.entity';
 
 
 @Injectable()
@@ -32,6 +33,7 @@ export class DatabaseConnectionService {
         arieserp_sucursal,
         eccs_cliente,
         eccs_proveedor,
+        arieserp_sucursal_domicilio,
         
 
 

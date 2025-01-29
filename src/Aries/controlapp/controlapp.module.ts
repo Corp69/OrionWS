@@ -9,20 +9,24 @@ import { EmpresaService } from './services/empresa/empresa.service';
 import { EmpresaController } from './controllers/empresa/empresa.controller';
 import { SucursalesController } from './controllers/sucursales/sucursales.controller';
 import { SucursalesService } from './services/sucursales/sucursales.service';
+import { SucursalesDomicilioController } from './controllers/sucursales domicilio/sucursalesdomicilio.controller';
+import { SucursalesDomiciliosService } from './services/sucursalesdomicilio/sucursalesdomicilio.service';
 
 @Module({
     controllers: 
     [ 
       ControlAppController, 
       EmpresaController, 
-      SucursalesController  
+      SucursalesController,
+      SucursalesDomicilioController,
     ],
     providers:   
     [ 
       ControlAppService,
       DatabaseConnectionService, 
       EmpresaService,
-      SucursalesService  
+      SucursalesService,
+      SucursalesDomiciliosService  
     ],
     imports: [
         AuthModule,
