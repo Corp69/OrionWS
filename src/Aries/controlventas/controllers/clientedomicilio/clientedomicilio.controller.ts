@@ -10,6 +10,6 @@ import { ClienteDomicilioService } from '../../services/clientedomicilio/cliente
 export class ClientedomicilioController {
 
     constructor(private readonly Service: ClienteDomicilioService ) {}
-
+    
 
 }

@@ -14,7 +14,8 @@ import { SucursalesService } from './services/sucursales/sucursales.service';
     controllers: 
     [ 
       ControlAppController, 
-      EmpresaController, SucursalesController  
+      EmpresaController, 
+      SucursalesController  
     ],
     providers:   
     [ 

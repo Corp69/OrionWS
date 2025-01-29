@@ -26,7 +26,7 @@ export class ProveedorDTO {
     description: 'nombre del proveedor.',
     uniqueItems: true,
   })
-  @IsString({ message: 'nombre: debe ser String' })
+  // @IsString({ message: 'nombre: debe ser String' })
   @MinLength(5, { message: 'El nombre debe tener al menos 5 caracteres.' })
   @MaxLength(50, { message: 'El nombre no debe exceder a 50 digitos.' })
   nombre: string;
@@ -37,9 +37,9 @@ export class ProveedorDTO {
     description: 'Primer apellido del proveedor.',
     uniqueItems: true,
   })
-  @IsString({ message: 'nombre: debe ser String' })
-  @MinLength(3, { message: 'El apellido debe tener al menos 5 caracteres.' })
-  @MaxLength(50, { message: 'El apellido no debe exceder a 50 digitos.' })
+  // @IsString({ message: 'primerapellido: debe ser String' })
+  // @MinLength(3, { message: 'El apellido debe tener al menos 5 caracteres.' })
+  // @MaxLength(50, { message: 'El apellido no debe exceder a 50 digitos.' })
   primerapellido: string;
 
 
@@ -48,9 +48,9 @@ export class ProveedorDTO {
     description: 'Segundo apellido del proveedor.',
     uniqueItems: true,
   })
-  @IsString({ message: 'nombre: debe ser String' })
-  @MinLength(3, { message: 'El apellido debe tener al menos 5 caracteres.' })
-  @MaxLength(50, { message: 'El apellido no debe exceder a 50 digitos.' })
+  // @IsString({ message: 'segundoapellido: debe ser String' })
+  // @MinLength(3, { message: 'El apellido debe tener al menos 5 caracteres.' })
+  // @MaxLength(50, { message: 'El apellido no debe exceder a 50 digitos.' })
   segundoapellido: string;
 
 
@@ -70,8 +70,8 @@ export class ProveedorDTO {
     description:
       'curp del proveedor informacion adicional ',
   })
-  @IsString({      message: 'curp: debe ser String' })
-  @MaxLength(18, { message: 'curp: No debe exceder al 18 caracteres.' })
+  // @IsString({      message: 'curp: debe ser String' })
+  // @MaxLength(18, { message: 'curp: No debe exceder al 18 caracteres.' })
   curp: string;
 
   @ApiProperty({
@@ -95,9 +95,9 @@ export class ProveedorDTO {
     example: '84780312345',
     description: 'nss: número de referencia',
   })
-  @IsString( { message: 'nss: Debe ser string' })
-  @MinLength(8,       { message: 'nss: debe tener almenos 8' })
-  @MaxLength(12,      { message: 'nss: No debe exceder a 12 caracteres.' })
+  // @IsString( { message: 'nss: Debe ser string' })
+  // @MinLength(8,       { message: 'nss: debe tener almenos 8' })
+  // @MaxLength(12,      { message: 'nss: No debe exceder a 12 caracteres.' })
   nss: string;
 
   @ApiProperty({
@@ -114,8 +114,8 @@ export class ProveedorDTO {
     description: 'cuenta: número de cuenta bancaria',
   })
   @IsString( { message: 'cuenta: Debe ser numero' })
-  @MinLength(10,       { message: 'cuenta: debe tener almenos 10 caracteres' })
-  @MaxLength(12,      { message: 'cuenta: No debe exceder a 12 caracteres.' })
+  // @MinLength(10,       { message: 'cuenta: debe tener almenos 10 caracteres' })
+  // @MaxLength(12,      { message: 'cuenta: No debe exceder a 12 caracteres.' })
   cuenta: string;
 
   @ApiProperty({
