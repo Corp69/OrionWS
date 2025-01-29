@@ -5,7 +5,7 @@ import {
   Param,
   Post
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 //dtos
 import { EmpresasDTO } from '../../dtos/empresa/empresas.dto'
 // modulo - decorador
@@ -144,6 +144,12 @@ export class EmpresaController {
   }
 
   @Post('eliminar/:id')
+  @ApiParam({
+        name: 'id',
+        description: 'Filtro: ID Scorpio XL - ID para eliminar empresa ',
+        required: true,
+        type: Number, // Especificamos que el tipo es un número
+      })
   @ApiOperation({
     summary: 'Scorpio XL - Modulo App - Empresas Eliminar.',
   })
