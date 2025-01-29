@@ -20,12 +20,12 @@ export class SocialService {
     private readonly dbConnectionService: DatabaseConnectionService,
   ) {}
 
-  public async XML_Social_Lst( clientId: number ):Promise<ResponseDto<any>> {
+  public async XML_Social_Lst( clientId: number, id: number ):Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${clientId})`);
+      const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${id})`);
       // construccion de XML - create social
       const Body: SocialLstDto = new SocialLstDto(
         data[0].sp_build_empresa_xml.XML[0].value,
@@ -61,12 +61,12 @@ export class SocialService {
     }
   }
 
-  public async XML_Social_Create( clientId: number ):Promise<ResponseDto<any>> {
+  public async XML_Social_Create( clientId: number,  id: number ):Promise<ResponseDto<any>> {
     try { 
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${clientId})`);
+      const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${id})`);
       // construccion de XML - create social
       const SocialCreate: SocialCreateDto = new SocialCreateDto(
         
@@ -116,12 +116,12 @@ export class SocialService {
     }
   }
 
-  public async XML_Social_Update(clientId: number ):Promise<ResponseDto<any>> {
+  public async XML_Social_Update(clientId: number, id: number ):Promise<ResponseDto<any>> {
     try {
      // Obtener la conexión adecuada según el cliente.
      const connection = await this.dbConnectionService.getConnection(clientId);
      //FUNCION
-     const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${clientId})`);
+     const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${id})`);
      // construccion de XML - eliminar social
      const Body: SocialUpdateDto = new SocialUpdateDto(
        data[0].sp_build_empresa_xml.XML[0].value,
@@ -131,7 +131,6 @@ export class SocialService {
        data[0].sp_build_empresa_xml.Empresa.pass
      );
 
-     console.log( Body );
      
 
      const response = await fetch(`${ data[0].sp_build_empresa_xml.XML[8].value }`, {
@@ -161,12 +160,12 @@ export class SocialService {
     }
   }
 
-  public async XML_Social_Delete( clientId: number ):Promise<ResponseDto<any>> {
+  public async XML_Social_Delete( clientId: number, id: number ):Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${clientId})`);
+      const data = await connection.query(`SELECT "scorpio_xml".sp_build_empresa_xml(${id})`);
       // construccion de XML - eliminar social
       const Body: SocialDeleteDto = new SocialDeleteDto(
         data[0].sp_build_empresa_xml.XML[0].value,
