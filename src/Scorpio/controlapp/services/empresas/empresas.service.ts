@@ -14,17 +14,17 @@ export class EmpresasService {
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService
   ) {}
-  public async getEmpresa( clientId: number ): Promise<ResponseDto<any>> {
+  public async getEmpresa( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`SELECT "scorpio".app_empresas()`);
+      const data = await connection.query(`SELECT "scorpio".app_catalogo_empresas(${id})`);
       return {
         Success:  true,
         Titulo:   'Scorpio XL - Modulo App - Empresas.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].app_empresas,
+        Response: data[0].app_catalogo_empresas,
       };
     } catch (error) {
       throw new HttpException(

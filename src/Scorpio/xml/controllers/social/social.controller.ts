@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Param,
   Post
 } from '@nestjs/common';
@@ -14,7 +15,7 @@ export class SocialController {
   
   constructor(private readonly Service: SocialService) {}
 
-  @Post('lst/:id')
+  @Get('lst/:id')
   @ApiParam({
           name: 'id',
           description: 'Filtro: ID Scorpio XL - ID para obtener los datos con el proveedor ',
