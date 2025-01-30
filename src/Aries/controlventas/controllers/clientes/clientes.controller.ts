@@ -4,7 +4,7 @@ import { Auth, GetUser } from 'src/auth/decorators';
 //Services
 import { ClienteService } from '../../services/clientes/cliente.service';
 //Dtos
-import { ClienteDTO } from '../../dtos/eccs_cliente.dto';
+import { ClienteDTO } from '../../dtos/clientes/eccs_cliente.dto';
 
 
 @ApiTags('OrionWS - AriesERP - Modulo Ventas - Clientes.')

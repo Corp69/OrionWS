@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ResponseDto } from '@shared/dtos/Response.dto';
 import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
 //DTOS
-import { ClienteDTO } from '../../dtos/eccs_cliente.dto';
+import { ClienteDTO } from '../../dtos/clientes/eccs_cliente.dto';
 //entidades 
-import { eccs_cliente } from '../../entities/eccs_cliente.entity';
+import { eccs_cliente } from '../../entities/clientes/eccs_cliente.entity';
 
 @Injectable()
 export class ClienteService {
