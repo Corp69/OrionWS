@@ -1,8 +1,10 @@
 import {
   Controller,
+  Get,
+  Param,
   Post
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SocialService } from '../../services/social/social.service';
 import { Auth, GetUser } from 'src/auth/decorators';
 
@@ -13,7 +15,13 @@ export class SocialController {
   
   constructor(private readonly Service: SocialService) {}
 
-  @Post('lst')
+  @Get('lst/:id')
+  @ApiParam({
+          name: 'id',
+          description: 'Filtro: ID Scorpio XL - ID para obtener los datos con el proveedor ',
+          required: true,
+          type: Number, // Especificamos que el tipo es un número
+        })
   @ApiOperation({
     summary: 'Scorpio XL - Modulo XML - Lista Razon Social',
   })
@@ -61,11 +69,19 @@ export class SocialController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public lst( @GetUser('id') idUser: number ) {
-    return this.Service.XML_Social_Lst(idUser);
+  public lst( 
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number ) {
+    return this.Service.XML_Social_Lst(idUser, id);
   }
 
-  @Post('agregar')
+  @Post('agregar/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: ID Scorpio XL - ID para agregar los datos con el proveedor ',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({
     summary: 'Scorpio XL - Modulo XML - Razon Social Agregar',
   })
@@ -98,11 +114,19 @@ export class SocialController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public Create( @GetUser('id') idUser: number ) {
-    return this.Service.XML_Social_Create(idUser);
+  public Create( 
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number ) {
+    return this.Service.XML_Social_Create(idUser, id);
   }
 
-  @Post('actualizar')
+  @Post('actualizar/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: ID Scorpio XL - ID para actualizar los datos con el proveedor ',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({
     summary: 'Scorpio XL - Modulo XML - Razon Social Actualizar',
   })
@@ -136,12 +160,19 @@ export class SocialController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Update(
-    @GetUser('id') idUser: number
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number
   ) {
-    return this.Service.XML_Social_Update(idUser);
+    return this.Service.XML_Social_Update(idUser, id);
   }
 
-  @Post('eliminar')
+  @Post('eliminar/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: ID Scorpio XL - ID para eliminar los datos con el proveedor ',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({
     summary: 'Scorpio XL - Modulo XML - Razon Social Eliminar',
   })
@@ -166,8 +197,9 @@ export class SocialController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Delete(
-    @GetUser('id') idUser: number
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number
   ) {
-    return this.Service.XML_Social_Delete(idUser);
+    return this.Service.XML_Social_Delete(idUser, id);
   }
 }

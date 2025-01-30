@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller } from '@nestjs/common';
 
 //shared files
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -22,7 +22,8 @@ import { Auth, GetUser } from 'src/auth/decorators';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 //services
 import { CertificadosService } from '../../services/certificados/certificados.service';
-
+//Dtos 
+import { CertificadoDTO } from '../../dtos/certificados/certificados.dto'
 
 @ApiTags('OrionWS - Scorpio XL - Modulo App - Certificados')
 @Controller('scorpio/certificados')
@@ -75,14 +76,175 @@ export class CertificadosController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public getConf(
+  public getObtenerCertificados(
     @GetUser('id') idUser: number,
     @Param('id')   id:     number,
   ) {
     return this.Service.getCerfiticados(idUser, id);
   }
 
+  //=============================================================
+  // Certificados DE tipo base64 a base de datos 
+  //=============================================================
+  @Post('cer/:id')
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - Certificado Cer - Agregar.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo App - Certificado Cer - Agregar.',
+    content: {
+      'application/json': {
+        example: {
+          Success:  true,
+          Titulo:   "Scorpio XL - Modulo App - Certificado Cer - Agregar.",
+          Mensaje:  "Operacion Realizada con exito.",
+          Response: "Se Actualizó certificado .cer Correctamente."
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Scorpio XL - Modulo App - Certificado Cer - Agregar.",
+    content: {
+      'application/json': {
+        example: {
+          message: "No tienes Autorizacion.",
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public ActualizarCer(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number,
+    @Body() CertificadoDTO: CertificadoDTO
+  ) 
+  {
+    return this.Service.ActualizarCer(idUser, id, CertificadoDTO);
+  }
 
+  @Post('key/:id')
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - Certificado key - Agregar.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo App - Certificado key - Agregar.',
+    content: {
+      'application/json': {
+        example: {
+          Success:  true,
+          Titulo:   "Scorpio XL - Modulo App - Certificado key - Agregar.",
+          Mensaje:  "Operacion Realizada con exito.",
+          Response: "Se Actualizó certificado .key Correctamente."
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Scorpio XL - Modulo App - Certificado key - Agregar.",
+    content: {
+      'application/json': {
+        example: {
+          message: "No tienes Autorizacion.",
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public ActualizarKey(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number,
+    @Body() CertificadoDTO: CertificadoDTO
+  ) 
+  {
+    return this.Service.ActualizarKey(idUser, id, CertificadoDTO);
+  }
+
+  @Post('txt/:id')
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - txt - Agregar.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo App - txt - Agregar.',
+    content: {
+      'application/json': {
+        example: {
+          Success:  true,
+          Titulo:   "Scorpio XL - Modulo App - txt - Agregar.",
+          Mensaje:  "Operacion Realizada con exito.",
+          Response: "Se Actualizó certificado .key Correctamente."
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Scorpio XL - Modulo App - txt - Agregar.",
+    content: {
+      'application/json': {
+        example: {
+          message: "No tienes Autorizacion.",
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public Actualizartxt(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number,
+    @Body() CertificadoDTO: CertificadoDTO
+  ) 
+  {
+    return this.Service.ActualizarTxt(idUser, id, CertificadoDTO);
+  }
+
+  @Post('pfx/:id')
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - Certificado Pfx - Agregar.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo App - Certificado Pfx - Agregar.',
+    content: {
+      'application/json': {
+        example: {
+          Success:  true,
+          Titulo:   "Scorpio XL - Modulo App - Certificado Pfx - Agregar.",
+          Mensaje:  "Operacion Realizada con exito.",
+          Response: "Se Actualizó certificado .pfx Correctamente."
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Scorpio XL - Modulo App - Certificado Pfx - Agregar.",
+    content: {
+      'application/json': {
+        example: {
+          message: "No tienes Autorizacion.",
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public Actualizarpfx(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number,
+    @Body() CertificadoDTO: CertificadoDTO
+  ) 
+  {
+    return this.Service.ActualizarPfx(idUser, id, CertificadoDTO);
+  }
   //=============================================================
   // Certificados DE tipo File a base64 
   //=============================================================

@@ -29,6 +29,16 @@ export class EmpresasDTO {
   rfc: string;
 
   @ApiProperty({
+    example: '12345',
+    description: 'Password de la ciec',
+    uniqueItems: true,
+  })
+  @IsString({ message: 'rfc: debe ser String' })
+  @MinLength(3, { message: 'pass: debe tener al menos 3.' })
+  @MaxLength(60, { message: 'pass: no debe exceder a 60 digitos.' })
+  pass: string;
+
+  @ApiProperty({
     example: 'esta sobre una avenida sobre alteria',
     description:
       'observaciones: un detalle, obejto o caracteristica de la empresa informacion adicional ',

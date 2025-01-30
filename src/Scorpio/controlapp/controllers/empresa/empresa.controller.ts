@@ -5,7 +5,7 @@ import {
   Param,
   Post
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 //dtos
 import { EmpresasDTO } from '../../dtos/empresa/empresas.dto'
 // modulo - decorador
@@ -19,7 +19,13 @@ import { EmpresasService } from '../../services/empresas/empresas.service';
 export class EmpresaController {
   constructor(private readonly Service: EmpresasService) {}
 
-  @Get('obtener')
+  @Get('obtener/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: ID Scorpio XL - ID para el estado de la empresa [1 = activo] ',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({ summary: 'Scorpio XL - Modulo App - Empresas.' })
   @ApiResponse({
     status: 200,
@@ -63,8 +69,11 @@ export class EmpresaController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public getConf(@GetUser('id') idUser: number) {
-    return this.Service.getEmpresa(idUser);
+  public getConf(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number    
+  ) {
+    return this.Service.getEmpresa(idUser, id);
   }
 
   @Post('agregar')
@@ -144,6 +153,12 @@ export class EmpresaController {
   }
 
   @Post('eliminar/:id')
+  @ApiParam({
+        name: 'id',
+        description: 'Filtro: ID Scorpio XL - ID para eliminar empresa ',
+        required: true,
+        type: Number, // Especificamos que el tipo es un número
+      })
   @ApiOperation({
     summary: 'Scorpio XL - Modulo App - Empresas Eliminar.',
   })
