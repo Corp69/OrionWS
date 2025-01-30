@@ -1,8 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ResponseDto } from '@shared/dtos/Response.dto';
 import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
-import { EmpleadoDTO } from '../../dtos/eccs_empleado.dto';
-import { eccs_empleado } from '../../entities/eccs_empleado.entity';
+//dtos
+import { EmpleadoDTO } from '../../dtos/empledo/eccs_empleado.dto';
+//Entidades
+import { eccs_empleado } from '../../entities/empledo/eccs_empleado.entity';
 
 @Injectable()
 export class EmpleadoService {

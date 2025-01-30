@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
 import { EmpleadoService } from '../../services/empleado/empleado.service';
-import { EmpleadoDTO } from '../../dtos/eccs_empleado.dto';
+import { EmpleadoDTO } from '../../dtos/empledo/eccs_empleado.dto';
 
 
 @ApiTags('OrionWS - AriesERP - Modulo RH - Empleados.')
