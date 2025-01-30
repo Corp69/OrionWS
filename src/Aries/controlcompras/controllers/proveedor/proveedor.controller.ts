@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
 import { ProveedorService } from '../../services/proveedor/proveedor.service';
 // Dtos
-import { ProveedorDTO } from '../../dtos/eccs_proveedor.dto';
+import { ProveedorDTO } from '../../dtos/proveedor/eccs_proveedor.dto';
 
 
 @ApiTags('OrionWS - AriesERP - Modulo Compras - Proveedores.')
