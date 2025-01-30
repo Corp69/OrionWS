@@ -7,6 +7,7 @@ import { eccs_cliente } from 'src/Aries/controlventas/entities/eccs_cliente.enti
 import { eccs_proveedor } from 'src/Aries/controlcompras/entities/eccs_proveedor.entity';
 import { arieserp_sucursal } from 'src/Aries/controlapp/entities/arieserp_sucursal.entity';
 import { arieserp_sucursal_domicilio } from 'src/Aries/controlapp/entities/arieserp_sucursaldomicilio.entity';
+import { eccs_empleado } from 'src/Aries/controlrh/entities/eccs_empleado.entity';
 
 
 @Injectable()
@@ -34,6 +35,7 @@ export class DatabaseConnectionService {
         eccs_cliente,
         eccs_proveedor,
         arieserp_sucursal_domicilio,
+        eccs_empleado,
         
 
 
