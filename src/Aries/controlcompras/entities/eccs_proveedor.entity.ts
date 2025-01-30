@@ -12,6 +12,7 @@ export class eccs_proveedor {
     @Column('varchar', { unique: true }) primerapellido: string;
     @Column('varchar', { unique: true }) segundoapellido:string;
     @Column('varchar', { unique: true }) rfc:            string;
+    @Column('bigint')                    telefono:       number;
     @Column('varchar')                   curp:           string;
     @Column('varchar')                   codigo:         string;
     @Column('varchar')                   nss:            string;

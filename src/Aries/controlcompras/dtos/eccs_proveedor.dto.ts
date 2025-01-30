@@ -23,11 +23,11 @@ export class ProveedorDTO {
 
   @ApiProperty({
     example: 'Rodrigo',
-    description: 'nombre del proveedor.',
+    description: 'nombre del proveedor o razon social.',
     uniqueItems: true,
   })
-  // @IsString({ message: 'nombre: debe ser String' })
-  @MinLength(5, { message: 'El nombre debe tener al menos 5 caracteres.' })
+  // @IsString({ message:   'nombre: debe ser String' })
+  @MinLength(5, { message:  'El nombre debe tener al menos 5 caracteres.' })
   @MaxLength(50, { message: 'El nombre no debe exceder a 50 digitos.' })
   nombre: string;
 
@@ -90,6 +90,15 @@ export class ProveedorDTO {
   @IsString({      message: 'correo: debe ser String' })
   @MaxLength(50, { message: 'correo: debe exceder a 50 caracteres.' })
   correo: string;
+    
+  @ApiProperty({
+    example: 4651068560,
+    description: 'Teléfono: Número de teléfono del prospecto. Debe tener exactamente 10 dígitos.',
+  })
+  @IsNumber({}, { message: 'El teléfono debe ser un número.' })
+  @Min(1000000000, { message: 'El teléfono debe tener al menos 10 dígitos.' })
+  @Max(9999999999, { message: 'El teléfono no debe tener más de 10 dígitos.' })
+  telefono: number;
 
   @ApiProperty({
     example: '84780312345',

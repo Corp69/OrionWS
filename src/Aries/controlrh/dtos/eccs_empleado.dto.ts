@@ -163,11 +163,12 @@ export class EmpleadoDTO {
   tipocontrato: string;
 
   @ApiProperty({
-    example: 4651255878,
-    description: 'Telefono: Numero de telefono',
+    example: 4651068560,
+    description: 'Teléfono: Número de teléfono del prospecto. Debe tener exactamente 10 dígitos.',
   })
-  @IsNumber({},{ message:      'Telefono: debe ser numerico' })
-  // @Max(10, { message: 'Telefono: No debe exceder a 10 caracteres.' })
+  @IsNumber({}, { message: 'El teléfono debe ser un número.' })
+  @Min(1000000000, { message: 'El teléfono debe tener al menos 10 dígitos.' })
+  @Max(9999999999, { message: 'El teléfono no debe tener más de 10 dígitos.' })
   telefono: number;
 
   @ApiProperty({
