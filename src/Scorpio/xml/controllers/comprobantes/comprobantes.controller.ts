@@ -6,6 +6,7 @@ import {
     SolicitaDto,
     VerificaDto
  } from '../../dtos/comprobantes';
+import { GetUser } from 'src/auth/decorators';
 
 
 @ApiTags('OrionWS - Scorpio XL - XML Comprobante.')
@@ -67,8 +68,10 @@ export class ComprobantesController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public XML_Comprobante_Solicitar(@Body() SolicitaDto: SolicitaDto) {
-    return this.Service.XML_Comprobante_Solicitar(SolicitaDto);
+  public XML_Comprobante_Solicitar(
+    @GetUser('id') idUser: number,
+    @Body() SolicitaDto: SolicitaDto,) {
+    return this.Service.XML_Comprobante_Solicitar(idUser,SolicitaDto);
   }  
 
   @Post('verificar')
