@@ -14,7 +14,7 @@ export class EmpresasService {
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService
   ) {}
-  public async getEmpresa( clientId: number, id: number ): Promise<ResponseDto<any>> {
+  public async getEmpresaCatalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
@@ -25,6 +25,31 @@ export class EmpresasService {
         Titulo:   'Scorpio XL - Modulo App - Empresas.',
         Mensaje:  'Operacion Realizada con exito.',
         Response: data[0].app_catalogo_empresas,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'Scorpio XL- Modulo App - Empresas.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
+  public async getEmpresa( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(`SELECT "scorpio_empresas".fn_empresas_obj(${id})`);
+      return {
+        Success:  true,
+        Titulo:   'Scorpio XL - Modulo App - Empresas.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data[0].fn_empresas_obj,
       };
     } catch (error) {
       throw new HttpException(

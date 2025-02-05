@@ -1,4 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+//datasource
+import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
 
 import { 
     ComprobanteDto,
@@ -8,6 +10,11 @@ import {
 
 @Injectable()
 export class ComprobantesService {
+  constructor(
+      private readonly dbConnectionService: DatabaseConnectionService,
+    ) {}
+
+    
 
   public async XML_Comprobante(ComprobanteDto: ComprobanteDto): Promise<any> {
     try {
@@ -40,10 +47,32 @@ export class ComprobantesService {
     }
   }
  
-  public async XML_Comprobante_Solicitar(SolicitaDto: SolicitaDto): Promise<any> {
+  public async XML_Comprobante_Solicitar(clientId: number, SolicitaDto2: SolicitaDto): Promise<any> {
     try {
-      const response = await fetch(`${process.env.XML_Comprobante_Solicitar}`, {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //Funcion
+      const data = await connection.query(`SELECT * from "scorpio_xml".sp_build_xml_generar_solicitud()`);
+      //construccion de XML - generar solicitud
+      const Solicita: SolicitaDto = new SolicitaDto(
+              
+              data[0].sp_build_xml_generar_solicitud._xml[0].value,
+              data[0].sp_build_xml_generar_solicitud._xml[1].value,
+              data[0].sp_build_xml_generar_solicitud._xml[2].value,
+              data[0].sp_build_xml_generar_solicitud._xml[2].value,
+              data[0].sp_build_xml_generar_solicitud._xml[2].value,
+              data[0].sp_build_xml_generar_solicitud._xml[2].value,
+              data[0].sp_build_xml_generar_solicitud._xml[2].value,
+              data[0].sp_build_xml_generar_solicitud._xml[2].value,
+              data[0].sp_build_xml_generar_solicitud._xml[2].value
+      );
+      //peticion con fetch
+      const response = await fetch(`${ data[0].sp_build_xml_generar_solicitud._xml[3].value }`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
+        },
+        body: JSON.stringify(Solicita),
       });
       if (!response.ok) {
         throw new Error(

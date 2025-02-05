@@ -73,6 +73,63 @@ export class EmpresaController {
     @GetUser('id') idUser: number,
     @Param('id')   id:     number    
   ) {
+    return this.Service.getEmpresaCatalogo(idUser, id);
+  }
+
+  @Get('empresa/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: ID Scorpio XL - ID de la empresa a buscar',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - Empresas.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo App - Empresas.',
+    content: {
+      'application/json': {
+        example: {
+          Success: true,
+          Titulo:  'Scorpio XL - Modulo App - Empresas.',
+          Mensaje: 'Operacion Realizada con exito.',
+          Response: {
+            empresas: [
+              {
+                "rfc": "CACE970323V71",
+                "nombrecomercial": "DEVELOPER",
+                "regimen": "General de Ley Personas Morales",
+                "id_regimen": 1,
+                "usocfdi": "Adquisición de mercancias",
+                "id_usocfdi": 1,
+                "estatus": "Activo",
+                "icon": "<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABNElEQVR4nO2UvUoDQRSFPxFFRDQ7maidjYgGYnY2CIKKWqggYqFYqYVg7xMIvoews0OCxT6UjU+QQlYLXZn8ESGI2R0byelmiu9w7rkzMNL/U8rY7GNZ/A08vhiXod+Q2v+QYWXHObyoq09S+6kMq01p1lecwqX261240MHmCM7QYylEqulF6lXU/fKwhYrfzNzCPROknlHJjyZxBriVMGrNwlsmkXrzGrXKAPhkrm0p6tpqn8l7SW/4/XARqefcqzjQJG7D7Z2TPbcd9EyMSgpavXQMP509om9JTBvuhbVbXKqVJFKJFwXu4T0dLMxPH5ds2ROukCfAFrAHHAEPwH7nvAzYDq5twKwGZ8AdcAMsAlfAKWD/93vAjmoOOM+ToJviEFDANjAF7AJLwCUwk9XAqb4A04+am93uALIAAAAASUVORK5CYII=\">"
+              }
+            ],
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Scorpio XL - Modulo App - Empresas.',
+    content: {
+      'application/json': {
+        example: {
+          message: 'No tienes Autorizacion.',
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public empresaFiltro(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number    
+  ) {
     return this.Service.getEmpresa(idUser, id);
   }
 
