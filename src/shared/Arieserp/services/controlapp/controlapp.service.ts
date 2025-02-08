@@ -36,6 +36,74 @@ constructor(
     }
   }
 
+  public async getListEmpresas( clientId: number): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(
+        ` select
+              id,
+              nombrecomercial as descripcion
+          from arieserp_empresa
+          where id_estatus in (1,5)
+              and activa is true
+          order by id
+        `,
+      );
+      return {
+        Success:  true,
+        Titulo:   'OrionWS: AriesERP - Modulo App - listado - Empresa.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'OrionWS: AriesERP - Modulo App - listado - Empresa.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
+  public async getlstSucursalD( clientId: number): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(
+        ` select
+              id,
+              descripcion
+          from arieserp_sucursal
+          where id_estatus in (1,5)
+              and activo is true
+          order by id
+        `,
+      );
+      return {
+        Success:  true,
+        Titulo:   'OrionWS: AriesERP - Modulo App - listado - sucursal.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'OrionWS: AriesERP - Modulo App - listado - sucursal.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
 
   // public async getlistDomicilios( clientId: number, id: number ): Promise<ResponseDto<any>> {
   //   try {

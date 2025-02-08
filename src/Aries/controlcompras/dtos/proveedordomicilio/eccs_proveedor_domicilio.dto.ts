@@ -16,14 +16,14 @@ export class DomicilioProveedorDTO {
   @ApiProperty({
     example: 1,
     description:
-      'ID: identificador Unico del empleado',
+      'ID: identificador Unico del proveedor',
     uniqueItems: true,
   })
   id: number;
 
   @ApiProperty({
     example: '20500',
-    description: 'codigo postal del domicilio del empleado.',
+    description: 'codigo postal del domicilio del proveedor.',
     uniqueItems: true,
   })
   // @IsString({ message: 'nombre: debe ser String' })
@@ -34,7 +34,7 @@ export class DomicilioProveedorDTO {
 
   @ApiProperty({
     example: 'Tuitlan',
-    description: 'Calle del domicilio del empleado.',
+    description: 'Calle del domicilio del proveedor.',
   })
   @IsString({ message: 'calle: debe ser String' })
   @MinLength(3, { message: 'La calle debe tener al menos 3 caracteres.' })
@@ -44,7 +44,7 @@ export class DomicilioProveedorDTO {
 
   @ApiProperty({
     example: '138',
-    description: 'Numero exterior del domicilio del empleado.',
+    description: 'Numero exterior del domicilio del proveedor.',
   })
   @IsString({ message: 'num_ext: debe ser String' })
   @MinLength(1, { message: 'El num_ext debe tener al menos 1 digito.' })
@@ -53,7 +53,7 @@ export class DomicilioProveedorDTO {
 
   @ApiProperty({
     example: '12',
-    description: 'Numero interior del domicilio del empleado.',
+    description: 'Numero interior del domicilio del proveedor.',
   })
   @IsString({ message: 'correo_personal: debe ser String' })
   @MaxLength(4, { message: 'correo_personal no debe exceder a 3 digitos.' })
@@ -70,7 +70,7 @@ export class DomicilioProveedorDTO {
 
   @ApiProperty({
     example: 1,
-    description: 'Sexo: identificador del pais del empleado',
+    description: 'Sexo: identificador del pais del proveedor',
   })
   @IsNumber({}, { message: 'El id_pais debe ser un número.' })
   @Min(1,       { message: 'id_pais: debe tener al menos 1.' })
@@ -79,7 +79,7 @@ export class DomicilioProveedorDTO {
 
   @ApiProperty({
     example: 1,
-    description: 'ID: identificador del estado del empelado',
+    description: 'ID: identificador del estado del proveedor',
   })
   @IsNumber({}, { message: 'El id_estatus debe ser un número.' })
   @Min(1,       { message: 'id_estatus debe tener al menos 1.' })

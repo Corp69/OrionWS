@@ -37,6 +37,19 @@ export class LstController {
         },
       },
     })
+    @ApiResponse({
+      status: 401,
+      description: 'AriesERP - Modulo App - listado.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'No tienes Autorizacion.',
+            statusCode: 401,
+          },
+        },
+      },
+    })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
     @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
     @ApiResponse({ status: 500, description: 'Error interno del servidor' })
     public lstUsoCfdi(
@@ -45,47 +58,97 @@ export class LstController {
     ) {
       return this.Service.getList(idUser, tabla);
     }
+
+    //==================================================================================
+    @Post('lstempresa')
+    @ApiOperation({ summary: 'AriesERP - Modulo App - listado - empresa.' })
+    @ApiResponse({
+      status: 200,
+      description: 'AriesERP- Modulo App - listado.',
+      content: {
+        'application/json': {
+          example: {
+            "Success": true,
+            "Titulo":  "OrionWS: AriesERP - Modulo App - listado - empresa.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": [
+                {
+                    "id": "1",
+                    "descripcion": "ECCS"
+                }
+            ],
+          },
+        },
+      },
+    })
+    @ApiResponse({
+      status: 401,
+      description: 'OrionWS: AriesERP - Modulo App - listado - empresa.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'No tienes Autorizacion.',
+            statusCode: 401,
+          },
+        },
+      },
+    })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public LstEmpresa(
+        @GetUser('id')    idUser: number
+    ) {
+      return this.Service.getListEmpresas(idUser);
+    }
+
+
+
+  //==================================================================================
+
+
+    @Post('lstsucursal')
+    @ApiOperation({ summary: 'AriesERP - Modulo App - listado - sucursal.' })
+    @ApiResponse({
+      status: 200,
+      description: 'AriesERP- Modulo App - listado.',
+      content: {
+        'application/json': {
+          example: {
+            "Success": true,
+            "Titulo":  "OrionWS: AriesERP - Modulo App - listado - sucursal.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": [
+                {
+                    "id": "1",
+                    "descripcion": "ECCS"
+                }
+            ],
+          },
+        },
+      },
+    })
+    @ApiResponse({
+      status: 401,
+      description: 'OrionWS: AriesERP - Modulo App - listado - sucursal.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'No tienes Autorizacion.',
+            statusCode: 401,
+          },
+        },
+      },
+    })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public lstSucursalD(
+        @GetUser('id')    idUser: number
+    ) {
+      return this.Service.getlstSucursalD(idUser);
+    }
   
-
-    
-    // @Post('lstDomiciliosE/:id')
-    // @ApiParam({
-    //     name: 'id',
-    //     description: 'Filtro: Id del empleado.',
-    //     required: true,
-    //     type: Number, // Especificamos que el tipo es un número
-    //   })
-    // @ApiOperation({ summary: 'AriesERP - Modulo App - listado.' })
-    // @ApiResponse({
-    //   status: 200,
-    //   description: 'AriesERP- Modulo App - listado.',
-    //   content: {
-    //     'application/json': {
-    //       example: {
-    //         "Success": true,
-    //         "Titulo":  "OrionWS: AriesERP - Modulo App - listado.",
-    //         "Mensaje": "Operacion Realizada con exito.",
-    //         "Response": [
-    //             {
-    //                 "id": "1",
-    //                 "descripcion": "General de Ley Personas Morales"
-    //             }
-    //         ],
-    //       },
-    //     },
-    //   },
-    // })
-    // @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
-    // @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-    // public lstDomicilios(
-    //     @GetUser('id')    idUser: number,
-    //     @Param('id')   id:  number
-    // ) {
-    //   return this.Service.getlistDomicilios(idUser, id);
-    // }
-  
-
-
 
 
 }

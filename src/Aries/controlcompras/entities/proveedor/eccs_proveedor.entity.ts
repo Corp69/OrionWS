@@ -8,17 +8,17 @@ import {
 export class eccs_proveedor {
 
     @PrimaryGeneratedColumn()            id:             number;
-    @Column('varchar', { unique: true }) nombre:         string;
+    @Column('bigint')                    telefono:       number;
+
+    @Column('varchar')                   nombre:         string;
     @Column('varchar', { unique: true }) primerapellido: string;
     @Column('varchar', { unique: true }) segundoapellido:string;
     @Column('varchar', { unique: true }) rfc:            string;
-    @Column('bigint')                    telefono:       number;
-    @Column('varchar')                   curp:           string;
     @Column('varchar')                   codigo:         string;
-    @Column('varchar')                   nss:            string;
     @Column('varchar')                   banco:          string;
-    @Column('varchar')                   cuenta:         string;
-    @Column('varchar')                   clabe:          string;
+    
+    @Column('bigint')                    cuenta:         bigint;
+    @Column('bigint')                    clabe:          bigint;
 
     
     @Column('boolean')                   activo:        boolean;
@@ -31,3 +31,8 @@ export class eccs_proveedor {
   
 
 }
+
+//?Proxima actualización 
+//!TODO Analizar la siguiente actualización conversión de empleado a proveedor
+// @Column('varchar')                   curp:           string;
+// @Column('bigint')                    nss:            bigint;
