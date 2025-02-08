@@ -13,8 +13,6 @@ export class EmpleadoController {
     constructor(private readonly Service: EmpleadoService) {}
 
 
-
-
      @Get('obtener/:id')
      @ApiOperation({ summary: 'AriesERP - Modulo RH - Empledos - Obtener.' })
      @ApiResponse({
@@ -52,7 +50,7 @@ export class EmpleadoController {
       return this.Service.obtenerEmpleado(idUser, id);
     }
 
-  @Post('agregar')
+    @Post('agregar')
     @ApiOperation({
       summary: 'AriesERP - Modulo RH - Empledos - Agregar',
     })

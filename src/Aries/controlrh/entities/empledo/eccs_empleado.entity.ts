@@ -8,26 +8,24 @@ import {
 export class eccs_empleado {
 
     @PrimaryGeneratedColumn()            id:                         number;
+    @Column('varchar')                   nivelacceso:                number;
+
     @Column('varchar')                   nombre:                     string;
     @Column('varchar')                   apellidop:                  string;
     @Column('varchar')                   apellidom:                  string;
     @Column('varchar')                   correo_personal:            string;
-    @Column('varchar')                   nss:                        number;
     @Column('varchar')                   rfc:                        string;
     @Column('varchar')                   curp:                       string;
-    @Column('varchar')                   fecha_nacimiento?:          string;
-    @Column('varchar')                   correo_usuario:             string;
-    @Column('varchar')                   correo_clave:               string;
-    @Column('varchar')                   cuenta_banco:               string;
-    @Column('varchar')                   clabe:                      number;
-    @Column('varchar')                   whatsapp:                   number;
     @Column('varchar')                   observaciones:              string;
-    @Column('varchar')                   antiguedad:                 string;
-    @Column('varchar')                   tipocontrato:               string;
-    @Column('varchar')                   telefono:                   number;
-    @Column('varchar')                   nivelacceso:                number;
-    @Column('varchar')                   email:                      string;
-    @Column('varchar')                   password:                   string;
+
+    @Column('bigint')                    clabe:                      number;
+    @Column('bigint')                    nss:                        number;
+    @Column('bigint')                    cuenta_banco:               number;
+    @Column('bigint')                    whatsapp:                   number;
+    @Column('bigint')                    telefono:                   number;
+
+    // @Column('varchar')                   email:                      string;  //eliminado de front
+    // @Column('varchar')                   password:                   string;  //eliminado de front
 
     @Column('int')                       id_estatus:                number;
     @Column('int')                       id_sexo:                   number;
@@ -37,3 +35,10 @@ export class eccs_empleado {
   
 
 }
+//?Proxima actualización 
+//!TODO Analizar la siguiente actualización pago directo con banco
+// @Column('varchar')                   fecha_nacimiento:           string;
+// @Column('varchar')                   correo_usuario:             string;
+// @Column('varchar')                   correo_clave:               string;
+// @Column('varchar')                   antiguedad:                 string;
+// @Column('varchar')                   tipocontrato:               string;
