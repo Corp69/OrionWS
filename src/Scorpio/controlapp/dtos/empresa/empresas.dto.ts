@@ -33,10 +33,20 @@ export class EmpresasDTO {
     description: 'Password de la ciec',
     uniqueItems: true,
   })
-  @IsString({ message: 'rfc: debe ser String' })
+  @IsString({ message: 'pass: debe ser String' })
   @MinLength(3, { message: 'pass: debe tener al menos 3.' })
   @MaxLength(60, { message: 'pass: no debe exceder a 60 digitos.' })
   pass: string;
+
+  @ApiProperty({
+    example: '12345',
+    description: 'Password de la ciec',
+    uniqueItems: true,
+  })
+  @IsString({ message: 'passpfx: debe ser String' })
+  @MinLength(3, { message: 'passpfx: debe tener al menos 3.' })
+  @MaxLength(60, { message: 'passpfx: no debe exceder a 60 digitos.' })
+  passpfx: string;
 
   @ApiProperty({
     example: 'esta sobre una avenida sobre alteria',
