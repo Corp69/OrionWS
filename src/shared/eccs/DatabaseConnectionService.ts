@@ -11,6 +11,8 @@ import { eccs_empleado } from 'src/Aries/controlrh/entities/empledo/eccs_emplead
 import { eccs_empleado_domicilio } from 'src/Aries/controlrh/entities/empledodomicilio/eccs_empleado_domicilio.entity';
 import { eccs_proveedor_domicilio } from 'src/Aries/controlcompras/entities/proveedor domicilio/eccs_proveedor_domicilio.entity';
 import { eccs_cliente_domicilio } from 'src/Aries/controlventas/entities/clientesdomicilio/eccs_cliente_domicilio.entity';
+import { rh_departamento } from 'src/Aries/controlrh/entities/departamento/rh_departamento.entity';
+import { rh_puesto } from 'src/Aries/controlrh/entities/puesto/rh_puesto.entity';
 
 
 @Injectable()
@@ -42,6 +44,9 @@ export class DatabaseConnectionService {
         eccs_empleado_domicilio,
         eccs_proveedor_domicilio,
         eccs_cliente_domicilio,
+        rh_departamento,
+        rh_puesto,
+
         
 
 

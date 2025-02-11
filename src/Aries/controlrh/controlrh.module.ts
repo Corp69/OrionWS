@@ -11,16 +11,25 @@ import { EmpleadoController } from './controllers/empleado/empleado.controller';
 //SERVICIOS
 import { EmpleadoDomicilioService } from './services/empleadodomicilio/empleadodomicilio.service';
 import { EmpleadoService } from './services/empleado/empleado.service';
+import { DepartamentoController } from './controllers/departamento/departamento.controller';
+import { DepartamentoService } from './services/departamento/departamento.service';
+import { PuestoController } from './controllers/puesto/puesto.controller';
+import { PuestoService } from './services/puesto/puesto.service';
+
 
 
 @Module({
     controllers: [ 
       EmpleadoController, 
-      EmpleadodomicilioController 
+      EmpleadodomicilioController,
+      DepartamentoController,
+      PuestoController,
     ],
     providers:   [ 
         EmpleadoService, 
         EmpleadoDomicilioService, 
+        DepartamentoService,
+        PuestoService,
         DatabaseConnectionService  ],
     imports: [
         AuthModule,
