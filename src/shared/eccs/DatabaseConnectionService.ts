@@ -8,6 +8,7 @@ import { eccs_proveedor } from 'src/Aries/controlcompras/entities/eccs_proveedor
 import { arieserp_sucursal } from 'src/Aries/controlapp/entities/arieserp_sucursal.entity';
 import { arieserp_sucursal_domicilio } from 'src/Aries/controlapp/entities/arieserp_sucursaldomicilio.entity';
 import { eccs_empleado } from 'src/Aries/controlrh/entities/eccs_empleado.entity';
+import { xml_comprobante_solicita_metada } from 'src/Scorpio/controlapp/entities/solicitudes/xml_comprobante_solicita_metada.entity';
 
 
 @Injectable()
@@ -42,7 +43,8 @@ export class DatabaseConnectionService {
 
 
         //Scorpio XL 
-        scorpio_empresa
+        scorpio_empresa,
+        xml_comprobante_solicita_metada
       
       ],  // Asegúrate de agregar la entidad aquí
       extra: {

@@ -1,17 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ComprobantesService } from '../../services/comprobantes/comprobantes.service';
 import { Auth, GetUser } from 'src/auth/decorators';
-
-//dtos
-import { SolicitaDto } from '../../dtos/comprobantes/solicita.dto'
 
 @ApiTags('OrionWS - Scorpio XL - XML Comprobante.')
 @Controller('scorpio/comprobante')
 @Auth()
 export class ComprobantesController {
 
-  constructor(private readonly Service: ComprobantesService ) {}
+  constructor(private readonly Service: ComprobantesService) { }
 
   @Get('consulta/:id')
   @ApiOperation({
@@ -51,11 +48,10 @@ export class ComprobantesController {
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public XML_Comprobante(
     @GetUser('id') idUser: number,
-    @Param('id')   id:     number    
-  ) 
-  {
-    return this.Service.XML_Comprobante(idUser, id );
-  }  
+    @Param('id') id: number
+  ) {
+    return this.Service.XML_Comprobante(idUser, id);
+  }
 
   @Post('generar/:id')
   @ApiOperation({
@@ -95,11 +91,10 @@ export class ComprobantesController {
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public XML_Comprobante_Solicitar(
     @GetUser('id') idUser: number,
-    @Param('id')   id:     number,
-    @Body() SolicitaDto: SolicitaDto,  
-   ) {
-    return this.Service.XML_Comprobante_Solicitar( idUser,  id, SolicitaDto);
-  }  
+    @Param('id') id: number
+  ) {
+    return this.Service.XML_Comprobante_Solicitar(idUser, id);
+  }
 
   @Post('verificar/:id')
   @ApiOperation({
@@ -139,10 +134,10 @@ export class ComprobantesController {
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public XML_Comprobante_Verificar(
     @GetUser('id') idUser: number,
-    @Param('id')   id:     number    
+    @Param('id') id: number
 
   ) {
-     return this.Service.XML_Comprobante_Verificar( idUser,  id);
-  }  
-  
+    return this.Service.XML_Comprobante_Verificar(idUser, id);
+  }
+
 }
