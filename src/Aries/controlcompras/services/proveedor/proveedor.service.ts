@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
 //dtos
-import { ProveedorDTO } from '../../dtos/eccs_proveedor.dto';
+import { ProveedorDTO } from '../../dtos/proveedor/eccs_proveedor.dto';
 //entidades
-import { eccs_proveedor } from '../../entities/eccs_proveedor.entity';
+import { eccs_proveedor } from '../../entities/proveedor/eccs_proveedor.entity';
 import { log } from 'node:console';
 
 @Injectable()

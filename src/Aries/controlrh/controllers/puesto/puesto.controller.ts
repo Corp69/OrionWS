@@ -1,29 +1,29 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { ProveedorService } from '../../services/proveedor/proveedor.service';
+//Service
+import { PuestoService } from '../../services/puesto/puesto.service';
 // Dtos
-import { ProveedorDTO } from '../../dtos/proveedor/eccs_proveedor.dto';
+import { PuestoDTO } from '../../dtos/puesto/rh_puesto.dto';
 
-
-@ApiTags('OrionWS - AriesERP - Modulo Compras - Proveedores.')
-@Controller('arieserp/proveedor')
+@ApiTags('OrionWS - AriesERP - Modulo RH - Puesto.')
+@Controller('arieserp/puesto')
 @Auth()
-export class ProveedorController {
+export class PuestoController {
 
-    constructor(private readonly Service: ProveedorService) {}
+    constructor(private readonly Service: PuestoService) {}
 
 
     @Get('obtener/:id')
-          @ApiOperation({ summary: 'AriesERP - Modulo Compras - Proveedores - Obtener.' })
+          @ApiOperation({ summary: 'AriesERP - Modulo RH - Puesto - Obtener.' })
           @ApiResponse({
             status: 200,
-            description: 'AriesERP - Modulo Compras - Obtener Proveedores.',
+            description: 'AriesERP - Modulo RH - Obtener Puesto.',
             content: {
               'application/json': {
                 example: {
                   Success: true,
-                  Titulo:  'AriesERP - Modulo Compras - Obtener Proveedores.',
+                  Titulo:  'AriesERP - Modulo RH - Obtener Puesto.',
                   Mensaje: 'Operacion Realizada con exito.',
                   Response: {
                     
@@ -34,7 +34,7 @@ export class ProveedorController {
           })
           @ApiResponse({
             status: 401,
-            description: 'AriesERP - Modulo Compras - Proveedores - Obtener.',
+            description: 'AriesERP - Modulo RH - Puesto - Obtener.',
             content: {
               'application/json': {
                 example: {
@@ -49,7 +49,7 @@ export class ProveedorController {
           @ApiResponse({ status: 500, description: 'Error interno del servidor' })
           public getConf(@GetUser('id') idUser: number, @Param('id')   id:     number) {
             
-            return this.Service.getProveedor(idUser, id);
+            return this.Service.getPuesto(idUser, id);
           }
 
 
@@ -57,16 +57,16 @@ export class ProveedorController {
 
         @Post('agregar')
           @ApiOperation({
-            summary: "AriesERP - Modulo Compras - Proveedores - Agregar",
+            summary: "AriesERP - Modulo RH - Puesto - Agregar",
           })
           @ApiResponse({
             status: 200,
-            description: "AriesERP - Modulo Compras - Proveedores - Agregar.",
+            description: "AriesERP - Modulo RH - Puesto - Agregar.",
             content: {
               'application/json': {
                 example: {
                   Success:  true,
-                  Titulo:   "AriesERP - Modulo App - Empresas Agregar",
+                  Titulo:   "AriesERP - Modulo RH - Puesto Agregar",
                   Mensaje:  "Operación Realizada con exito.",
                   Response: "Se agrego correctamente !"
                 },
@@ -75,7 +75,7 @@ export class ProveedorController {
           })
           @ApiResponse({
             status: 401,
-            description: "AriesERP - Modulo Compras - Proveedores - Agregar.",
+            description: "AriesERP - Modulo RH - Puesto - Agregar.",
             content: {
               'application/json': {
                 example: {
@@ -89,10 +89,10 @@ export class ProveedorController {
           @ApiResponse({ status: 401, description: 'Token Invalido' })
           @ApiResponse({ status: 500, description: 'Error interno del servidor' })
           public Agregar(
-            @Body() ProveedorDTO: ProveedorDTO,
+            @Body() PuestoDTO: PuestoDTO,
             @GetUser('id') idUser: number,
           ) {
-            return this.Service.Agregar(idUser, ProveedorDTO);
+            return this.Service.Agregar(idUser, PuestoDTO);
           }
 
 
@@ -100,16 +100,16 @@ export class ProveedorController {
 
         @Post('actualizar')
           @ApiOperation({
-            summary: "AriesERP - Modulo Compras - Proveedores - Actualizar",
+            summary: "AriesERP - Modulo RH - Puesto - Actualizar",
           })
           @ApiResponse({
             status: 200,
-            description: "AriesERP - Modulo Compras - Proveedores - Actualizar.",
+            description: "AriesERP - Modulo RH - Puesto - Actualizar.",
             content: {
               'application/json': {
                 example: {
                   Success:  true,
-                  Titulo:   "AriesERP - Modulo Compras - Proveedores - Actualizar",
+                  Titulo:   "AriesERP - Modulo RH - Puesto - Actualizar",
                   Mensaje:  "Operacion Realizada con exito.",
                   Response: "Se actualizo correctamente!!"
                 },
@@ -118,7 +118,7 @@ export class ProveedorController {
           })
           @ApiResponse({
             status: 401,
-            description: 'AriesERP - Modulo Compras - Proveedores - Actualizar.',
+            description: 'AriesERP - Modulo RH - Puesto - Actualizar.',
             content: {
               'application/json': {
                 example: {
@@ -132,25 +132,25 @@ export class ProveedorController {
           @ApiResponse({ status: 401, description: 'Token Invalido' })
           @ApiResponse({ status: 500, description: 'Error interno del servidor' })
           public Actualizar(
-            @Body() ProveedorDTO: ProveedorDTO,
+            @Body() PuestoDTO: PuestoDTO,
             @GetUser('id') idUser: number,
           ) {
-            return this.Service.Actualizar(idUser, ProveedorDTO);
+            return this.Service.Actualizar(idUser, PuestoDTO);
           }
         
           
           @Post('eliminar/:id')
           @ApiOperation({
-            summary: 'AriesERP - Modulo Compras - Proveedores - Eliminar.',
+            summary: 'AriesERP - Modulo RH - Puesto - Eliminar.',
           })
           @ApiResponse({
             status: 200,
-            description: 'AriesERP - Modulo Compras - Proveedores - Eliminar.',
+            description: 'AriesERP - Modulo RH - Puesto - Eliminar.',
             content: {
               'application/json': {
                 example: {
                   Success: true,
-                  Titulo:  'AriesERP - Modulo Compras - Proveedores - Eliminar.',
+                  Titulo:  'AriesERP - Modulo RH - Puesto - Eliminar.',
                   Mensaje: 'Operacion Realizada con exito.',
                   Response: "Registro eliminado."
                 },
@@ -159,7 +159,7 @@ export class ProveedorController {
           })
           @ApiResponse({
             status: 401,
-            description: 'AriesERP - Modulo Compras - Proveedores - Eliminar.',
+            description: 'AriesERP - Modulo RH - Puesto - Eliminar.',
             content: {
               'application/json': {
                 example: {

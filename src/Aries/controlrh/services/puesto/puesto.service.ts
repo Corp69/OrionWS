@@ -1,33 +1,40 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ResponseDto } from '@shared/dtos/Response.dto';
+import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
-import { DomicilioClienteDTO } from '../../dtos/clientesdomicilio/eccs_cliente_domicilio.dto';
-import { eccs_cliente_domicilio } from '../../entities/clientesdomicilio/eccs_cliente_domicilio.entity';
+//dtos
+import { PuestoDTO } from '../../dtos/puesto/rh_puesto.dto';
+//entidades
+import { rh_puesto } from '../../entities/puesto/rh_puesto.entity';
+
+
 
 @Injectable()
-export class ClienteDomicilioService {
+export class PuestoService {
   
-  constructor(  private readonly dbConnectionService: DatabaseConnectionService ) {}
+  constructor( 
+     private readonly dbConnectionService: DatabaseConnectionService
+  ) {}
 
-  public async obtenerdomicilio( clientId: number, id:     number ): Promise<ResponseDto<any>> {
+  public async getPuesto( clientId: number , id:     number): Promise<ResponseDto<any>> {
+
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp_ventas".fn_clientes_domicilio(${id})`,
+        `select "arieserp_rh".fn_puesto(${id})`,
       );
       return {
         Success:  true,
-        Titulo:   'AriesERP - Modulo Ventas - Obtener Clientes.',
+        Titulo:   'AriesERP - Modulo RH - Obtener Puesto.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].fn_clientes_domicilio,
+        Response: data[0].fn_puesto,
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'AriesERP - Modulo Ventas - Obtener Clientes.',
+          Titulo:   'AriesERP - Modulo RH - Obtener Puesto.',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -36,23 +43,23 @@ export class ClienteDomicilioService {
     }
   }
 
-  public async agregardomicilio( clientId: number, DomicilioClienteDTO: DomicilioClienteDTO  ): Promise<ResponseDto<any>> {
+  public async Agregar( clientId: number, PuestoDTO: PuestoDTO  ): Promise<ResponseDto<any>> {
     try {
       let connection = await this.dbConnectionService.getConnection(clientId);
-      let repository = connection.getRepository(eccs_cliente_domicilio);
-      let { id, ...DataDto } = DomicilioClienteDTO;
-      await repository.save(repository.create(DataDto)); 
+      let repository = connection.getRepository(rh_puesto);
+      let { id, ...DataDTO } = PuestoDTO;
+      let savedEntity = await repository.save(repository.create(DataDTO)); 
       return {
         Success:  true,
-        Titulo:   'AriesERP - Modulo Ventas - Clientes - Agregar',
+        Titulo:   'AriesERP - Modulo RH - Puesto - Agregar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: "Se Agrego Correctamente !",
+        Response: "Se agrego correctamente !",
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'AriesERP - Modulo Ventas - Clientes - Agregar',
+          Titulo:   'AriesERP - Modulo RH - Puesto - Agregar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -61,40 +68,42 @@ export class ClienteDomicilioService {
     }
   }
   
-  public async actualizardomicilio( clientId: number, DomicilioClienteDTO: DomicilioClienteDTO ): Promise<ResponseDto<any>> {
+  public async Actualizar( clientId: number, PuestoDTO: PuestoDTO ): Promise<ResponseDto<any>> {
     try {
+
       const connection        = await this.dbConnectionService.getConnection(clientId);
-      const Repository        = await connection.getRepository(eccs_cliente_domicilio);
-      const row               = await Repository.preload(DomicilioClienteDTO);
+      const Repository        = await connection.getRepository(rh_puesto);
+      const row               = await Repository.preload(PuestoDTO);
       await Repository.save(row);
+
       return {
         Success:  true,
-        Titulo:   "AriesERP - Modulo Ventas - Clientes - Actualziar",
+        Titulo:   "AriesERP - Modulo RH - Puesto - Actualizar",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: "Se Actualizó corretamente !",
+        Response: "Se actualizo correctamente!!",
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   "AriesERP - Modulo Ventas - Clientes - Actualziar",
-          Mensaje:  "Operación no se realizó",
+          Titulo:   'AriesERP - Modulo RH - Puesto - Actualizar',
+          Mensaje:  'Operacion Realizada con exito.',
           Response: error.message || error,
         },
         HttpStatus.OK,
       );
     }
   }
-  
-  public async eliminardomicilio( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    
+  public async Eliminar( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      await connection.query(`delete from eccs_cliente_domicilio where id = ${ id }`);
+      await connection.query(`delete from rh_puesto where id = ${ id }`);
       return {
         Success:  true,
-        Titulo:   "AriesERP - Modulo Ventas - Clientes - Eliminar",
+        Titulo:   "AriesERP - Modulo RH - Puesto - Elimiar",
         Mensaje:  "Operacion Realizada con exito.",
         Response: "Registro eliminado.",
       };
@@ -102,7 +111,7 @@ export class ClienteDomicilioService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   "AriesERP - Modulo Ventas - Clientes - Eliminar",
+          Titulo:   "AriesERP - Modulo RH - Puesto - Elimiar",
           Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
@@ -110,6 +119,5 @@ export class ClienteDomicilioService {
       );
     }
   }
-
 
 }

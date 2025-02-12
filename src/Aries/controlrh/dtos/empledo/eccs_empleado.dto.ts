@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNumber,
+  IsOptional,
   IsString,
   Max,
   MaxLength,
@@ -25,7 +26,7 @@ export class EmpleadoDTO {
     description: 'nombre del empleado.',
     uniqueItems: true,
   })
-  // @IsString({ message: 'nombre: debe ser String' })
+  @IsString({ message: 'nombre: debe ser String' })
   @MinLength(3, { message: 'El nombre debe tener al menos 3 caracteres.' })
   @MaxLength(50, { message: 'El nombre no debe exceder a 50 digitos.' })
   nombre: string;
@@ -55,7 +56,7 @@ export class EmpleadoDTO {
     description: 'Segundo apellido del proveedor.',
   })
   @IsString({ message: 'correo_personal: debe ser String' })
-  @MaxLength(50, { message: 'correo_personal no debe exceder a 50 digitos.' })
+  @MaxLength(50, { message: 'correo_personal:  no debe exceder a 50 digitos.' })
   correo_personal: string;
 
   @ApiProperty({
@@ -63,9 +64,9 @@ export class EmpleadoDTO {
     description: 'nss: número de referencia',
   })
   @IsNumber({}, { message: 'nss: Debe ser number' })
-  // @MinLength(8,       { message: 'nss: debe tener almenos 8' })
-  // @Max(1,      { message: 'nss: No debe exceder a 11 digitos.' })
-  // @MaxLength(, { message: 'El nss no debe exceder a 20 digitos.' })
+  @IsOptional()
+  @Min(1000000000, { message: 'nss debe tener al menos 10 dígitos.' })
+  @Max(99999999999, { message: 'nss teléfono no debe tener más de 11 dígitos.' })
   nss: number;
 
 
@@ -93,49 +94,55 @@ export class EmpleadoDTO {
     description: 'Fecha de nacimiento: día de nacimiento',
   })
   @IsString({ message:      'fecha_nacimiento: debe ser String' })
-  @MaxLength(10, { message: 'fecha_nacimiento: No debe exceder a 10 caracteres.' })
+  @IsOptional()
+  @MaxLength(15, { message: 'fecha_nacimiento: No debe exceder a 10 caracteres.' })
   fecha_nacimiento: string;
 
   @ApiProperty({
     example: 'luis@gmail.com',
-    description: 'correo: Correo del empleado',
+    description: 'correo_usuario: Correo del empleado',
   })
-  @IsString({      message: 'correo: debe ser String' })
-  @MaxLength(50, { message: 'correo: No debe exceder a 50 caracteres.' })
+  @IsString({      message: 'correo_usuario: debe ser String' })
+  @IsOptional()
+  @MaxLength(50, { message: 'correo_usuario: No debe exceder a 50 caracteres.' })
   correo_usuario: string;
 
   @ApiProperty({
     example: 'eccs@eccs.com.mx',
-    description: 'correo: Correo clave del empleado',
+    description: 'correo_clave:  clave del empleado',
   })
-  @IsString({      message: 'correo: debe ser String' })
-  @MaxLength(50, { message: 'correo: No debe exceder a 50 caracteres.' })
+  @IsString({      message: 'correo_clave: debe ser String' })
+  @IsOptional()
+  @MaxLength(50, { message: 'correo_clave: No debe exceder a 50 caracteres.' })
   correo_clave: string;
 
-  @ApiProperty({
-    example: '12345678901',
-    description: 'cuenta: número de cuenta bancaria',
-  })
-  @IsString( { message: 'cuenta: Debe ser numero' })
-  // @MinLength(10,       { message: 'cuenta: debe tener almenos 10 caracteres' })
-  // @MaxLength(12,      { message: 'cuenta: No debe exceder a 12 caracteres.' })
-  cuenta_banco: string;
 
   @ApiProperty({
-    example: 12345678901,
-    description: 'clabe: número de clabe bancaria',
+    example: 123456789012345678,
+    description: 'cuenta_banco:ingrese datos de cuenta bancaria',
   })
-  @IsNumber({}, { message: 'clabe: Debe ser string' })
-  // @MinLength(16,       { message: 'clabe: debe tener almenos 16 caracteres' })
-  // @MaxLength(18,      { message: 'clabe: No debe exceder a 18 caracteres.' })
+  @IsNumber({}, { message: 'cuenta_banco: Debe ser numero' })
+  @Min(10000000000, { message: 'cuenta_banco debe tener al menos 11 dígitos.' })
+  @Max(999999999999, { message: 'cuenta_banco no debe tener más de 12 dígitos.' })
+  cuenta_banco: number;
+
+  @ApiProperty({
+    example: 123456789012345678,
+    description: 'clabe: clabe de cuenta bancaria',
+  })
+  @IsNumber({}, { message: 'clabe: Debe ser numero' })
+  @Min(10000000000000000, { message: 'clabe debe tener al menos 18 dígitos.' })
+  @Max(9999999999999999999, { message: 'clabe teléfono no debe tener más de 18 dígitos.' })
   clabe: number;
 
+
   @ApiProperty({
-    example: 4651255878,
-    description: 'Whatsapp: Numero de whatsapp personal',
+    example: 4651068560,
+    description: 'Whatsapp: Número del empleado. Debe tener exactamente 10 dígitos.',
   })
-  @IsNumber({},{ message:      'whatsapp: debe ser numerico' })
-  // @Max(10, { message: 'whatsapp: No debe exceder a 10 caracteres.' })
+  @IsNumber({}, { message: 'El whatsapp debe ser un número.' })
+  @Min(1000000000, { message: 'El whatsapp debe tener al menos 10 dígitos.' })
+  @Max(9999999999, { message: 'El whatsapp no debe tener más de 10 dígitos.' })
   whatsapp: number;
 
   @ApiProperty({
@@ -143,6 +150,7 @@ export class EmpleadoDTO {
     description: 'observaciones: Se describen las observaciones vistas',
   })
   @IsString( { message: 'observaciones: Debe ser string' })
+  @IsOptional()
   @MaxLength(60,      { message: 'observaciones: No debe exceder a 60 caracteres.' })
   observaciones: string;
 
@@ -151,6 +159,7 @@ export class EmpleadoDTO {
     description: 'antiguedad: detalla la antiguedad del empleado',
   })
   @IsString( { message: 'antiguedad: Debe ser string' })
+  @IsOptional()
   @MaxLength(10,      { message: 'antiguedad: No debe exceder a 10 caracteres.' })
   antiguedad: string;
 
@@ -163,10 +172,11 @@ export class EmpleadoDTO {
   tipocontrato: string;
 
   @ApiProperty({
-    example: 4651068560,
-    description: 'Teléfono: Número de teléfono del prospecto. Debe tener exactamente 10 dígitos.',
+    example: 4651255878,
+    description: 'Telefono: Numero de telefono',
   })
-  @IsNumber({}, { message: 'El teléfono debe ser un número.' })
+  @IsNumber({},    { message: 'El teléfono debe ser un número.' })
+  @IsOptional()
   @Min(1000000000, { message: 'El teléfono debe tener al menos 10 dígitos.' })
   @Max(9999999999, { message: 'El teléfono no debe tener más de 10 dígitos.' })
   telefono: number;
@@ -176,25 +186,28 @@ export class EmpleadoDTO {
     description: 'Nivel Acceso: Explica el nivel de acceso del emplado',
   })
   @IsNumber({},{ message: 'Nivel Acceso: Debe ser number' })
-  // @Max(1, { message: 'Nivel Acceso: No debe exceder a 1 caracter.' })
+  @IsOptional()
+  @Max(4, { message: 'Nivel Acceso: No debe exceder a 1 caracter.' })
   nivelacceso: number;
 
-  @ApiProperty({
-    example: 'luis21@gmail.com',
-    description: 'E-Mail: Correo personal del empleado',
-  })
-  @IsString( { message: 'E-Mail: Debe ser string' })
-  @MaxLength(40,      { message: 'E-Mail: No debe exceder a 40 caracteres.' })
-  email: string;
+  // @ApiProperty({
+  //   example: 'luis21@gmail.com',
+  //   description: 'E-Mail: Correo personal del empleado',
+  // })
+  // @IsString( { message: 'E-Mail: Debe ser string' })
+  // @IsOptional()
+  // @MaxLength(40,      { message: 'E-Mail: No debe exceder a 40 caracteres.' })
+  // email: string;
 
-  @ApiProperty({
-    example: 'luis65$R',
-    description: 'Contraseña: Correo personal del empleado',
-  })
-  @IsString( { message: 'Contraseña: Debe ser string' })
-  @MinLength(8,       { message: 'Contraseña: debe tener almenos 8 caracteres' })
-  @MaxLength(12,      { message: 'Contraseña: No debe exceder a 12 caracteres.' })
-  password: string;
+  // @ApiProperty({
+  //   example: 'luis65$R',
+  //   description: 'Contraseña: Correo personal del empleado',
+  // })
+  // @IsString( { message: 'Contraseña: Debe ser string' })
+  // @IsOptional()
+  // @MinLength(8,       { message: 'Contraseña: debe tener almenos 8 caracteres' })
+  // @MaxLength(12,      { message: 'Contraseña: No debe exceder a 12 caracteres.' })
+  // password: string;
 
   @ApiProperty({
     example: 1,

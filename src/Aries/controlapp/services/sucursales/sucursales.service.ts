@@ -15,7 +15,34 @@ export class SucursalesService {
     private readonly dbConnectionService: DatabaseConnectionService,
   ) {}
 
-  public async obtenerSucursal( clientId: number, id: number ): Promise<ResponseDto<any>> {
+  public async getSucursal( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(
+        `SELECT "arieserp".fn_get_sucursal(${id})`,
+      );
+      return {
+        Success:  true,
+        Titulo:   "AriesERP - Modulo App - Sucursales - Obtener.",
+        Mensaje:  "Operacion Realizada con exito.",
+        Response: data[0].fn_get_sucursal,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   "AriesERP - Modulo App - Sucursales - Obtener.",
+          Mensaje:  "Operación no se realizó",
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
+  public async Catalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
@@ -25,16 +52,16 @@ export class SucursalesService {
       );
       return {
         Success:  true,
-        Titulo:   'AriesERP - Modulo App - Sucursales - Obtener.',
-        Mensaje:  'Operacion Realizada con exito.',
+        Titulo:   "AriesERP - Modulo App - Sucursales - Catalogo.",
+        Mensaje:  "Operacion Realizada con exito.",
         Response: data[0].app_sucursales,
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'AriesERP - Modulo App - Sucursales - Obtener.',
-          Mensaje:  'Operación no se realizó',
+          Titulo:   "AriesERP - Modulo App - Sucursales - Catalogo.",
+          Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
         HttpStatus.OK,
@@ -47,19 +74,21 @@ export class SucursalesService {
       let connection = await this.dbConnectionService.getConnection(clientId);
       let repository = connection.getRepository(arieserp_sucursal);
       let { id, ...DataDto } = SucursalDTO;
-      await repository.save(repository.create(DataDto)); 
+      let response   = await repository.save(repository.create(DataDto)); 
+      
       return {
         Success:  true,
-        Titulo:   'AriesERP - Modulo App - Sucursales - Agregar',
-        Mensaje:  'Operacion Realizada con exito.',
+        Id:       response.id,
+        Titulo:   "AriesERP - Modulo App - Sucursales - Agregar",
+        Mensaje:  "Operacion Realizada con exito.",
         Response: "Se agrego correctamente!!",
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'AriesERP - Modulo App - Sucursales - Agregar',
-          Mensaje:  'Operación no se realizó',
+          Titulo:   "AriesERP - Modulo App - Sucursales - Agregar",
+          Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
         HttpStatus.OK,
@@ -70,23 +99,24 @@ export class SucursalesService {
   public async Actualizar( clientId: number, SucursalDTO: SucursalDTO ): Promise<ResponseDto<any>> {
     try {
 
-      const connection        = await this.dbConnectionService.getConnection(clientId);
-      const Repository        = await connection.getRepository(arieserp_sucursal);
-      const row               = await Repository.preload(SucursalDTO);
-      const response          = await Repository.save(row);
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      const Repository = await connection.getRepository(arieserp_sucursal);
+      const row        = await Repository.preload(SucursalDTO);
+      const response   = await Repository.save(row);
 
       return {
         Success:  true,
-        Titulo:   'AriesERP - Modulo App - Sucursales - Actualizar',
-        Mensaje:  'Operacion Realizada con exito.',
-        Response: response,
+        Id:       response.id,
+        Titulo:   "AriesERP - Modulo App - Sucursales - Actualizar",
+        Mensaje:  "Operacion Realizada con exito.",
+        Response: "Se Actualizó correctamente!!",
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'AriesERP - Modulo App - Sucursales - Actualizar',
-          Mensaje:  'Operación no se realizó',
+          Titulo:   "AriesERP - Modulo App - Sucursales - Actualizar",
+          Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
         HttpStatus.OK,
@@ -94,7 +124,6 @@ export class SucursalesService {
     }
   }
   
-
   public async Eliminar( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.

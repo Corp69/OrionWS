@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
 import { EmpleadoService } from '../../services/empleado/empleado.service';
-import { EmpleadoDTO } from '../../dtos/eccs_empleado.dto';
+import { EmpleadoDTO } from '../../dtos/empledo/eccs_empleado.dto';
 
 
 @ApiTags('OrionWS - AriesERP - Modulo RH - Empleados.')
@@ -11,8 +11,6 @@ import { EmpleadoDTO } from '../../dtos/eccs_empleado.dto';
 export class EmpleadoController {
 
     constructor(private readonly Service: EmpleadoService) {}
-
-
 
 
      @Get('obtener/:id')
@@ -52,7 +50,7 @@ export class EmpleadoController {
       return this.Service.obtenerEmpleado(idUser, id);
     }
 
-  @Post('agregar')
+    @Post('agregar')
     @ApiOperation({
       summary: 'AriesERP - Modulo RH - Empledos - Agregar',
     })

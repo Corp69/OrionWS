@@ -119,22 +119,22 @@ export class ProveedorDTO {
 
 
   @ApiProperty({
-    example: '12345678901',
+    example: 12345678901,
     description: 'cuenta: número de cuenta bancaria',
   })
-  @IsString( { message: 'cuenta: Debe ser numero' })
-  // @MinLength(10,       { message: 'cuenta: debe tener almenos 10 caracteres' })
-  // @MaxLength(12,      { message: 'cuenta: No debe exceder a 12 caracteres.' })
-  cuenta: string;
+  @IsNumber({}, { message: 'cuenta: Debe ser numero' })
+  @Min(1000000000, { message: 'cuenta debe tener al menos 10 dígitos.' })
+  @Max(99999999999, { message: 'cuenta teléfono no debe tener más de 10 dígitos.' })
+  cuenta: bigint;
 
   @ApiProperty({
-    example: '12345678901',
-    description: 'clabe: número de clabe bancaria',
+    example: 123456789012345678,
+    description: 'clabe: clabe de cuenta bancaria',
   })
-  @IsString( { message: 'clabe: Debe ser numero' })
-  @MinLength(15,       { message: 'clabe: debe tener almenos 15 caracteres' })
-  @MaxLength(18,      { message: 'clabe: No debe exceder a 18 caracteres.' })
-  clabe: string;
+  @IsNumber({}, { message: 'cuenta: Debe ser numero' })
+  @Min(10000000000000000, { message: 'cuenta debe tener al menos 10 dígitos.' })
+  @Max(9999999999999999999, { message: 'cuenta teléfono no debe tener más de 10 dígitos.' })
+  clabe: bigint;
 
   @ApiProperty({
     example: true,

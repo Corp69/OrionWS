@@ -1,7 +1,8 @@
-import { Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
 import { EmpleadoDomicilioService } from '../../services/empleadodomicilio/empleadodomicilio.service';
+import { DomicilioEmpleadoDTO } from '../../dtos/empledodomicilio/eccs_empleado_domicilio.dto';
 
 
 @ApiTags('OrionWS - AriesERP - Modulo RH.')
@@ -11,61 +12,163 @@ export class EmpleadodomicilioController {
 
     constructor(private readonly Service:  EmpleadoDomicilioService) {}
 
-    @Post('obtener/:id')
-    @ApiParam({
-          name: 'id',
-          description: 'Filtro: ID AriesERP - Modulo RH. Empleado Domicilios - estatus 1 =  Activos ',
-          required: true,
-          type: Number, // Especificamos que el tipo es un número
-    })
-    @ApiOperation({ summary: 'AriesERP - Modulo RH - Empleado domicilio - Obtener.' })
-    @ApiResponse({
-    status: 200,
-    description: 'AriesERP - Modulo RH - Empleado domicilio - Obtener.',
-    content: {
-        'application/json': {
-        example: {
-            Success: true,
-            Titulo:  'AriesERP - Modulo RH - Empleado domicilio - Obtener.',
-            Mensaje: 'Operacion Realizada con exito.',
-            Response: {
-                "empleadosdomicilio": [
-                    {
-                        "id": 1,
-                        "nombre": "ELIZANDRO",
-                        "calle": "Tuitlan",
-                        "num_ext": "138",
-                        "num_int": "",
-                        "cp": "22040",
-                        "pais": "MEXICO",
-                        "estatus": "Activo"
-                    }
-                ]
+    @Get('obtener/:id')
+         @ApiOperation({ summary: 'AriesERP - Modulo RH - Empledos Domicilio - Obtener.' })
+         @ApiResponse({
+          status: 200,
+          description: 'AriesERP - Modulo RH - Empledos Domicilio- Obtener',
+          content: {
+            'application/json': {
+              example: {
+                Success: true,
+                Titulo:  'AriesERP - Modulo RH - Empledos Domicilio- Obtener.',
+                Mensaje: 'Operacion Realizada con exito.',
+                Response: {
+                  
+                },
+              },
             },
+          },
+        })
+        @ApiResponse({
+          status: 401,
+          description: 'AriesERP - Modulo RH - Empledos Domicilio- Obtener.',
+          content: {
+            'application/json': {
+              example: {
+                message: 'No tienes Autorizacion.',
+                statusCode: 401,
+              },
+            },
+          },
+        })
+        @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+        @ApiResponse({ status: 401, description: 'Token Invalido' })
+        @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+        public getConf(@GetUser('id') idUser: number, @Param('id') id: number) {
+          return this.Service.obtenerDomicilio(idUser, id);
+        }
+    
+      @Post('agregar')
+        @ApiOperation({
+          summary: 'AriesERP - Modulo RH - Empledos Domicilio- Agregar',
+        })
+        @ApiResponse({
+          status: 200,
+          description: 'AriesERP - Modulo RH - Empledos Domicilio- Agregar',
+          content: {
+            'application/json': {
+              example: {
+                Success:  true,
+                Titulo:   "AriesERP - Modulo App - Sucursales - Agregar",
+                Mensaje:  "Operación Realizada con exito.",
+                Response: "Se agrego correctamente!!"
+              },
+            },
+          },
+        })
+        @ApiResponse({
+          status: 401,
+          description: 'AriesERP - Modulo RH - Empledos Domicilio- Agregar',
+          content: {
+            'application/json': {
+              example: {
+                message: 'No tienes Autorizacion.',
+                statusCode: 401,
+              },
+            },
+          },
+        })
+        @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+        @ApiResponse({ status: 401, description: 'Token Invalido' })
+        @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+        public Crear(
+          @Body() DomicilioEmpleadoDTO: DomicilioEmpleadoDTO,
+          @GetUser('id') idUser: number,
+        ) {
+          return this.Service.agregarDomicilio(idUser, DomicilioEmpleadoDTO);
+        }
+    
+      @Post('actualizar')
+        @ApiOperation({
+          summary: "AriesERP - Modulo RH - Empledos Domicilio- Actualizar",
+        })
+        @ApiResponse({
+          status: 200,
+          description: "AriesERP - Modulo RH - Empledos Domicilio- Actualizar.",
+          content: {
+            'application/json': {
+              example: {
+                Success:  true,
+                Titulo:   "AriesERP - Modulo RH - Empledos Domicilio- Actualizar",
+                Mensaje:  "Operacion Realizada con exito.",
+                Response: "Se actualizo correctamente!!"
+              },
+            },
+          },
+        })
+        @ApiResponse({
+          status: 401,
+          description: 'AriesERP - Modulo RH - Empledos Domicilio- Actualizar.',
+          content: {
+            'application/json': {
+              example: {
+                message: 'No tienes Autorizacion.',
+                statusCode: 401,
+              },
+            },
+          },
+        })
+        @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+        @ApiResponse({ status: 401, description: 'Token Invalido' })
+        @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+        public Actualizar(
+          @Body() DomicilioEmpleadoDTO: DomicilioEmpleadoDTO,
+          @GetUser('id') idUser: number,
+        ) {
+          return this.Service.actualizarDomicilio(idUser, DomicilioEmpleadoDTO);
+        }
+              
+                
+      @Post('eliminar/:id')
+      @ApiOperation({
+        summary: 'AriesERP - Modulo RH - Empledos Domicilio- Eliminar',
+      })
+      @ApiResponse({
+        status: 200,
+        description: 'AriesERP - Modulo RH - Empledos Domicilio- Eliminar',
+        content: {
+          'application/json': {
+            example: {
+              Success: true,
+              Titulo:  'AriesERP - Modulo RH - Empledos Domicilio- Eliminar',
+              Mensaje: 'Operacion Realizada con exito.',
+              Response: "Registro eliminado."
+            },
+          },
         },
+      })
+      @ApiResponse({
+        status: 401,
+        description: 'AriesERP - Modulo RH - Empledos Domicilio- Eliminar',
+        content: {
+          'application/json': {
+            example: {
+              message: 'No tienes Autorizacion.',
+              statusCode: 401,
+            },
+          },
         },
-    },
-    })
-    @ApiResponse({
-    status: 401,
-    description: 'AriesERP - Modulo RH - Empleado domicilio - Obtener.',
-    content: {
-        'application/json': {
-        example: {
-            message: 'No tienes Autorizacion.',
-            statusCode: 401,
-        },
-        },
-    },
-    })
-    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
-    @ApiResponse({ status: 401, description: 'Token Invalido' })
-    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-    public getConf(
+      })
+      @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+      @ApiResponse({ status: 401, description: 'Token Invalido' })
+      @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+      public eliminar(
         @GetUser('id') idUser: number,
         @Param('id')   id:     number
-    ) {
-    return this.Service.getEmpresa(idUser, id );
-    }
+      ) {
+        return this.Service.eliminarDomicilio(idUser, id);
+      }
 
+      
 }

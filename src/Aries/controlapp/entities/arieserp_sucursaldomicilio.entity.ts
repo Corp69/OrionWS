@@ -8,11 +8,16 @@ import {
 export class arieserp_sucursal_domicilio {
 
     @PrimaryGeneratedColumn()               id:             number;
-    @Column('varchar')                      cp:             number;
+    @Column('varchar')                      cp:             string;
     @Column('varchar')                      calle:          string;
+    @Column('int')                          num_ext:        string;
+    @Column('int')                          num_int:        string;
+    
+
     @Column('boolean')                      activo:         boolean;
-    @Column('int')                          num_ext:        number;
-    @Column('int')                          num_int:        number;
+
+
+    
     @Column('int')                          id_sucursal:    number;
     @Column('int')                          id_pais:        number;
 
