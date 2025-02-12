@@ -12,11 +12,11 @@ async function bootstrap() {
         origin: [
               
                 'http://localhost:4200', 
-                'https://ec.arieserp.com.mx', 
-                'https://eccs.arieserp.com.mx',
                 
                 'https://scorpio-production.up.railway.app',
+                'https://arieserp-production.up.railway.app',
                 'https://scorpio.eccs.com.mx',
+                'https://arieserp.eccs.com.mx',
 
                  'http://localhost:8100',
                  'https://localhost'
