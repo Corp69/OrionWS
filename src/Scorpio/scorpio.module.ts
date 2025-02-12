@@ -32,18 +32,21 @@ import { ControlbancoModule }         from './controlbanco/controlbanco.module';
 import { ControlconfigModule }        from './controlconfig/controlconfig.module';
 import { ControlbitacoraModule }      from './controlbitacora/controlbitacora.module';
 import { ConfiguracionesService } from './controlapp/services/configuraciones/configuraciones.service';
+import { SolicitudController } from './controlapp/controllers/solicitud/solicitud.controller';
+import { SolicitudService } from './controlapp/services/solicitud/solicitud.service';
 
 @Module({
     controllers: 
     [ 
       //XML 
-      EmpresaController, 
+      EmpresaController,
+      SolicitudController,
       SocialController, 
       SyncController, 
       ComprobantesController, 
       MulticomController, 
       CertificadosController, 
-      ConfiguracionesController
+      ConfiguracionesController, SolicitudController
 
       //MODULO SCORPIO
    ],
@@ -54,6 +57,7 @@ import { ConfiguracionesService } from './controlapp/services/configuraciones/co
       
       //control app
       EmpresasService,     
+      SolicitudService,     
       CertificadosService,
       ConfiguracionesService,
       

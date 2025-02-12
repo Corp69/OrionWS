@@ -96,6 +96,10 @@ export class SocialService {
         },
         body: JSON.stringify(SocialCreate), // Convertimos el DTO a JSON
       });
+
+      console.log( SocialCreate );
+      console.log( await response.json() );
+      
       if (!response.ok) { throw new Error( `Error en la solicitud externa: ${response.statusText}`);}
       return {
         Success: true,
@@ -180,6 +184,10 @@ export class SocialService {
       },
       body: JSON.stringify(Body), // Convertimos el DTO a JSON
     });
+
+    console.log( "socialdelete",Body );
+    console.log( await response.json() );
+
     if (!response.ok) { throw new Error( `Error en la solicitud externa: ${response.statusText}`);}
     return {
       Success:  true,
