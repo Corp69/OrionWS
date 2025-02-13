@@ -5,7 +5,6 @@ import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionServic
 import { ProveedorDTO } from '../../dtos/proveedor/eccs_proveedor.dto';
 //entidades
 import { eccs_proveedor } from '../../entities/proveedor/eccs_proveedor.entity';
-import { log } from 'node:console';
 
 @Injectable()
 export class ProveedorService {
@@ -35,6 +34,33 @@ export class ProveedorService {
           Success:  false,
           Titulo:   'AriesERP - Modulo Compras - Obtener Proveedores.',
           Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
+  public async Catalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(
+        `select "arieserp_compras".fn_proveedores(${id})`,
+      );
+      return {
+        Success:  true,
+        Titulo:   "AriesERP - Modulo App - Sucursales - Catalogo.",
+        Mensaje:  "Operacion Realizada con exito.",
+        Response: data[0].app_sucursales,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   "AriesERP - Modulo App - Sucursales - Catalogo.",
+          Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
         HttpStatus.OK,

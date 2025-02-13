@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
 import { EmpleadoService } from '../../services/empleado/empleado.service';
 import { EmpleadoDTO } from '../../dtos/empledo/eccs_empleado.dto';
@@ -13,7 +13,13 @@ export class EmpleadoController {
     constructor(private readonly Service: EmpleadoService) {}
 
 
-     @Get('obtener/:id')
+     @Post('obtener/:id')
+     @ApiParam({
+         name: 'id',
+         description: 'Filtro: id hace referencia al empleado, agrega un id de un empleado.',
+         required: true,
+         type: Number, // Especificamos que el tipo es un número
+    })
      @ApiOperation({ summary: 'AriesERP - Modulo RH - Empledos - Obtener.' })
      @ApiResponse({
       status: 200,
@@ -48,6 +54,50 @@ export class EmpleadoController {
     @ApiResponse({ status: 500, description: 'Error interno del servidor' })
     public getConf(@GetUser('id') idUser: number, @Param('id') id: number) {
       return this.Service.obtenerEmpleado(idUser, id);
+    }
+
+
+    @Get('catalogo/:id')
+    @ApiParam({
+          name: 'id',
+          description: 'Filtro: id hace referencia al Puesto para filtrar el empleado. ',
+          required: true,
+          type: Number, // Especificamos que el tipo es un número
+    })
+    @ApiOperation({
+      summary: 'OrionWS - AriesERP - Modulo RH - Empledos - Catalogo.',
+    })
+    @ApiResponse({
+      status: 200,
+      description: 'OrionWS - AriesERP - Modulo RH - Empledos - Catalogo.',
+      content: {
+        'application/json': {
+          example: {
+            Success: true,
+            Titulo: 'OrionWS - AriesERP - Modulo RH - Empledos - Catalogo.',
+            Mensaje: 'Operacion Realizada con exito.',
+            Response: {},
+          },
+        },
+      },
+    })
+    @ApiResponse({
+      status: 401,
+      description: 'OrionWS - AriesERP - Modulo RH - Empledos - Catalogo.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'No tienes Autorizacion.',
+            statusCode: 401,
+          },
+        },
+      },
+    })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public getCatalogo(@GetUser('id') idUser: number, @Param('id') id: number) {
+      return this.Service.Catalogo(idUser, id);
     }
 
     @Post('agregar')
