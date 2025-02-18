@@ -6,7 +6,7 @@ import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionServic
 //Dtos
 import { SolicitaDto } from '../../dtos/comprobantes/solicita.dto';
 //entidad
-import { xml_comprobante_solicita_metadata } from '../../entities/comprobantes/xml_comprobante_solicita_metadata.entity';
+import { xml_comprobante_solicita_metada } from '../../../controlapp/entities/solicitudes/xml_comprobante_solicita_metada.entity';
 
 @Injectable()
 export class ComprobantesService {
@@ -16,6 +16,7 @@ export class ComprobantesService {
 
     
 
+  //trae la lista de las peticiones 
   public async XML_Comprobante(clientId: number,  id: number): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
@@ -42,11 +43,15 @@ export class ComprobantesService {
     }
   }
  
+  //crea la peticion y almacena en base de datos
   public async XML_Comprobante_Solicitar(clientId: number,  id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
-
+      
+      // entity
+      const repository = connection.getRepository(xml_comprobante_solicita_metada);
+      
       //Funcion
       const data = await connection.query(`select "scorpio_xml".sp_build_xml_generar_solicitud(${id});`);
       //construccion de XML - generar solicitud
@@ -55,7 +60,7 @@ export class ComprobantesService {
               data[0].sp_build_xml_generar_solicitud.XML[0].valor,
               data[0].sp_build_xml_generar_solicitud.XML[1].valor,
               data[0].sp_build_xml_generar_solicitud.XML[2].valor,
-              data[0].sp_build_xml_generar_solicitud.Empresa.rfc,
+              [data[0].sp_build_xml_generar_solicitud.Empresa.rfc],
               data[0].sp_build_xml_generar_solicitud.Empresa.tipopeticion,
               data[0].sp_build_xml_generar_solicitud.Empresa.fechainicio,
               data[0].sp_build_xml_generar_solicitud.Empresa.fechafin,
@@ -63,32 +68,35 @@ export class ComprobantesService {
               data[0].sp_build_xml_generar_solicitud.Empresa.montomaximo      
       );
       //peticion con fetch
-      const response = await fetch(`${ data[0].sp_build_xml_generar_solicitud.XML[3].valor }`, {
+      const response:any = await fetch(`${ data[0].sp_build_xml_generar_solicitud.XML[3].valor }`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
         },
         body: JSON.stringify(Solicita),
       });
-
-      console.log( "socialcreate",Solicita );
-      console.log( await response.json() );
-      
-
+           
       if (!response.ok) {
         throw new Error(
           `Error en la solicitud externa: ${response.statusText}`,
         );
       }
+      
+      //actualizo el estatus de la peticion.
+      await repository.update(id, {
+        id_estatus: 7,
+        id_xml_peticion: response.json().Response.solicitud,
+      });
+     
+
       //Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Solicita',
         Mensaje: 'Operación Realizada con exito.',
-        Response: await response.json(),
+        Response: await response.json() ,
       };
     } catch (error) {
-      console.error('Error en la solicitud HTTP:', error.message);
       throw new HttpException(
         {
           Success: false,
@@ -100,7 +108,7 @@ export class ComprobantesService {
       );
     }
   }
-  
+  // verifica las peticiones en curso
   public async XML_Comprobante_Verificar(clientId: number,  id: number): Promise<ResponseDto<any>> {
     try {
       const response = await fetch(`${process.env.XML_Comprobante_Verificar}`, {

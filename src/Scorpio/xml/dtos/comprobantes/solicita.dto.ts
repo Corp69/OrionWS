@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MaxLength, MinLength, IsNumber, Max, Min, IsBoolean } from 'class-validator';
+import { IsString, MaxLength, MinLength, IsNumber, Max, Min, IsBoolean, IsArray } from 'class-validator';
 
 export class SolicitaDto {
 
@@ -41,10 +41,9 @@ export class SolicitaDto {
     example: 'XAOXAX',
     description: 'RFC de la persona física o moral',
   })
-  @IsString({ message: 'rfc debe ser un String' })
-  @MinLength(12, { message: 'rfc debe tener al menos 12 caracteres' })
-  @MaxLength(14, { message: 'rfc no debe exceder 14 caracteres' })
-  rfc: string;
+  @IsArray({ message: 'rfc debe ser un arreglo de cadenas' })
+  @IsString({ each: true, message: 'Cada elemento de rfc debe ser un String' })
+  rfc: string[];
 
   @ApiProperty({
     example: 'emisor',
@@ -94,7 +93,7 @@ export class SolicitaDto {
       userPade: string = "",
       passPade: string = "",
       contrato: string = "",
-      rfc: string = "",
+      rfc: string[] = [],
       tipoPeticion: string = "",
       fechaInicio: string = "",
       fechaFin: string = "",
