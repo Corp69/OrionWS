@@ -4,6 +4,8 @@ import { TypeOrmModule }              from '@nestjs/typeorm';
 import { AuthModule }                 from 'src/auth/auth.module';
 /// data source de conexiones
 import { DatabaseConnectionService }  from 'src/shared/eccs/DatabaseConnectionService';
+import { httpClienteService } from '@shared/http/httpClienteService';
+
 // XML CONTROLLERS
 import { SocialController }           from './xml/controllers/social/social.controller';
 import { SyncController }             from './xml/controllers/sync/sync.controller';
@@ -35,6 +37,10 @@ import { ConfiguracionesService } from './controlapp/services/configuraciones/co
 import { SolicitudController } from './controlapp/controllers/solicitud/solicitud.controller';
 import { SolicitudService } from './controlapp/services/solicitud/solicitud.service';
 
+
+//http cliente axios
+import { HttpModule } from '@nestjs/axios';
+
 @Module({
     controllers: 
     [ 
@@ -53,7 +59,9 @@ import { SolicitudService } from './controlapp/services/solicitud/solicitud.serv
     providers:   
     [ 
 
+      //shared
       DatabaseConnectionService,
+      httpClienteService,
       
       //control app
       EmpresasService,     
@@ -68,6 +76,9 @@ import { SolicitudService } from './controlapp/services/solicitud/solicitud.serv
       MulticomService
     ],
     imports: [
+        // http cliente 
+        HttpModule,
+
         AuthModule,
         ConfigModule,
         TypeOrmModule.forFeature([]),

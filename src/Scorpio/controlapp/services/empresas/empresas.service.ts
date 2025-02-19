@@ -76,9 +76,7 @@ export class EmpresasService {
         Mensaje:  'Operacion Realizada con exito.',
         Response: 'Se Almacenó Correctamente !',
       };
-    } catch (error) {
-      console.log( error );
-      
+    } catch (error) {      
       throw new HttpException(
         {
           Success:  false,

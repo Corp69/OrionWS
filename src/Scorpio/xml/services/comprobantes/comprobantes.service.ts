@@ -7,11 +7,13 @@ import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionServic
 import { SolicitaDto } from '../../dtos/comprobantes/solicita.dto';
 //entidad
 import { xml_comprobante_solicita_metada } from '../../../controlapp/entities/solicitudes/xml_comprobante_solicita_metada.entity';
+import { httpClienteService } from '@shared/http/httpClienteService';
 
 @Injectable()
 export class ComprobantesService {
   constructor(
       private readonly dbConnectionService: DatabaseConnectionService,
+      private readonly http: httpClienteService
     ) {}
 
     
@@ -67,25 +69,13 @@ export class ComprobantesService {
               data[0].sp_build_xml_generar_solicitud.Empresa.montominimo,
               data[0].sp_build_xml_generar_solicitud.Empresa.montomaximo      
       );
-      //peticion con fetch
-      const response:any = await fetch(`${ data[0].sp_build_xml_generar_solicitud.XML[3].valor }`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
-        },
-        body: JSON.stringify(Solicita),
-      });
-           
-      if (!response.ok) {
-        throw new Error(
-          `Error en la solicitud externa: ${response.statusText}`,
-        );
-      }
-      
+      //peticion con axios
+      const response = await this.http.HttpPost(Solicita , data[0].sp_build_xml_generar_solicitud.XML[3].valor); 
+    
       //actualizo el estatus de la peticion.
       await repository.update(id, {
         id_estatus: 7,
-        id_xml_peticion: response.json().Response.solicitud,
+        id_xml_peticion: response.solicitud
       });
      
 
@@ -94,7 +84,7 @@ export class ComprobantesService {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Solicita',
         Mensaje: 'Operación Realizada con exito.',
-        Response: await response.json() ,
+        Response: await response,
       };
     } catch (error) {
       throw new HttpException(

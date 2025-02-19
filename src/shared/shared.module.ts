@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConnectionService } from './eccs/DatabaseConnectionService';
 import { AuthModule } from 'src/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { HttpModule } from '@nestjs/axios';
+import { httpClienteService } from './http/httpClienteService';
 //AriesERP Controllers
 import { LstController } from './Arieserp/controllers/lst/lst.controller';
 //AriesERP Services
@@ -21,12 +23,14 @@ import { ListadoService } from './Scorpio/services/listado/listado.service';
 
 
                 DatabaseConnectionService, 
-                ControlappService
+                ControlappService,
+                httpClienteService
             ],
   imports:[
             AuthModule, 
             ConfigModule, 
-            TypeOrmModule.forFeature([])
+            TypeOrmModule.forFeature([]),
+            HttpModule
           ],
   exports: [TypeOrmModule]
 })

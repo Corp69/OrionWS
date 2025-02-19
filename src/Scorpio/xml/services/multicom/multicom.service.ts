@@ -9,6 +9,7 @@ import {
     MultiSolicitaDto,
     MultiVerificaDto
  } from '../../dtos/multicomp';
+import { httpClienteService } from '@shared/http/httpClienteService';
 
 
 @Injectable()
@@ -16,6 +17,7 @@ export class MulticomService {
 
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService,
+    private readonly http: httpClienteService
   ) {}
   //Solicitar multicomprobantes
   public async XML_MultComprobante_Solicitar(clientId: number,  id: number): Promise<any> {
@@ -44,24 +46,15 @@ export class MulticomService {
               data[0].sp_build_xml_generar_solicitud_multicomprobante.Empresa.montomaximo      
       );
       //peticion con fetch
-      const response:any = await fetch(`${ data[0].sp_build_xml_generar_solicitud_multicomprobante.XML[4].valor }`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
-        },
-        body: JSON.stringify(Solicita),
-      });
+      
 
-      if (!response.ok) {
-        throw new Error(
-          `Error en la solicitud externa: ${response.statusText}`,
-        );
-      }
+      const response = await this.http.HttpPost(Solicita , data[0].sp_build_xml_generar_solicitud_multicomprobante.XML[4].valor);
+
 
       //actualizo el estatus de la peticion.
       await repository.update(id, {
         id_estatus: 7,
-        id_xml_peticion: response.json().Response.solicitud,
+        id_xml_peticion: response.solicitud,
       });
       
       // Retornamos la respuesta formateada si la solicitud fue exitosa
@@ -69,7 +62,7 @@ export class MulticomService {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Comprobante',
         Mensaje: 'Operación Realizada con exito.',
-        Response: await response.json(),
+        Response: await response,
       };
     } catch (error) {
       console.error('Error en la solicitud HTTP:', error.message);

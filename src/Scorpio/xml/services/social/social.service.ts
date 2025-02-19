@@ -12,12 +12,14 @@ import {
   SocialLstDto,
   SocialUpdateDto
 } from '../../dtos/social';
+import { httpClienteService } from '@shared/http/httpClienteService';
 
 
 @Injectable()
 export class SocialService {
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService,
+    private readonly http: httpClienteService
   ) {}
 
   public async XML_Social_Lst( clientId: number, id: number ):Promise<ResponseDto<any>> {
@@ -32,20 +34,15 @@ export class SocialService {
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.XML[2].value
       );
-      //peticion con Fetch
-      const response = await fetch(`${ data[0].sp_build_empresa_xml.XML[7].value }`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
-      },
-      body: JSON.stringify(Body), // Convertimos el DTO a JSON
-    });
-    if (!response.ok) { throw new Error( `Error en la solicitud externa: ${response.statusText}`);}
+      
+    //peticion con axios
+    const response = await this.http.HttpPost(Body , data[0].sp_build_empresa_xml.XML[7].value);
+
     return {
       Success: true,
       Titulo:  'Scorpio XL - Modulo XML - Razon Social Lista',
       Mensaje: 'Operacion Realizada con exito.',
-      Response: await response.json()
+      Response: await response
     };
     } catch (error) {
       console.error('Error en la solicitud HTTP:', error.message);
@@ -88,17 +85,10 @@ export class SocialService {
                   ),
         'fiel'              
       );
-      //peticion con Fetch
-      const response = await fetch(`${ data[0].sp_build_empresa_xml.XML[6].value }`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
-        },
-        body: JSON.stringify(SocialCreate), // Convertimos el DTO a JSON
-      });
 
+      //peticion con axios
+      const response = await this.http.HttpPost(SocialCreate , data[0].sp_build_empresa_xml.XML[6].value);
       
-      if (!response.ok) { throw new Error( `Error en la solicitud externa: ${response.statusText}`);}
       return {
         Success: true,
         Titulo:  'Scorpio XL - Modulo XML - Razon Social Agregar',
