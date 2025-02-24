@@ -10,6 +10,7 @@ export class scorpio_empresa {
     @PrimaryGeneratedColumn()            id:                      number;
     @Column('varchar', { unique: true }) rfc:                     string;
     @Column('varchar')                   pass:                    string;
+    @Column('varchar')                   passpfx:                 string;
     @Column('varchar')                   observaciones:           string;
     @Column('varchar')                   nombrecomercial:         string;
     @Column('varchar')                   aviso_privacidad:        string;

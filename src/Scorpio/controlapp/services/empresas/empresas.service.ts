@@ -14,7 +14,7 @@ export class EmpresasService {
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService
   ) {}
-  public async getEmpresa( clientId: number, id: number ): Promise<ResponseDto<any>> {
+  public async getEmpresaCatalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
@@ -38,22 +38,46 @@ export class EmpresasService {
       );
     }
   }
+
+  public async getEmpresa( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(`SELECT "scorpio_empresas".fn_empresas_obj(${id})`);
+      return {
+        Success:  true,
+        Titulo:   'Scorpio XL - Modulo App - Empresas.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data[0].fn_empresas_obj,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'Scorpio XL- Modulo App - Empresas.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
   
   public async Agregar( clientId: number, EmpresasDTO: EmpresasDTO ): Promise<ResponseDto<any>> {
     try {
       let connection = await this.dbConnectionService.getConnection(clientId);
       let repository = connection.getRepository(scorpio_empresa);
       let { id, ...empresaData } = EmpresasDTO;
-      let savedEntity = await repository.save(repository.create(empresaData)); 
+      let response = await repository.save(repository.create(empresaData)); 
       return {
         Success:  true,
+        Id:       response.id,
         Titulo:   'Scorpio XL - Modulo App - Empresas Agregar',
         Mensaje:  'Operacion Realizada con exito.',
         Response: 'Se Almacenó Correctamente !',
       };
     } catch (error) {
-      console.log( error );
-      
       throw new HttpException(
         {
           Success:  false,
@@ -76,6 +100,7 @@ export class EmpresasService {
 
       return {
         Success:  true,
+        Id:       response.id,
         Titulo:   'Scorpio XL - Modulo App - Empresas Actualizar',
         Mensaje:  'Operacion Realizada con exito.',
         Response: 'Se Actualizó Correctamente!',

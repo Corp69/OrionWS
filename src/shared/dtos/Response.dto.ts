@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional }  from 'class-validator';
 
 export class ResponseDto<T> {
+  
+  @IsOptional()
+  Id?: number;
 
   @ApiProperty({ 
         example: true, 

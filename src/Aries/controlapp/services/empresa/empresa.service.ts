@@ -13,7 +13,34 @@ export class EmpresaService {
     private readonly dbConnectionService: DatabaseConnectionService,
   ) {}
 
-  public async getEmpresa( clientId: number ): Promise<ResponseDto<any>> {
+  public async getSucursal( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(
+        `SELECT "arieserp".fn_get_empresa(${id})`,
+      );
+      return {
+        Success:  true,
+        Titulo:   'AriesERP - Modulo App - Empresas - Obtener.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data[0].fn_get_empresa,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'AriesERP - Modulo App - Empresas - Obtener.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
+  public async Catalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
@@ -23,7 +50,7 @@ export class EmpresaService {
       );
       return {
         Success:  true,
-        Titulo:   'AriesERP - Modulo App - Empresas.',
+        Titulo:   'AriesERP - Modulo App - Empresas - Catalogo.',
         Mensaje:  'Operacion Realizada con exito.',
         Response: data[0].app_empresas,
       };
@@ -31,7 +58,7 @@ export class EmpresaService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'AriesERP - Modulo App - Empresas.',
+          Titulo:   'AriesERP - Modulo App - Empresas - Catalogo.',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
@@ -39,6 +66,7 @@ export class EmpresaService {
       );
     }
   }
+
 
 
   public async Agregar( clientId: number, EmpresasDTO: EmpresasDTO  ): Promise<ResponseDto<any>> {

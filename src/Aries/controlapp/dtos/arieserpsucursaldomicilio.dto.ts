@@ -20,14 +20,15 @@ export class DomicilioSucursalDTO {
   })
   id: number;
 
-  @IsNumber()
   @ApiProperty({
-    example: 1,
-    description:
-      'ID: identificador de la sucursal dentro de AriesERP',
+    example: '20500',
+    description: 'codigo postal del domicilio del proveedor.',
+    uniqueItems: true,
   })
-  @Min(5, { message: "CP debe tener minimo 5 digitos" })
-  cp: number;
+  // @IsString({ message: 'nombre: debe ser String' })
+  @MinLength(5, { message: 'El cp debe tener al menos 5 caracteres.' })
+  @MaxLength(6, { message: 'El cp no debe exceder a 5 digitos.' })
+  cp: string;
 
   @ApiProperty({
     example: 'Tuitlan',
@@ -39,20 +40,21 @@ export class DomicilioSucursalDTO {
   calle: string;
 
   @ApiProperty({
-    example: 122,
-    description:
-      'num_ext: Numero exterior de la sucursal',
+    example: '138',
+    description: 'Numero exterior del domicilio del proveedor.',
   })
-  @Min(1, { message: "num_ext debe tener minimo 1 digito" })
-  num_ext: number;
+  @IsString({ message: 'num_ext: debe ser String' })
+  @MinLength(1, { message: 'El num_ext debe tener al menos 1 digito.' })
+  @MaxLength(6, { message: 'El num_ext no debe exceder a 5 digitos.' })
+  num_ext: string;
 
   @ApiProperty({
-    example: 122,
-    description:
-      'num_int: Numero exterior de la sucursal',
+    example: '12',
+    description: 'Numero interior del domicilio del proveedor.',
   })
-  @Min(1, { message: "num_ext debe tener minimo 1 digito" })
-  num_int: number;
+  @IsString({ message: 'correo_personal: debe ser String' })
+  @MaxLength(4, { message: 'correo_personal no debe exceder a 3 digitos.' })
+  num_int: string;
 
   @ApiProperty({
     example: true,

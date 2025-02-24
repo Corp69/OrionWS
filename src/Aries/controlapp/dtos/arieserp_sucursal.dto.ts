@@ -25,8 +25,8 @@ export class SucursalDTO {
     description: 'Descripción de la sucursal.',
   })
   @IsString({ message: 'Descripción: debe ser String' })
-  @MinLength(10, { message: 'El Descripción debe tener al menos 10 caracteres.' })
-  @MaxLength(100, { message: 'El Descripción no debe exceder a 100 digitos.' })
+  @MinLength(3, { message: 'El Descripción debe tener al menos 10 caracteres.' })
+  @MaxLength(50, { message: 'El Descripción no debe exceder a 100 digitos.' })
   descripcion: string;
 
   @ApiProperty({

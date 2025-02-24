@@ -12,39 +12,27 @@ import { EmpresasDTO } from '../../dtos/arieserp_empresas.dto';
 export class EmpresaController {
   constructor(private readonly Service: EmpresaService) {}
 
-
-  @Get('obtener')
-  @ApiOperation({ summary: 'AriesERP - Modulo App - Empresas.' })
+  @Get('obtener/:id')
+  @ApiOperation({
+    summary: 'AriesERP - Modulo App - Empresas - Obtener.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Empresas.',
+    description: 'AriesERP - Modulo App - Empresas - Obtener.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo:  'AriesERP - Modulo App - Empresas.',
+          Titulo: 'AriesERP - Modulo App - Empresas - Obtener.',
           Mensaje: 'Operacion Realizada con exito.',
-          Response: {
-            empresas: [
-              {
-                "rfc": "CACE970323V71",
-                "nombrecomercial": "DEVELOPER",
-                "regimen": "General de Ley Personas Morales",
-                "id_regimen": 1,
-                "usocfdi": "Adquisición de mercancias",
-                "id_usocfdi": 1,
-                "estatus": "Activo",
-                "icon": "<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABNElEQVR4nO2UvUoDQRSFPxFFRDQ7maidjYgGYnY2CIKKWqggYqFYqYVg7xMIvoews0OCxT6UjU+QQlYLXZn8ESGI2R0byelmiu9w7rkzMNL/U8rY7GNZ/A08vhiXod+Q2v+QYWXHObyoq09S+6kMq01p1lecwqX261240MHmCM7QYylEqulF6lXU/fKwhYrfzNzCPROknlHJjyZxBriVMGrNwlsmkXrzGrXKAPhkrm0p6tpqn8l7SW/4/XARqefcqzjQJG7D7Z2TPbcd9EyMSgpavXQMP509om9JTBvuhbVbXKqVJFKJFwXu4T0dLMxPH5ds2ROukCfAFrAHHAEPwH7nvAzYDq5twKwGZ8AdcAMsAlfAKWD/93vAjmoOOM+ToJviEFDANjAF7AJLwCUwk9XAqb4A04+am93uALIAAAAASUVORK5CYII=\">"
-              }
-            ],
-          },
+          Response: {},
         },
       },
     },
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Empresas.',
+    description: 'AriesERP - Modulo App - Empresas - Obtener.',
     content: {
       'application/json': {
         example: {
@@ -57,11 +45,47 @@ export class EmpresaController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public getConf(@GetUser('id') idUser: number) {
-    return this.Service.getEmpresa(idUser);
+  public getConf(@GetUser('id') idUser: number, @Param('id') id: number) {
+    return this.Service.getSucursal(idUser, id);
   }
 
-  
+  @Get('catalogo/:id')
+  @ApiOperation({
+    summary: 'AriesERP - Modulo App - Empresas - Catalogo.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'AriesERP - Modulo App - Empresas - Catalogo.',
+    content: {
+      'application/json': {
+        example: {
+          Success: true,
+          Titulo: 'AriesERP - Modulo App - Empresas - Catalogo.',
+          Mensaje: 'Operacion Realizada con exito.',
+          Response: {},
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'AriesERP - Modulo App - Empresas - Catalogo.',
+    content: {
+      'application/json': {
+        example: {
+          message: 'No tienes Autorizacion.',
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public getCatalogo(@GetUser('id') idUser: number, @Param('id') id: number) {
+    return this.Service.Catalogo(idUser, id);
+  }
+
   @Post('agregar')
   @ApiOperation({
     summary: 'AriesERP - Modulo App - Empresas Agregar',
