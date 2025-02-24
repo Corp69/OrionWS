@@ -6,11 +6,12 @@ import {
     SolicitaDto,
     VerificaDto
  } from '../../dtos/comprobantes';
+import { Auth } from 'src/auth/decorators';
 
 
 @ApiTags('OrionWS - Scorpio XL - XML Comprobante.')
 @Controller('scorpio/comprobante')
-//@Auth()
+@Auth()
 export class ComprobantesController {
 
   constructor(private readonly Service: ComprobantesService ) {}
