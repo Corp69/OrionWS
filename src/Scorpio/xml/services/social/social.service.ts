@@ -95,16 +95,16 @@ export class SocialService {
         'fiel',
       );
       //peticion con Axios
-      const response = await this.clientHttp.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[6].value}`,
-        JSON.stringify(SocialCreate),
-      );
+      // const response = await this.clientHttp.httpPost(
+      //   `${data[0].sp_build_empresa_xml.XML[6].value}`,
+      //   JSON.stringify(SocialCreate),
+      // );
 
       return {
         Success: true,
         Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
         Mensaje: 'Operacion Realizada con exito.',
-        Response: await response,
+        Response: true,
       };
     } catch (error) {
       throw new HttpException(
