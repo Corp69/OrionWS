@@ -5,6 +5,8 @@ import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
 //Dtos
 import { SolicitaDto } from '../../dtos/comprobantes/solicita.dto';
+import { VerificaDto } from '../../dtos/comprobantes';
+
 //entidad
 import { xml_comprobante_solicita_metada } from '../../../controlapp/entities/solicitudes/xml_comprobante_solicita_metada.entity';
 import { httpClienteService } from '@shared/http/httpClienteService';
@@ -101,20 +103,28 @@ export class ComprobantesService {
   // verifica las peticiones en curso
   public async XML_Comprobante_Verificar(clientId: number,  id: number): Promise<ResponseDto<any>> {
     try {
-      const response = await fetch(`${process.env.XML_Comprobante_Verificar}`, {
-        method: 'POST',
-      });
-      if (!response.ok) {
-        throw new Error(
-          `Error en la solicitud externa: ${response.statusText}`,
-        );
-      }
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+
+      //Funcion
+      const data = await connection.query(`select "scorpio_xml".sp_build_xml_verifica();`);
+      // construccion de XML - create social
+            const Body: VerificaDto = new VerificaDto(
+              data[0].sp_build_xml_verifica.XML[0].value,
+              data[0].sp_build_xml_verifica.XML[1].value,
+              data[0].sp_build_xml_verifica.XML[2].value,
+              data[0].sp_build_xml_verifica.XML[2].value
+            );
+
+      //peticion con axios
+      const response = await this.http.HttpPost(Body , data[0].sp_build_xml_verifica.XML[5].valor);
+
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Verifica',
         Mensaje: 'Operación Realizada con exito.',
-        Response: await response.json(),
+        Response: await response,
       };
     } catch (error) {
       console.error('Error en la solicitud HTTP:', error.message);

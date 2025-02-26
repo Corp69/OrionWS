@@ -93,7 +93,7 @@ export class SocialService {
         Success: true,
         Titulo:  'Scorpio XL - Modulo XML - Razon Social Agregar',
         Mensaje: 'Operacion Realizada con exito.',
-        Response: await response.json()
+        Response: await response
       };
     } catch (error) {
       throw new HttpException(
@@ -123,21 +123,14 @@ export class SocialService {
        data[0].sp_build_empresa_xml.Empresa.pass
      );
 
-     
+   //peticion con axios
+   const response = await this.http.HttpPost(Body , data[0].sp_build_empresa_xml.XML[8].value);
 
-     const response = await fetch(`${ data[0].sp_build_empresa_xml.XML[8].value }`, {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
-     },
-     body: JSON.stringify(Body), // Convertimos el DTO a JSON
-   });
-   if (!response.ok) { throw new Error( `Error en la solicitud externa: ${response.statusText}`);}
     return {
       Success:  true,
       Titulo:   'Scorpio XL - Modulo XML - Razon Social Actualizar.',
       Mensaje:  'Operacion Realizada con exito.',
-      Response: await response.json()
+      Response: await response
       };
     } catch (error) {
       throw new HttpException(
@@ -165,21 +158,15 @@ export class SocialService {
         data[0].sp_build_empresa_xml.XML[2].value,
         data[0].sp_build_empresa_xml.Empresa.rfc
       );
-      const response = await fetch(`${ data[0].sp_build_empresa_xml.XML[9].value }`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
-      },
-      body: JSON.stringify(Body), // Convertimos el DTO a JSON
-    });
 
+    //peticion con axios
+    const response = await this.http.HttpPost(Body , data[0].sp_build_empresa_xml.XML[9].value);
 
-    if (!response.ok) { throw new Error( `Error en la solicitud externa: ${response.statusText}`);}
     return {
       Success:  true,
       Titulo:   'Scorpio XL - Modulo XML - Razon Social Eliminar',
       Mensaje:  'Operacion Realizada con exito.',
-      Response: await response.json()
+      Response: await response
     };
     } catch (error) {
       throw new HttpException(
