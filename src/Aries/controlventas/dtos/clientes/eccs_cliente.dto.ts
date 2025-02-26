@@ -50,6 +50,15 @@ export class ClienteDTO {
   curp: string;
 
   @ApiProperty({
+    example: 4651068560,
+    description: 'Telefono: Número del empleado. Debe tener exactamente 10 dígitos.',
+  })
+  @IsNumber({}, { message: 'El Telefono debe ser un número.' })
+  @Min(1000000000, { message: 'El Telefono debe tener al menos 10 dígitos.' })
+  @Max(9999999999, { message: 'El Telefono no debe tener más de 10 dígitos.' })
+  telefono: number;
+
+  @ApiProperty({
     example: 'ECCS34',
     description: 'codigo: codigo de referencia',
     uniqueItems: true,

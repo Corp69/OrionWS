@@ -104,42 +104,6 @@ constructor(
     }
   }
 
-
-  public async getlstDepartamento( clientId: number): Promise<ResponseDto<any>> {
-    try {
-      // Obtener la conexión adecuada según el cliente.
-      const connection = await this.dbConnectionService.getConnection(clientId);
-      //FUNCION
-      const data = await connection.query(
-        ` select
-            id,
-            descripcion
-          from rh_departamento
-          where id_estatus in (1,5)
-              and activo is true
-          order by id
-        `,
-      );
-      return {
-        Success:  true,
-        Titulo:   'OrionWS: AriesERP - Modulo RH - listado - Departamentos.',
-        Mensaje:  'Operacion Realizada con exito.',
-        Response: data,
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          Success:  false,
-          Titulo:   'OrionWS: AriesERP - Modulo RH - listado - Departamentos.',
-          Mensaje:  'Operación no se realizó',
-          Response: error.message || error,
-        },
-        HttpStatus.OK,
-      );
-    }
-  }
-
-
   // public async getlistDomicilios( clientId: number, id: number ): Promise<ResponseDto<any>> {
   //   try {
   //     // Obtener la conexión adecuada según el cliente.
