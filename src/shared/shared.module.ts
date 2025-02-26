@@ -13,10 +13,13 @@ import { ControlappService } from './Arieserp/services/controlapp/controlapp.ser
 import { ListadoController } from './Scorpio/controllers/listado/listado.controller';
 //Scorpio Services
 import { ListadoService } from './Scorpio/services/listado/listado.service';
+import { HttpModule } from '@nestjs/axios';
+import { clientHttp } from './client/clienthttp';
 
 @Module({
   controllers: [LstController, ListadoController],
-  providers:[   
+  providers:[   //servicio http
+                clientHttp,
                 ListadoService,
 
 
@@ -26,7 +29,8 @@ import { ListadoService } from './Scorpio/services/listado/listado.service';
                 ControlappService,
                 httpClienteService
             ],
-  imports:[
+  imports:[  
+            HttpModule,
             AuthModule, 
             ConfigModule, 
             TypeOrmModule.forFeature([]),

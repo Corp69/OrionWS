@@ -36,6 +36,7 @@ import { ControlbitacoraModule }      from './controlbitacora/controlbitacora.mo
 import { ConfiguracionesService } from './controlapp/services/configuraciones/configuraciones.service';
 import { SolicitudController } from './controlapp/controllers/solicitud/solicitud.controller';
 import { SolicitudService } from './controlapp/services/solicitud/solicitud.service';
+import { clientHttp } from '@shared/client/clienthttp';
 
 
 //http cliente axios
@@ -61,8 +62,7 @@ import { HttpModule } from '@nestjs/axios';
 
       //shared
       DatabaseConnectionService,
-      httpClienteService,
-      
+      clientHttp,
       //control app
       EmpresasService,     
       SolicitudService,     
@@ -76,9 +76,7 @@ import { HttpModule } from '@nestjs/axios';
       MulticomService
     ],
     imports: [
-        // http cliente 
         HttpModule,
-
         AuthModule,
         ConfigModule,
         TypeOrmModule.forFeature([]),

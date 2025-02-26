@@ -53,8 +53,8 @@ import { HttpModule } from '@nestjs/axios';
         },
       }
     }),
-      //http cliente
-      HttpModule,
+      //cliente http
+      HttpModule, 
       //OrionWS
       AuthModule,
       //Scorpio XL
