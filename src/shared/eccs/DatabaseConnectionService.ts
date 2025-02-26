@@ -75,10 +75,10 @@ export class DatabaseConnectionService {
       case 1:
         return {
           type: 'postgres',
-          host: 'autorack.proxy.rlwy.net',
-          port: 29695,
+          host: 'gondola.proxy.rlwy.net',
+          port: 14262,
           username: 'postgres',
-          password: 'uoSVslGJOokvCiiBltRKiQTYIYAMYupi',
+          password: 'iesvjllOpXBBXqUCQfOaqLPirWmXHcQG',
           database: 'Dev',
         };
       case 2:

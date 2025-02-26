@@ -69,16 +69,15 @@ export class EmpresasService {
       let connection = await this.dbConnectionService.getConnection(clientId);
       let repository = connection.getRepository(scorpio_empresa);
       let { id, ...empresaData } = EmpresasDTO;
-      let savedEntity = await repository.save(repository.create(empresaData)); 
+      let response = await repository.save(repository.create(empresaData)); 
       return {
         Success:  true,
+        Id:       response.id,
         Titulo:   'Scorpio XL - Modulo App - Empresas Agregar',
         Mensaje:  'Operacion Realizada con exito.',
         Response: 'Se Almacenó Correctamente !',
       };
     } catch (error) {
-      console.log( error );
-      
       throw new HttpException(
         {
           Success:  false,
@@ -101,6 +100,7 @@ export class EmpresasService {
 
       return {
         Success:  true,
+        Id:       response.id,
         Titulo:   'Scorpio XL - Modulo App - Empresas Actualizar',
         Mensaje:  'Operacion Realizada con exito.',
         Response: 'Se Actualizó Correctamente!',

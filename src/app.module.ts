@@ -23,6 +23,7 @@ import { ControllogisticaModule } from './Aries/controllogistica/controllogistic
 import { ControlventasModule } from './Aries/controlventas/controlventas.module';
 import { ControlpmiModule } from './Aries/controlpmi/controlpmi.module';
 import { ControlpuntoventaModule } from './Aries/controlpuntoventa/controlpuntoventa.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -50,7 +51,8 @@ import { ControlpuntoventaModule } from './Aries/controlpuntoventa/controlpuntov
         },
       }
     }),
-
+      //cliente http
+      HttpModule, 
       //OrionWS
       AuthModule,
       //Scorpio XL
