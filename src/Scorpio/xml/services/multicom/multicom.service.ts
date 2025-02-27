@@ -10,7 +10,7 @@ import {
     MultiSolicitaDto,
     MultiVerificaDto
  } from '../../dtos/multicomp';
-import { httpClienteService } from '@shared/http/httpClienteService';
+ import { clientHttp } from '@shared/client/clienthttp';
 
 
 
@@ -19,7 +19,7 @@ export class MulticomService {
 
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService,
-    private readonly http: httpClienteService
+    private readonly http: clientHttp
   ) {}
   //Solicitar multicomprobantes
   public async XML_MultComprobante_Solicitar(clientId: number,  id: number): Promise<ResponseDto<any>> {
@@ -48,7 +48,7 @@ export class MulticomService {
               data[0].sp_build_xml_generar_solicitud_multicomprobante.Empresa.montomaximo      
       );
       //peticion con axios
-      const response = await this.http.HttpPost(Solicita , data[0].sp_build_xml_generar_solicitud_multicomprobante.XML[4].valor);
+      const response = await this.http.httpPost(data[0].sp_build_xml_generar_solicitud_multicomprobante.XML[4].valor, Solicita);
 
 
       //actualizo el estatus de la peticion.
@@ -95,7 +95,7 @@ export class MulticomService {
                   );
       
             //peticion con axios
-            const response = await this.http.HttpPost(Body , data[0].sp_build_xml_verifica.XML[7].valor);
+            const response = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[7].valor, Body );
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,

@@ -56,6 +56,7 @@ export class SolicitudController {
     }
 
     @Post('agregar/:id')
+    
     @ApiOperation({
         summary: 'Scorpio XL - Modulo App - Agregar Solicitud Metadata.',
     })
@@ -95,6 +96,7 @@ export class SolicitudController {
         @Body() SolicitaDto: SolicitaDto,
         @GetUser('id') idUser: number,
         @Param('id') id: number
+        
     ) {
         return this.Service.Agregar(idUser, id, SolicitaDto);
     }

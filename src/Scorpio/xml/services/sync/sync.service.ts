@@ -6,13 +6,13 @@ import{ SyncDto,
 //datasource
 import { DatabaseConnectionService } from '@shared/eccs/DatabaseConnectionService';
 import { ResponseDto } from '@shared/dtos/Response.dto';
-import { httpClienteService } from '@shared/http/httpClienteService';
+import { clientHttp } from '@shared/client/clienthttp';
 
 @Injectable()
 export class SyncService {
   constructor(
       private readonly dbConnectionService: DatabaseConnectionService,
-      private readonly http: httpClienteService
+      private readonly http: clientHttp
     ) {}
 
   public async XML_Sync( SyncDto: SyncDto ): Promise<any> {
@@ -63,7 +63,7 @@ export class SyncService {
       );
         
       //peticion con axios
-      const response = await this.http.HttpPost(Body , data[0].sp_build_empresa_xml.XML[7].value);
+      const response = await this.http.httpPost(data[0].sp_build_empresa_xml.XML[7].value, Body);
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,

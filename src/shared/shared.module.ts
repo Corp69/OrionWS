@@ -3,8 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConnectionService } from './eccs/DatabaseConnectionService';
 import { AuthModule } from 'src/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { HttpModule } from '@nestjs/axios';
-import { httpClienteService } from './http/httpClienteService';
 //AriesERP Controllers
 import { LstController } from './Arieserp/controllers/lst/lst.controller';
 //AriesERP Services
@@ -26,8 +24,7 @@ import { clientHttp } from './client/clienthttp';
 
 
                 DatabaseConnectionService, 
-                ControlappService,
-                httpClienteService
+                ControlappService
             ],
   imports:[  
             HttpModule,

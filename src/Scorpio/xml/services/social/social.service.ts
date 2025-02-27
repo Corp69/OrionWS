@@ -12,7 +12,6 @@ import {
   SocialLstDto,
   SocialUpdateDto,
 } from '../../dtos/social';
-import { httpClienteService } from '@shared/http/httpClienteService';
 
 @Injectable()
 export class SocialService {
@@ -25,6 +24,12 @@ export class SocialService {
     clientId: number,
     id: number,
   ): Promise<ResponseDto<any>> {
+
+
+    console.log( '  estamos en el servicio ');
+    
+
+
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
@@ -32,18 +37,24 @@ export class SocialService {
       const data = await connection.query(
         `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
       );
+
+      console.log(  data[0].sp_build_empresa_xml );
+      
       // construccion de XML - create social
       const Body: SocialLstDto = new SocialLstDto(
         data[0].sp_build_empresa_xml.XML[0].value,
+        data[0].sp_build_empresa_xml.XML[13].value,
         data[0].sp_build_empresa_xml.XML[1].value,
-        data[0].sp_build_empresa_xml.XML[2].value,
       );
+      console.log(  JSON.stringify(Body) );
+      
       //peticion con Axios
       const response = await this.clientHttp.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[7].value}`,
+        `${data[0].sp_build_empresa_xml.XML[6].value}`,
         JSON.stringify(Body),
       );
 
+      console.log(response)
       return {
         Success: true,
         Titulo: 'Scorpio XL - Modulo XML - Razon Social Lista',

@@ -9,13 +9,13 @@ import { VerificaDto } from '../../dtos/comprobantes';
 
 //entidad
 import { xml_comprobante_solicita_metada } from '../../../controlapp/entities/solicitudes/xml_comprobante_solicita_metada.entity';
-import { httpClienteService } from '@shared/http/httpClienteService';
+import { clientHttp } from '@shared/client/clienthttp';
 
 @Injectable()
 export class ComprobantesService {
   constructor(
       private readonly dbConnectionService: DatabaseConnectionService,
-      private readonly http: httpClienteService
+      private readonly http: clientHttp
     ) {}
 
     
@@ -72,7 +72,7 @@ export class ComprobantesService {
               data[0].sp_build_xml_generar_solicitud.Empresa.montomaximo      
       );
       //peticion con axios
-      const response = await this.http.HttpPost(Solicita , data[0].sp_build_xml_generar_solicitud.XML[3].valor); 
+      const response = await this.http.httpPost(data[0].sp_build_xml_generar_solicitud.XML[3].valor, Solicita); 
     
       //actualizo el estatus de la peticion.
       await repository.update(id, {
@@ -117,7 +117,7 @@ export class ComprobantesService {
             );
 
       //peticion con axios
-      const response = await this.http.HttpPost(Body , data[0].sp_build_xml_verifica.XML[5].valor);
+      const response = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[5].valor, Body);
 
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {

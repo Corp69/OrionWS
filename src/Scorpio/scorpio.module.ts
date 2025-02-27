@@ -4,8 +4,6 @@ import { TypeOrmModule }              from '@nestjs/typeorm';
 import { AuthModule }                 from 'src/auth/auth.module';
 /// data source de conexiones
 import { DatabaseConnectionService }  from 'src/shared/eccs/DatabaseConnectionService';
-import { httpClienteService } from '@shared/http/httpClienteService';
-
 // XML CONTROLLERS
 import { SocialController }           from './xml/controllers/social/social.controller';
 import { SyncController }             from './xml/controllers/sync/sync.controller';
