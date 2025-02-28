@@ -13,8 +13,10 @@ export class xml_comprobante_solicita_metada {
     @Column('varchar')                   fechafin:                string;
     @Column('int')                       montominimo:             number;
     @Column('int')                       montomaximo:             number;
+    @Column('int')                       id_xml_peticion:         string;
     @Column('int')                       id_empresa:              number;
     @Column('int')                       id_estatus:              number;
+    @Column('int')                       id_xml_scorpio_tipo:     number;
     @Column('boolean')                   activo:                  boolean;
 
 

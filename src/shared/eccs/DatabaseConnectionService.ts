@@ -19,7 +19,7 @@ import { rh_puesto } from 'src/Aries/controlrh/entities/puesto/rh_puesto.entity'
 @Injectable()
 export class DatabaseConnectionService {
   private readonly connections: Map<number, DataSource> = new Map();
-
+  
   public async getConnection(clientId: number): Promise<DataSource> {
     const dbConfig = this.getDatabaseConfig(clientId);
     if (this.connections.has(clientId)) {

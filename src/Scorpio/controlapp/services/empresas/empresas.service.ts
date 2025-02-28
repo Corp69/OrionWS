@@ -8,11 +8,14 @@ import { EmpresasDTO } from '../../dtos/empresa/empresas.dto';
 // entidad
 import { scorpio_empresa } from '../../entities/empresa/scorpio_empresa.entity';
 
+import { SocialService } from 'src/Scorpio/xml/services/social/social.service';
+
 @Injectable()
 export class EmpresasService {
   
   constructor(
-    private readonly dbConnectionService: DatabaseConnectionService
+    private readonly dbConnectionService: DatabaseConnectionService,
+    private readonly socialService: SocialService
   ) {}
   public async getEmpresaCatalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
@@ -120,6 +123,9 @@ export class EmpresasService {
 
   public async Eliminar( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
+      // eliminar razon social con el proveedor
+      const socialResponse = await this.socialService.XML_Social_Delete(clientId, id);
+
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION

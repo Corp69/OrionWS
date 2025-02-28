@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MulticomService } from '../../services/multicom/multicom.service';
 
@@ -6,16 +6,17 @@ import {
     MultiSolicitaDto,
     MultiVerificaDto
  } from '../../dtos/multicomp';
+import { Auth, GetUser } from 'src/auth/decorators';
 
 
 
 @ApiTags('OrionWS - Scorpio XL - XML Multi-Comprobantes')
 @Controller('scorpio/multicomp')
-//@Auth()
+@Auth()
 export class MulticomController {
   constructor(private readonly Service: MulticomService) {}
 
-  @Post('solicita')
+  @Post('solicita/:id')
   @ApiOperation({
     summary: 'OrionWS: Scorpio XL - Modulo XML - [Multi] Solicitar',
   })
@@ -39,11 +40,14 @@ export class MulticomController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public XML_MultComprobante_Solicitar(@Body() MultiSolicitaDto: MultiSolicitaDto) {
-    return this.Service.XML_MultComprobante_Solicitar(MultiSolicitaDto);
+  public XML_MultComprobante_Solicitar(
+    @GetUser('id') idUser: number,
+    @Param('id') id: number
+  ) {
+    return this.Service.XML_MultComprobante_Solicitar(idUser, id);
   }
 
-  @Post('verificar')
+  @Post('verificar/:id')
   @ApiOperation({
     summary: 'OrionWS: Scorpio XL - Modulo XML - [Multi]Verificar',
   })
@@ -67,7 +71,10 @@ export class MulticomController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public XML_MultComprobante_Verificar(@Body() MultiVerificaDto: MultiVerificaDto ) {
-    return this.Service.XML_MultComprobante_Verificar(MultiVerificaDto);
+  public XML_MultComprobante_Verificar(
+    @GetUser('id') idUser: number,
+    @Param('id') id: number 
+  ) {
+    return this.Service.XML_MultComprobante_Verificar(idUser, id);
   }
 }

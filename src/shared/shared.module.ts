@@ -30,7 +30,8 @@ import { clientHttp } from './client/clienthttp';
             HttpModule,
             AuthModule, 
             ConfigModule, 
-            TypeOrmModule.forFeature([])
+            TypeOrmModule.forFeature([]),
+            HttpModule
           ],
   exports: [TypeOrmModule]
 })
