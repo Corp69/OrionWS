@@ -10,7 +10,7 @@ import { GetUser } from 'src/auth/decorators';
 export class SyncController {
   constructor(private readonly Service: SyncService) {}
 
-  @Post('data')
+  @Post('data/:id')
   @ApiOperation({
     summary: 'OrionWS: Scorpio XL - Modulo XML - Syncronizar [ SAT ]',
   })
@@ -34,8 +34,11 @@ export class SyncController {
   })
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public Sync(@Body() SyncDtoDto: SyncDto) {
-    return this.Service.XML_Sync(SyncDtoDto);
+  public Sync(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number
+  ) {
+    return this.Service.XML_Sync(idUser, id);
   }
 
   @Post('lst')

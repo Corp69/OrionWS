@@ -55,8 +55,50 @@ export class SolicitudController {
     return this.Service.getSolicitud(idUser, id);
     }
 
+    @Get('multicom/:id')
+    @ApiOperation({
+    summary: 'Scorpio XL - Modulo XML - Consulta multicomprobantes',
+    })
+    @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo XML - Consulta multicomprobantes.',
+    content: {
+        'application/json': {
+        example: {
+            Success: true,
+            Titulo: 'Scorpio XL - Modulo XML - Consulta multicomprobantes',
+            Mensaje: 'Operación Realizada con exito.',
+            Response: {
+            codigo: 0,
+            mensaje: 'No se encontró el parámetro userPade, favor de verificar',
+            respuesta: '',
+            },
+        },
+        },
+    },
+    })
+    @ApiResponse({
+    status: 401,
+    description: 'Scorpio XL - Modulo XML - Consulta multicomprobantes.',
+    content: {
+        'application/json': {
+        example: {
+            message: 'No tienes Autorizacion.',
+            statusCode: 401,
+        },
+        },
+    },
+    })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public getMulticom(
+    @GetUser('id') idUser: number,
+    @Param('id') id: number
+    ) {
+    return this.Service.getMulticom(idUser, id);
+    }
+
     @Post('agregar/:id')
-    
     @ApiOperation({
         summary: 'Scorpio XL - Modulo App - Agregar Solicitud Metadata.',
     })
