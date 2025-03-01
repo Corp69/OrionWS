@@ -108,7 +108,7 @@ export class EmpresaService {
         Id:       response.id,
         Titulo:   'AriesERP - Modulo App - Empresas Actualizar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: response,
+        Response: "Se actualizo correctamente!",
       };
     } catch (error) {
       throw new HttpException(
