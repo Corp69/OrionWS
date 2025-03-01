@@ -163,13 +163,13 @@ export class EmpleadoDTO {
   @MaxLength(10,      { message: 'antiguedad: No debe exceder a 10 caracteres.' })
   antiguedad: string;
 
-  @ApiProperty({
-    example: 'Jornada completa',
-    description: 'Tipo contrato: detalla el contrato del empleado',
-  })
-  @IsString( { message: 'Tipo contrato: Debe ser string' })
-  @MaxLength(30,      { message: 'Tipo contrato: No debe exceder a 30 caracteres.' })
-  tipocontrato: string;
+  // @ApiProperty({
+  //   example: 'Jornada completa',
+  //   description: 'Tipo contrato: detalla el contrato del empleado',
+  // })
+  // @IsString( { message: 'Tipo contrato: Debe ser string' })
+  // @MaxLength(30,      { message: 'Tipo contrato: No debe exceder a 30 caracteres.' })
+  // tipocontrato: string;
 
   @ApiProperty({
     example: 4651255878,

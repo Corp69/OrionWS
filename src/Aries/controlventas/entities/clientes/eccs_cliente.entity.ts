@@ -11,6 +11,7 @@ export class eccs_cliente {
     @Column('varchar', { unique: true }) nombre:        string;
     @Column('varchar', { unique: true }) rfc:           string;
     @Column('varchar')                   curp:          string;
+    @Column('bigint')                    telefono:      number;
     @Column('varchar')                   codigo:        string;
     @Column('varchar')                   correo:        string;
     

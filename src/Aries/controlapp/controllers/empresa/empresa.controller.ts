@@ -12,7 +12,13 @@ import { EmpresasDTO } from '../../dtos/arieserp_empresas.dto';
 export class EmpresaController {
   constructor(private readonly Service: EmpresaService) {}
 
-  @Get('obtener/:id')
+  @Post('obtener/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: id hace referencia a la empresa, agrega un id de una empresa.',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({
     summary: 'AriesERP - Modulo App - Empresas - Obtener.',
   })
@@ -50,6 +56,12 @@ export class EmpresaController {
   }
 
   @Get('catalogo/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: id hace referencia a la empresa para filtrar las empresas. ',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+})
   @ApiOperation({
     summary: 'AriesERP - Modulo App - Empresas - Catalogo.',
   })
@@ -140,17 +152,7 @@ export class EmpresaController {
           Success:  true,
           Titulo:   "AriesERP - Modulo App - Empresas Actualizar",
           Mensaje:  "Operacion Realizada con exito.",
-          Response: {
-              "id":                   1,
-              "rfc":                  "CAVA23197ECCS",
-              "observaciones":        "s",
-              "nombrecomercial":      "Opticas Zac",
-              "aviso_privacidad":     "x",
-              "id_sat_usocfdi":       1,
-              "id_sat_regimenfiscal": 1,
-              "id_estatus":           1,
-              "celular":              "+524651068560"
-          }
+          Response: "Se actualizo correctamente!!"
         },
       },
     },

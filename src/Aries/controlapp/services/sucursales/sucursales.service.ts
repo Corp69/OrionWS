@@ -74,7 +74,7 @@ export class SucursalesService {
       let connection = await this.dbConnectionService.getConnection(clientId);
       let repository = connection.getRepository(arieserp_sucursal);
       let { id, ...DataDto } = SucursalDTO;
-      let response   = await repository.save(repository.create(DataDto)); 
+      let response  = await repository.save(repository.create(DataDto)); 
       
       return {
         Success:  true,

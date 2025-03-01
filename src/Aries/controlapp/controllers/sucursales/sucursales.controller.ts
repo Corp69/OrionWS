@@ -141,16 +141,16 @@ export class SucursalesController {
 
   @Post('actualizar')
   @ApiOperation({
-    summary: 'AriesERP - Modulo Compras - Sucursales - Actualizar',
+    summary: 'AriesERP - Modulo App - Sucursales - Actualizar',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo Compras - Sucursales - Actualizar.',
+    description: 'AriesERP - Modulo App - Sucursales - Actualizar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo Compras - Sucursales - Actualizar',
+          Titulo: 'AriesERP - Modulo App - Sucursales - Actualizar',
           Mensaje: 'Operacion Realizada con exito.',
           Response: 'Se actualizo correctamente!!',
         },
@@ -159,7 +159,7 @@ export class SucursalesController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo Compras - Sucursales - Actualizar.',
+    description: 'AriesERP - Modulo App - Sucursales - Actualizar.',
     content: {
       'application/json': {
         example: {

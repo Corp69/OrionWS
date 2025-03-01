@@ -11,10 +11,11 @@ export class eccs_proveedor {
     @Column('bigint')                    telefono:       number;
 
     @Column('varchar')                   nombre:         string;
-    @Column('varchar', { unique: true }) primerapellido: string;
-    @Column('varchar', { unique: true }) segundoapellido:string;
+    @Column('varchar')                   primerapellido: string;
+    @Column('varchar')                   segundoapellido:string;
     @Column('varchar', { unique: true }) rfc:            string;
     @Column('varchar')                   codigo:         string;
+    @Column('varchar')                   correo:         string;
     @Column('varchar')                   banco:          string;
     
     @Column('bigint')                    cuenta:         bigint;
