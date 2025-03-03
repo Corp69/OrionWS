@@ -14,6 +14,8 @@ import { eccs_proveedor_domicilio } from 'src/Aries/controlcompras/entities/prov
 import { eccs_cliente_domicilio } from 'src/Aries/controlventas/entities/clientesdomicilio/eccs_cliente_domicilio.entity';
 import { rh_departamento } from 'src/Aries/controlrh/entities/departamento/rh_departamento.entity';
 import { rh_puesto } from 'src/Aries/controlrh/entities/puesto/rh_puesto.entity';
+import { sat_cuenta_nv1 } from 'src/Aries/controlcontabilidad/entities/sat_cuenta_nv1.entity';
+import { sat_cuenta_nv2 } from 'src/Aries/controlcontabilidad/entities/sat_cuenta_nv2.entity';
 
 
 @Injectable()
@@ -47,7 +49,9 @@ export class DatabaseConnectionService {
         eccs_cliente_domicilio,
         rh_departamento,
         rh_puesto,
-
+        
+        sat_cuenta_nv1,
+        sat_cuenta_nv2,
         
 
 
