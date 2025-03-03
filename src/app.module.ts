@@ -23,6 +23,8 @@ import { ControllogisticaModule } from './Aries/controllogistica/controllogistic
 import { ControlventasModule } from './Aries/controlventas/controlventas.module';
 import { ControlpmiModule } from './Aries/controlpmi/controlpmi.module';
 import { ControlpuntoventaModule } from './Aries/controlpuntoventa/controlpuntoventa.module';
+
+// hhttp cliente axios.
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
