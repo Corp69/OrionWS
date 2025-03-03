@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
 //Services
 import { ClienteService } from '../../services/clientes/cliente.service';
@@ -14,7 +14,13 @@ export class ClientesController {
 
   constructor(private readonly Service: ClienteService) {}
 
-    @Get('obtener')
+    @Post('obtener/:id')
+    @ApiParam({
+        name: 'id',
+        description: 'Filtro: id hace referencia al cliente, agrega un id de un cliente.',
+        required: true,
+        type: Number, // Especificamos que el tipo es un número
+      })
     @ApiOperation({ summary: 'AriesERP - Modulo Ventas - Clientes - Obtener .' })
     @ApiResponse({
       status: 200,
@@ -47,8 +53,8 @@ export class ClientesController {
     @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
     @ApiResponse({ status: 401, description: 'Token Invalido' })
     @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-    public getConf(@GetUser('id') idUser: number) {
-      return this.Service.getCliente(idUser);
+    public getConf(@GetUser('id') idUser: number, @Param('id') id: number) {
+      return this.Service.getCliente(idUser, id);
     }
   
     @Post('agregar')

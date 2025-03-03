@@ -34,7 +34,7 @@ export class EmpresasDTO {
       'observaciones observaciones de la empresa informacion adicional ',
   })
   @IsString({ message: 'observaciones: debe ser String' })
-  @MaxLength(50, { message: 'No debe exceder al 50 caracteres.' })
+  @MaxLength(50, { message: 'observaciones No debe exceder al 50 caracteres.' })
   observaciones: string;
 
   @ApiProperty({
@@ -43,8 +43,8 @@ export class EmpresasDTO {
     uniqueItems: true,
   })
   @IsString({ message: 'nombrecomercial: debe ser String' })
-  @MinLength(3, { message: 'debe tener al menos 3 caracteres.' })
-  @MaxLength(50, { message: 'debe exceder a 50 caracteres.' })
+  @MinLength(3, { message: ' nombrecomercial debe tener al menos 3 caracteres.' })
+  @MaxLength(50, { message: 'nombrecomercial debe exceder a 50 caracteres.' })
   nombrecomercial: string;
 
   @ApiProperty({
@@ -52,7 +52,7 @@ export class EmpresasDTO {
     description: 'aviso privacidad por empresa',
   })
   @IsString({ message: 'aviso_privacidad: debe ser String' })
-  @MaxLength(50, { message: 'debe exceder a 50 caracteres.' })
+  @MaxLength(50, { message: 'aviso_privacidad debe exceder a 50 caracteres.' })
   aviso_privacidad: string;
 
   @ApiProperty({
@@ -60,8 +60,8 @@ export class EmpresasDTO {
     description: 'ID: identificador de la empresa dentro de uso de CFDI',
   })
   @IsNumber({}, { message: 'El id_sat_usocfdi debe ser un número.' })
-  @Min(1,       { message: 'debe tener al menos 1.' })
-  @Max(99,      { message: 'no debe tener más de 99.' })
+  @Min(1,       { message: 'id_sat_usocfdi: debe tener al menos 1.' })
+  @Max(99,      { message: 'id_sat_usocfdi: no debe tener más de 99.' })
   id_sat_usocfdi: number;
 
   @ApiProperty({
@@ -69,8 +69,8 @@ export class EmpresasDTO {
     description: 'ID: identificador de la empresa dentro del Regimen',
   })
   @IsNumber({}, { message: 'El id_sat_regimenfiscal debe ser un número.' })
-  @Min(1,       { message: 'debe tener al menos 1.' })
-  @Max(99,      { message: 'no debe tener más de 99.' })
+  @Min(1,       { message: 'id_sat_regimenfiscal: debe tener al menos 1.' })
+  @Max(99,      { message: 'id_sat_regimenfiscal: no debe tener más de 99.' })
   id_sat_regimenfiscal: number;
 
   @ApiProperty({
@@ -78,8 +78,8 @@ export class EmpresasDTO {
     description: 'ID: identificador de estatus de la empresa.',
   })
   @IsNumber({}, { message: 'El id_estatus debe ser un número.' })
-  @Min(1,       { message: 'debe tener al menos 1.' })
-  @Max(99,      { message: 'no debe tener más de 99.' })
+  @Min(1,       { message: 'id_estatus debe tener al menos 1.' })
+  @Max(99,      { message: 'id_estatus no debe tener más de 99.' })
   id_estatus: number;
 
   // @IsString({ message: 'celular: debe ser String' })
