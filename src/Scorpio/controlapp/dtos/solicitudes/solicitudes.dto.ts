@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MaxLength, MinLength, IsNumber, Max, Min, IsBoolean } from 'class-validator';
+import { IsString, MaxLength, MinLength, IsNumber, Max, Min, IsBoolean, IsOptional } from 'class-validator';
 
 export class SolicitaDto {
 
@@ -53,7 +53,7 @@ export class SolicitaDto {
   })
   @IsNumber()
   @Min(1, { message: 'montomaximo debe tener al menos 1 caracter' })
-  @Max(100, { message: 'montomaximo debe tener maximo 100' })
+  @Max(1000, { message: 'montomaximo debe tener maximo 100' })
   montomaximo: number;
 
   @ApiProperty({
@@ -73,6 +73,24 @@ export class SolicitaDto {
   @Min(1,       { message: 'id_empresa: debe tener al menos 1.' })
   @Max(99,      { message: 'id_empresa: no debe tener más de 99.' })
   id_empresa: number;
+
+  @ApiProperty({
+    example: 1,
+    description: 'ID: identificador de estatus de la empresa.',
+  })
+  @IsOptional()
+  @IsNumber({}, { message: 'El id_xml_scorpio_tipo debe ser un númerico.' })
+  @Min(1,       { message: 'id_xml_scorpio_tipo: debe tener al menos 1.' })
+  @Max(99,      { message: 'id_xml_scorpio_tipo: no debe tener más de 99.' })
+  id_xml_scorpio_tipo?: number;
+
+  @ApiProperty({
+    example: 1,
+    description: 'ID: identificador de estatus de la empresa.',
+  })
+  @IsOptional()
+  @IsString( { message: 'El id_xml_peticion debe ser un númerico.' })
+  id_xml_peticion?: string;
 
   @ApiProperty({
     example: 1,

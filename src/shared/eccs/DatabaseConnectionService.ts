@@ -21,7 +21,7 @@ import { sat_cuenta_nv2 } from 'src/Aries/controlcontabilidad/entities/sat_cuent
 @Injectable()
 export class DatabaseConnectionService {
   private readonly connections: Map<number, DataSource> = new Map();
-
+  
   public async getConnection(clientId: number): Promise<DataSource> {
     const dbConfig = this.getDatabaseConfig(clientId);
     if (this.connections.has(clientId)) {

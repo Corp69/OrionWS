@@ -74,12 +74,13 @@ export class EmpresaService {
       let connection = await this.dbConnectionService.getConnection(clientId);
       let repository = connection.getRepository(arieserp_empresa);
       let { id, ...empresaData } = EmpresasDTO;
-      let savedEntity = await repository.save(repository.create(empresaData)); 
+      let response = await repository.save(repository.create(empresaData)); 
       return {
         Success:  true,
+        Id:       response.id,
         Titulo:   'AriesERP - Modulo App - Empresas Agregar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: savedEntity,
+        Response: "Se agrego correctamente",
       };
     } catch (error) {
       throw new HttpException(
@@ -104,9 +105,10 @@ export class EmpresaService {
 
       return {
         Success:  true,
+        Id:       response.id,
         Titulo:   'AriesERP - Modulo App - Empresas Actualizar',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: response,
+        Response: "Se actualizo correctamente!",
       };
     } catch (error) {
       throw new HttpException(
