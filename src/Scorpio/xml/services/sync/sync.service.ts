@@ -50,7 +50,7 @@ export class SyncService {
         Success: true,
         Titulo:  'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
         Mensaje: 'Operación Realizada con exito.',
-        Response: await response.json()
+        Response: response
       };
     } catch (error) {
       console.error('Error en la solicitud HTTP:', error.message);

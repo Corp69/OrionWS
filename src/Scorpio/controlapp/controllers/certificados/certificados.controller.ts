@@ -83,6 +83,44 @@ export class CertificadosController {
     return this.Service.getCerfiticados(idUser, id);
   }
 
+  @Post('verificar/:id')
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - Certificados - verificar.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo App - Certificados - verificar.',
+    content: {
+      'application/json': {
+        example: {
+          Success: true,
+          Titulo:  'Scorpio XL - Modulo App - Certificados.',
+          Mensaje: 'Operacion Realizada con exito.',
+          Response:''
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Scorpio XL - Modulo App - Empresas - Certificados.',
+    content: {
+      'application/json': {
+        example: {
+          message: 'No tienes Autorizacion.',
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public verificarCertificados(
+    @GetUser('id') idUser: number,
+    @Param('id')   id:     number,
+  ) {
+    return this.Service.verificaCerfiticados(idUser, id);
+  }
+
   //=============================================================
   // Certificados DE tipo base64 a base de datos 
   //=============================================================
