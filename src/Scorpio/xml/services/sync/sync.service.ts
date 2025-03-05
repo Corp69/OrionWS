@@ -25,6 +25,10 @@ export class SyncService {
       // agregar razon social con el proveedor
       const socialResponse = await this.socialService.XML_Social_Create(clientId, id);
 
+      if (!socialResponse.Success) {
+        return socialResponse;
+      }
+
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
@@ -34,21 +38,23 @@ export class SyncService {
       // construccion de XML - create social
       const Body: SyncDto = new SyncDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[13].value,
+        data[0].sp_build_empresa_xml.XML[12].value,
         data[0].sp_build_empresa_xml.XML[1].value,
-        data[0].sp_build_empresa_xml.XML[2].value,
-        data[0].sp_build_empresa_xml.XML[3].value
+        data[0].sp_build_empresa_xml.Empresa.rfc,
+        '1'
       );            
       //peticion con Axios
       const response = await this.http.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[5].value}`,
+        `${data[0].sp_build_empresa_xml.XML[14].value}`,
         JSON.stringify(Body),
       );
+
+      console.log(response)
       
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
-        Titulo:  'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
+        Titulo:  'OrionWS: Scorpio XL - Modulo XML - Razon Social Syncronizar',
         Mensaje: 'Operación Realizada con exito.',
         Response: response
       };
@@ -57,7 +63,7 @@ export class SyncService {
       throw new HttpException(
         {
           Success: false,
-          Titulo:  'OrionWS: Scorpio XL - Modulo XML - Razon Social Agregar',
+          Titulo:  'OrionWS: Scorpio XL - Modulo XML - Razon Social Syncronizar',
           Mensaje: 'Operación no se realizó',
           Response: error.message || error,
         },

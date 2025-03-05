@@ -2,11 +2,11 @@ import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SyncService } from '../../services/sync/sync.service';
 import { SyncDto, PeticionDto } from '../../dtos/sync';
-import { GetUser } from 'src/auth/decorators';
+import { Auth, GetUser } from 'src/auth/decorators';
 
 @ApiTags('OrionWS - Scorpio XL - XML - Syncronizacion.')
 @Controller('scorpio/sync')
-//@Auth()
+@Auth()
 export class SyncController {
   constructor(private readonly Service: SyncService) {}
 

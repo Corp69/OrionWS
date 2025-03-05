@@ -79,6 +79,7 @@ import { HttpModule } from '@nestjs/axios';
       SpaceModule,
       //Shared
       SharedModule
+      
   ]
 })
 export class AppModule {}

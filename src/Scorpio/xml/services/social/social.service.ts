@@ -12,12 +12,15 @@ import {
   SocialLstDto,
   SocialUpdateDto,
 } from '../../dtos/social';
+import { razonSocialDTO } from '../../dtos/social/socialupdate.dto';
+import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
 
 @Injectable()
 export class SocialService {
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService,
     private readonly clientHttp: clientHttp,
+    private readonly errorService: ProdigiaErrorService
   ) {}
 
   public async XML_Social_Lst(
@@ -36,17 +39,15 @@ export class SocialService {
       // construccion de XML - create social
       const Body: SocialLstDto = new SocialLstDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[13].value,
+        data[0].sp_build_empresa_xml.XML[12].value,
         data[0].sp_build_empresa_xml.XML[1].value,
       );
       
       //peticion con Axios
       const response = await this.clientHttp.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[5].value}`,
+        `${data[0].sp_build_empresa_xml.XML[6].value}`,
         JSON.stringify(Body),
       );
-
-      
 
       return {
         Success: true,
@@ -82,7 +83,7 @@ export class SocialService {
       // construccion de XML - create social
       const SocialCreate: SocialCreateDto = new SocialCreateDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[13].value,
+        data[0].sp_build_empresa_xml.XML[12].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.nombrecomercial,
         data[0].sp_build_empresa_xml.Empresa.fechainiciosync,
@@ -104,6 +105,16 @@ export class SocialService {
         `${data[0].sp_build_empresa_xml.XML[5].value}`,
         JSON.stringify(SocialCreate),
       );
+
+      if(response.codigo || response.codigo !== 0){
+        const mensajeError = this.errorService.getErrorMessage(response.codigo)
+        return {
+          Success: false,
+          Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
+          Mensaje: 'Operación no se realizó',
+          Response: response.mensaje,
+        };
+      }
 
       return {
         Success: true,
@@ -138,15 +149,20 @@ export class SocialService {
       // construccion de XML - eliminar social
       const Body: SocialUpdateDto = new SocialUpdateDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[13].value,
+        data[0].sp_build_empresa_xml.XML[12].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.rfc,
-        data[0].sp_build_empresa_xml.Empresa.pass,
+
+        new razonSocialDTO(
+          data[0].sp_build_empresa_xml.Empresa.pfx,
+          data[0].sp_build_empresa_xml.Empresa.passpfx,
+          data[0].sp_build_empresa_xml.Empresa.certificado,
+        )
       );
 
       //peticion con Axios
       const response = await this.clientHttp.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[7].value}`,
+        `${data[0].sp_build_empresa_xml.XML[13].value}`,
         JSON.stringify(Body),
       );
 
@@ -183,15 +199,25 @@ export class SocialService {
       // construccion de XML - eliminar social
       const Body: SocialDeleteDto = new SocialDeleteDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[13].value,
+        data[0].sp_build_empresa_xml.XML[12].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.rfc,
       );
       //peticion con Axios
       const response = await this.clientHttp.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[8].value}`,
+        `${data[0].sp_build_empresa_xml.XML[7].value}`,
         JSON.stringify(Body),
       );
+
+      if(response.codigo || response.codigo !== 0){
+        const mensajeError = this.errorService.getErrorMessage(response.codigo)
+        return {
+          Success: false,
+          Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
+          Mensaje: 'Operación no se realizó',
+          Response: response.mensaje,
+        };
+      }
 
       return {
         Success: true,

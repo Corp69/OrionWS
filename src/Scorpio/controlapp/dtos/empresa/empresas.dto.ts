@@ -102,13 +102,13 @@ export class EmpresasDTO {
   @Max(99,      { message: 'id_estatus: no debe tener más de 99.' })
   id_estatus: number;
 
-  @IsString({ message: 'celular: debe ser String' })
+  @IsString({ message: 'celular: debe de ser un string' })
   @MinLength(3,  { message: 'celular: debe tener al menos 3 caracteres.' })
-  @MaxLength(13, { message: 'celular: debe exceder a 13 caracteres.' })
-  readonly celular:    string;
+  @MaxLength(13, { message: 'celular: no debe exceder a 13 caracteres.' })
+  celular: string;
 
   @IsNumber({}, { message: 'El No Comprobantes mensual debe ser un númerico.' })
   @Min(1,       { message: 'No Comprobantes mensual debe tener al menos 1.' })
   @Max(999,     { message: 'No Comprobantes mensual no debe tener más de 99.' })
-  readonly maxcomprobantesmensual:  number;
+  maxcomprobantesmensual:  number;
 }

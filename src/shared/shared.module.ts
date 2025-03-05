@@ -13,12 +13,15 @@ import { ListadoController } from './Scorpio/controllers/listado/listado.control
 import { ListadoService } from './Scorpio/services/listado/listado.service';
 import { HttpModule } from '@nestjs/axios';
 import { clientHttp } from './client/clienthttp';
+import { ProdigiaErrorService } from './errors/ProdigiaErrorService';
 
 @Module({
   controllers: [LstController, ListadoController],
   providers:[   //servicio http
                 clientHttp,
                 ListadoService,
+
+                ProdigiaErrorService,
 
 
 

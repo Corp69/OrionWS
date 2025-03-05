@@ -39,6 +39,7 @@ import { clientHttp } from '@shared/client/clienthttp';
 
 //http cliente axios
 import { HttpModule } from '@nestjs/axios';
+import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
 
 @Module({
     controllers: 
@@ -61,6 +62,7 @@ import { HttpModule } from '@nestjs/axios';
       //shared
       DatabaseConnectionService,
       clientHttp,
+      ProdigiaErrorService,
       //control app
       EmpresasService,     
       SolicitudService,     
