@@ -104,6 +104,35 @@ export class CuentasService {
     }
   }
 
+  public async AgregarCuentaNV2(
+    clientId: number,
+    Sat_cuenta_nv2DTO: Sat_cuenta_nv2DTO,
+  ): Promise<ResponseDto<any>> {
+    try {
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      let repository = connection.getRepository(sat_cuenta_nv2);
+      let response = await repository.save(repository.create(Sat_cuenta_nv2DTO)); 
+      
+      return {
+        Success: true,
+        //Id:       response.,
+        Titulo:   "AriesERP - Modulo Contabilidad - cuentas lv2 - Agregar.",
+        Mensaje:  "Operacion Realizada con exito.",
+        Response: "Se Agrego correctamente !"
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: 'AriesERP - Modulo Contabilidad - cuentas lv2 - Agregar.',
+          Mensaje: 'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
   public async ActualizarCuentaNV2(
     clientId: number,
     Sat_cuenta_nv2DTO: Sat_cuenta_nv2DTO,
@@ -111,8 +140,9 @@ export class CuentasService {
     try {
       const connection = await this.dbConnectionService.getConnection(clientId);
       const Repository = await connection.getRepository(sat_cuenta_nv2);
-      const row = await Repository.preload(Sat_cuenta_nv2DTO);
-      const response = await Repository.save(row);
+      const row        = await Repository.preload(Sat_cuenta_nv2DTO);
+      
+      await Repository.save(row);
 
       return {
         Success: true,

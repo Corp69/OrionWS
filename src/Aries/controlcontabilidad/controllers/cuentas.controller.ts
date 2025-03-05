@@ -141,6 +141,32 @@ export class CuentasController {
       return this.Service.ActualizarCuentaNV1( idUser, Sat_cuenta_nv1DTO );
     }  
  
+    @Post('agregarnv2')
+    @ApiOperation({ summary: 'AriesERP - Modulo Contabilidad - cuentas lv2 - Agregar' })
+    @ApiResponse({
+      status: 200,
+      description: 'AriesERP - Modulo Contabilidad - cuentas lv2 - Agregar',
+      content: {
+        'application/json': {
+          example: {
+            "Success": true,
+            "Titulo": "AriesERP - Modulo Contabilidad - cuentas lv2 - Agregar.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": "Se Actualizó correctamente !"
+          },
+        },
+      },
+    })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 401, description: 'No tienes permiso | token' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public  AgregarCuentaNV2( 
+      @GetUser('id') idUser: number,
+      @Body() Sat_cuenta_nv2DTO: Sat_cuenta_nv2DTO
+    ) {
+      return this.Service.AgregarCuentaNV2( idUser, Sat_cuenta_nv2DTO );
+    }  
+    
     @Post('actualizarnv2')
     @ApiOperation({ summary: 'AriesERP - Modulo Contabilidad - cuentas lv2 - Actualizar' })
     @ApiResponse({
