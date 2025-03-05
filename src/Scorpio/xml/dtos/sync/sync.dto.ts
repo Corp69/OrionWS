@@ -36,9 +36,9 @@ export class SyncDto {
   @MaxLength(14, { message: 'rfc no debe exceder 14 caracteres' })
   rfc: string;
 
-  @IsNumber() 
-  @Max(1, { message: 'habilitado no debe ser 0 o 1' })
-  habilitado: number;
+  @IsString() 
+  @MaxLength(1, { message: 'habilitado no debe tener más de un caracter' })
+  habilitado: string;
   
 
   // Constructor para inicializar valores por defecto y objetos complejos
@@ -47,7 +47,7 @@ export class SyncDto {
       passPade: string = "",
       contrato: string = "",
       rfc: string = "",
-      habilitado: number,
+      habilitado: string = "",
     ) {
       this.userPade = userPade;
       this.passPade = passPade;

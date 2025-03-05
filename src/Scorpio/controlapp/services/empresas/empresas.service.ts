@@ -125,6 +125,10 @@ export class EmpresasService {
     try {
       // eliminar razon social con el proveedor
       const socialResponse = await this.socialService.XML_Social_Delete(clientId, id);
+      
+      if (!socialResponse.Success) {
+        return socialResponse;
+      }
 
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);

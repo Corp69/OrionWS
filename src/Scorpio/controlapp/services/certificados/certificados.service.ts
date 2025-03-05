@@ -35,6 +35,31 @@ export class CertificadosService {
       );
     }
   }
+
+  public async verificaCerfiticados( clientId: number, id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(`SELECT "scorpio_empresas".fn_get_verifica_certificados(${id});`);
+      return {
+        Success:  true,
+        Titulo:   'Scorpio XL - Modulo App - Certificados - Obtener.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data[0].fn_get_verifica_certificados,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'Scorpio XL- Modulo App - Certificados - Obtener.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
   
   //=============================================================
   // Certificados DE base64 a BD 
