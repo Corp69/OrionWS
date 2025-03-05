@@ -8,7 +8,7 @@ import {
 export class eccs_cliente {
 
     @PrimaryGeneratedColumn()            id:            number;
-    @Column('varchar', { unique: true }) nombre:        string;
+    @Column('varchar')                   nombre:        string;
     @Column('varchar', { unique: true }) rfc:           string;
     @Column('varchar')                   curp:          string;
     @Column('bigint')                    telefono:      number;

@@ -8,7 +8,7 @@ import { ClienteDTO } from '../../dtos/clientes/eccs_cliente.dto';
 
 
 @ApiTags('OrionWS - AriesERP - Modulo Ventas - Clientes.')
-@Controller('clientes')
+@Controller('arieserp/clientes')
 @Auth()
 export class ClientesController {
 
@@ -56,6 +56,50 @@ export class ClientesController {
     public getConf(@GetUser('id') idUser: number, @Param('id') id: number) {
       return this.Service.getCliente(idUser, id);
     }
+
+    @Get('catalogo/:id')
+    @ApiParam({
+          name: 'id',
+          description: 'Filtro: id hace referencia al Puesto para filtrar el Cliente. ',
+          required: true,
+          type: Number, // Especificamos que el tipo es un número
+    })
+    @ApiOperation({
+      summary: 'OrionWS - AriesERP - Modulo Ventas - Clientes - Catalogo.',
+    })
+    @ApiResponse({
+      status: 200,
+      description: 'OrionWS - AriesERP - Modulo Ventas - Clientes - Catalogo.',
+      content: {
+        'application/json': {
+          example: {
+            Success: true,
+            Titulo: 'OrionWS - AriesERP - Modulo Ventas - Clientes - Catalogo.',
+            Mensaje: 'Operacion Realizada con exito.',
+            Response: {},
+          },
+        },
+      },
+    })
+    @ApiResponse({
+      status: 401,
+      description: 'OrionWS - AriesERP - Modulo Ventas - Clientes - Catalogo.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'No tienes Autorizacion.',
+            statusCode: 401,
+          },
+        },
+      },
+    })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public getCatalogo(@GetUser('id') idUser: number, @Param('id') id: number) {
+      return this.Service.Catalogo(idUser, id);
+    }
+
   
     @Post('agregar')
     @ApiOperation({

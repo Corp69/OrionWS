@@ -6,7 +6,7 @@ import { EmpleadoDTO } from '../../dtos/empledo/eccs_empleado.dto';
 
 
 @ApiTags('OrionWS - AriesERP - Modulo RH - Empleados.')
-@Controller('empleado')
+@Controller('arieserp/empleado')
 @Auth()
 export class EmpleadoController {
 
