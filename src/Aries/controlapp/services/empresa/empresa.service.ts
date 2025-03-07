@@ -40,19 +40,19 @@ export class EmpresaService {
     }
   }
 
-  public async Catalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
+  public async Catalogo( clientId: number): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `SELECT "arieserp".app_empresas()`,
+        `SELECT "arieserp".fn_get_catalogo_empresas()`,
       );
       return {
         Success:  true,
         Titulo:   'AriesERP - Modulo App - Empresas - Catalogo.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].app_empresas,
+        Response: data[0].fn_get_catalogo_empresas,
       };
     } catch (error) {
       throw new HttpException(

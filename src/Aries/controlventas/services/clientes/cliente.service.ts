@@ -20,13 +20,13 @@ export class ClienteService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp_ventas".fn_get_clientes(${id})`,
+        `select "arieserp_ventas".fn_get_cliente(${id})`,
       );
       return {
         Success:  true,
         Titulo:   'AriesERP - Modulo Ventas - Obtener Clientes.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].fn_get_clientes,
+        Response: data[0].fn_get_cliente,
       };
     } catch (error) {
       throw new HttpException(
@@ -47,13 +47,13 @@ export class ClienteService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp_ventas".fn_clientes(${id})`,
+        `select "arieserp_ventas".fn_get_catalogo_clientes(${id})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo Ventas - Cliente - Catalogo.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_clientes,
+        Response: data[0].fn_get_catalogo_clientes,
       };
     } catch (error) {
       throw new HttpException(

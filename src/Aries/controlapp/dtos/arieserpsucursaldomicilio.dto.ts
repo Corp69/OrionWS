@@ -52,8 +52,8 @@ export class DomicilioSucursalDTO {
     example: '12',
     description: 'Numero interior del domicilio del proveedor.',
   })
-  @IsString({ message: 'correo_personal: debe ser String' })
-  @MaxLength(4, { message: 'correo_personal no debe exceder a 3 digitos.' })
+  @IsString({ message: 'num_int: debe ser String' })
+  @MaxLength(4, { message: 'num_int no debe exceder a 3 digitos.' })
   num_int: string;
 
   @ApiProperty({
@@ -67,11 +67,20 @@ export class DomicilioSucursalDTO {
     example: 1,
     description: 'ID: identificador de la sucursal',
   })
-  @IsNumber({}, { message: 'El id_estatus debe ser un número.' })
-  @Min(1,       { message: 'id_estatus: debe tener al menos 1.' })
-  @Max(10,      { message: 'id_estatus: no debe tener más de 10.' })
+  @IsNumber({}, { message: 'El id_sucursal debe ser un número.' })
+  @Min(1,       { message: 'id_sucursal: debe tener al menos 1.' })
+  @Max(10,      { message: 'id_sucursal: no debe tener más de 10.' })
   id_sucursal: number;
 
+  @ApiProperty({
+    example: 1,
+    description: 'ID: identificador del país',
+  })
+  @IsNumber({}, { message: 'El pais debe ser un número.' })
+  @Min(1,       { message: 'pais: debe tener al menos 1.' })
+  @Max(99,      { message: 'pais: no debe tener más de 99.' })
+  id_pais: number;
+  
   @ApiProperty({
     example: 1,
     description: 'ID: identificador del país',
@@ -79,7 +88,7 @@ export class DomicilioSucursalDTO {
   @IsNumber({}, { message: 'El id_estatus debe ser un número.' })
   @Min(1,       { message: 'id_estatus: debe tener al menos 1.' })
   @Max(99,      { message: 'id_estatus: no debe tener más de 99.' })
-  id_pais: number;
+  id_estatus: number;
 
 
 }

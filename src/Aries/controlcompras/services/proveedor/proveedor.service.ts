@@ -20,13 +20,13 @@ export class ProveedorService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp_compras".fn_get_proveedores(${id})`,
+        `select "arieserp_compras".fn_get_proveedor(${id})`,
       );
       return {
         Success:  true,
         Titulo:   'AriesERP - Modulo Compras - Obtener Proveedores.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].fn_get_proveedores,
+        Response: data[0].fn_get_proveedor,
       };
     } catch (error) {
       throw new HttpException(
@@ -47,13 +47,13 @@ export class ProveedorService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp_compras".fn_proveedores(${id})`,
+        `select "arieserp_compras".fn_get_catalogo_proveedores(${id})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo App - Sucursales - Catalogo.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_proveedores,
+        Response: data[0].fn_get_catalogo_proveedores,
       };
     } catch (error) {
       throw new HttpException(

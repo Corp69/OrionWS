@@ -46,13 +46,13 @@ export class EmpleadoService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select  "arieserp_rh".fn_empleados(${id})`,
+        `select  "arieserp_rh".fn_get_catalogo_empleados(${id})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo App - Sucursales - Catalogo.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_empleados,
+        Response: data[0].fn_get_catalogo_empleados,
       };
     } catch (error) {
       throw new HttpException(

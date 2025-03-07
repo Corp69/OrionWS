@@ -23,13 +23,13 @@ export class SucursalesDomiciliosService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp".app_sucursales_domicilio(${id})`,
+        `select "arieserp".fn_get_catalogo_sucursales_domicilio(${id})`,
       );
       return {
         Success:  true,
         Titulo:   'AriesERP - Modulo App - Sucursales Domicilio - Obtener.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].app_sucursales_domicilio,
+        Response: data[0].fn_get_catalogo_sucursales_domicilio,
       };
     } catch (error) {
       throw new HttpException(

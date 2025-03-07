@@ -22,14 +22,14 @@ export class DomicilioProveedorDTO {
   id: number;
 
   @ApiProperty({
-    example: '20500',
+    example: 20500,
     description: 'codigo postal del domicilio del proveedor.',
     uniqueItems: true,
   })
   // @IsString({ message: 'nombre: debe ser String' })
-  @MinLength(5, { message: 'El cp debe tener al menos 5 caracteres.' })
-  @MaxLength(6, { message: 'El cp no debe exceder a 5 digitos.' })
-  cp: string;
+  @Min(1111, { message: 'El cp: debe tener al menos 4 caracteres.' })
+  @Max(99999, { message: 'El cp: no debe exceder a 5 digitos.' })
+  cp: number;
 
 
   @ApiProperty({

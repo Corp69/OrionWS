@@ -55,13 +55,7 @@ export class EmpresaController {
     return this.Service.getSucursal(idUser, id);
   }
 
-  @Get('catalogo/:id')
-  @ApiParam({
-    name: 'id',
-    description: 'Filtro: id hace referencia a la empresa para filtrar las empresas. ',
-    required: true,
-    type: Number, // Especificamos que el tipo es un número
-})
+  @Get('catalogo')
   @ApiOperation({
     summary: 'AriesERP - Modulo App - Empresas - Catalogo.',
   })
@@ -94,8 +88,8 @@ export class EmpresaController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public getCatalogo(@GetUser('id') idUser: number, @Param('id') id: number) {
-    return this.Service.Catalogo(idUser, id);
+  public getCatalogo(@GetUser('id') idUser: number) {
+    return this.Service.Catalogo(idUser);
   }
 
   @Post('agregar')

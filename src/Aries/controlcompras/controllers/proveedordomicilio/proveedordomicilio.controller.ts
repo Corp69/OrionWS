@@ -8,7 +8,7 @@ import { DomicilioProveedorDTO } from '../../dtos/proveedordomicilio/eccs_provee
 
 
 @ApiTags('OrionWS - AriesERP - Modulo Compras - Domicilio - Proveedores.')
-@Controller('proveedordomicilio')
+@Controller('arieserp/proveedordomicilio')
 @Auth()
 export class ProveedordomicilioController {
 

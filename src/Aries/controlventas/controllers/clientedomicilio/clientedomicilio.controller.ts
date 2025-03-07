@@ -6,7 +6,7 @@ import { DomicilioClienteDTO } from '../../dtos/clientesdomicilio/eccs_cliente_d
 
 
 @ApiTags('OrionWS - AriesERP - Modulo Ventas - Domicilio - Clientes.')
-@Controller('clientedomicilio')
+@Controller('arieserp/clientedomicilio')
 @Auth()
 export class ClientedomicilioController {
 

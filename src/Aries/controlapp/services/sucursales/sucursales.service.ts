@@ -48,13 +48,13 @@ export class SucursalesService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `SELECT "arieserp".app_sucursales(${id})`,
+        `SELECT "arieserp".fn_get_catalogo_sucursales(${id})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo App - Sucursales - Catalogo.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].app_sucursales,
+        Response: data[0].fn_get_catalogo_sucursales,
       };
     } catch (error) {
       throw new HttpException(
