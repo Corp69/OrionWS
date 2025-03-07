@@ -62,8 +62,8 @@ export class ComprobantesService {
       const Solicita: SolicitaDto = new SolicitaDto(
               
               data[0].sp_build_xml_generar_solicitud.XML[0].valor,
+              data[0].sp_build_xml_generar_solicitud.XML[3].valor,
               data[0].sp_build_xml_generar_solicitud.XML[1].valor,
-              data[0].sp_build_xml_generar_solicitud.XML[2].valor,
               [data[0].sp_build_xml_generar_solicitud.Empresa.rfc],
               data[0].sp_build_xml_generar_solicitud.Empresa.tipopeticion,
               data[0].sp_build_xml_generar_solicitud.Empresa.fechainicio,
@@ -72,13 +72,16 @@ export class ComprobantesService {
               data[0].sp_build_xml_generar_solicitud.Empresa.montomaximo      
       );
       //peticion con axios
-      const response = await this.http.httpPost(data[0].sp_build_xml_generar_solicitud.XML[3].valor, Solicita); 
+      const response = await this.http.httpPost(data[0].sp_build_xml_generar_solicitud.XML[2].valor, Solicita); 
     
       //actualizo el estatus de la peticion.
+      const resp = 
       await repository.update(id, {
         id_estatus: 7,
         id_xml_peticion: response.solicitud
       });
+
+      console.log(resp)
      
 
       //Retornamos la respuesta formateada si la solicitud fue exitosa
@@ -86,7 +89,7 @@ export class ComprobantesService {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Solicita',
         Mensaje: 'Operación Realizada con exito.',
-        Response: await response,
+        Response: response,
       };
     } catch (error) {
       throw new HttpException(
@@ -107,24 +110,26 @@ export class ComprobantesService {
       const connection = await this.dbConnectionService.getConnection(clientId);
 
       //Funcion
-      const data = await connection.query(`select "scorpio_xml".sp_build_xml_verifica();`);
+      const data = await connection.query(`select "scorpio_xml".sp_build_xml_verifica(${id});`);
       // construccion de XML - create social
             const Body: VerificaDto = new VerificaDto(
-              data[0].sp_build_xml_verifica.XML[0].value,
-              data[0].sp_build_xml_verifica.XML[1].value,
-              data[0].sp_build_xml_verifica.XML[2].value,
-              data[0].sp_build_xml_verifica.XML[2].value
+              data[0].sp_build_xml_verifica.XML[0].valor,
+              data[0].sp_build_xml_verifica.XML[1].valor,
+              data[0].sp_build_xml_verifica.XML[7].valor,
+              data[0].sp_build_xml_verifica.solicitud.valor
             );
 
       //peticion con axios
-      const response = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[5].valor, Body);
+      const response = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[4].valor, Body);
+
+      console.log(response)
 
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Verifica',
         Mensaje: 'Operación Realizada con exito.',
-        Response: await response,
+        Response: response,
       };
     } catch (error) {
       console.error('Error en la solicitud HTTP:', error.message);

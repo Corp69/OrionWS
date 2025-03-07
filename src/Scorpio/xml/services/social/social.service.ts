@@ -39,7 +39,7 @@ export class SocialService {
       // construccion de XML - create social
       const Body: SocialLstDto = new SocialLstDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[12].value,
+        data[0].sp_build_empresa_xml.XML[14].value,
         data[0].sp_build_empresa_xml.XML[1].value,
       );
       
@@ -83,7 +83,7 @@ export class SocialService {
       // construccion de XML - create social
       const SocialCreate: SocialCreateDto = new SocialCreateDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[12].value,
+        data[0].sp_build_empresa_xml.XML[14].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.nombrecomercial,
         data[0].sp_build_empresa_xml.Empresa.fechainiciosync,
@@ -106,13 +106,14 @@ export class SocialService {
         JSON.stringify(SocialCreate),
       );
 
+      console.log("respuesta de agregar: ",response)
+
       if(response.codigo || response.codigo !== 0){
-        const mensajeError = this.errorService.getErrorMessage(response.codigo)
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
           Mensaje: 'Operación no se realizó',
-          Response: response.mensaje,
+          Response: response,
         };
       }
 
@@ -149,7 +150,7 @@ export class SocialService {
       // construccion de XML - eliminar social
       const Body: SocialUpdateDto = new SocialUpdateDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[12].value,
+        data[0].sp_build_empresa_xml.XML[14].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.rfc,
 
@@ -162,7 +163,7 @@ export class SocialService {
 
       //peticion con Axios
       const response = await this.clientHttp.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[13].value}`,
+        `${data[0].sp_build_empresa_xml.XML[12].value}`,
         JSON.stringify(Body),
       );
 
@@ -199,7 +200,7 @@ export class SocialService {
       // construccion de XML - eliminar social
       const Body: SocialDeleteDto = new SocialDeleteDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[12].value,
+        data[0].sp_build_empresa_xml.XML[14].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.rfc,
       );
@@ -209,13 +210,15 @@ export class SocialService {
         JSON.stringify(Body),
       );
 
+      console.log("respuesta desde social delete: ", response)
+      console.log("respuesta desde social delete: ", Body)
+
       if(response.codigo || response.codigo !== 0){
-        const mensajeError = this.errorService.getErrorMessage(response.codigo)
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
           Mensaje: 'Operación no se realizó',
-          Response: response.mensaje,
+          Response: response,
         };
       }
 

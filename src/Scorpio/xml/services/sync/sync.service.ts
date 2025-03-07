@@ -38,18 +38,29 @@ export class SyncService {
       // construccion de XML - create social
       const Body: SyncDto = new SyncDto(
         data[0].sp_build_empresa_xml.XML[0].value,
-        data[0].sp_build_empresa_xml.XML[12].value,
+        data[0].sp_build_empresa_xml.XML[14].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.rfc,
-        '1'
+        1
       );            
       //peticion con Axios
       const response = await this.http.httpPost(
-        `${data[0].sp_build_empresa_xml.XML[14].value}`,
+        `${data[0].sp_build_empresa_xml.XML[13].value}`,
         JSON.stringify(Body),
       );
 
-      console.log(response)
+      console.log("respuesta de agregar: ",response)
+
+      if(response.codigo || response.codigo !== 0){
+        return {
+          Success: false,
+          Titulo: 'Scorpio XL - Modulo XML - Razon Social Syncronizar',
+          Mensaje: 'Operación no se realizó',
+          Response: response,
+        };
+      }
+
+      console.log("Respuesta de sincronizar",response)
       
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
