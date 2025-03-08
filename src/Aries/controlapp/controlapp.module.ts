@@ -11,6 +11,8 @@ import { SucursalesController } from './controllers/sucursales/sucursales.contro
 import { SucursalesService } from './services/sucursales/sucursales.service';
 import { SucursalesDomicilioController } from './controllers/sucursales domicilio/sucursalesdomicilio.controller';
 import { SucursalesDomiciliosService } from './services/sucursalesdomicilio/sucursalesdomicilio.service';
+import { ProductoservicioController } from './controllers/productoservicio/productoservicio.controller';
+import { ProductoservicioService } from './services/productoservicio/sucursales.service';
 
 @Module({
     controllers: 
@@ -19,11 +21,13 @@ import { SucursalesDomiciliosService } from './services/sucursalesdomicilio/sucu
       EmpresaController, 
       SucursalesController,
       SucursalesDomicilioController,
+      ProductoservicioController,
     ],
     providers:   
     [ 
       ControlAppService,
       DatabaseConnectionService, 
+      ProductoservicioService,
       EmpresaService,
       SucursalesService,
       SucursalesDomiciliosService  
