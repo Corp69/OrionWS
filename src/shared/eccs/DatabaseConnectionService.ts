@@ -16,6 +16,7 @@ import { rh_departamento } from 'src/Aries/controlrh/entities/departamento/rh_de
 import { rh_puesto } from 'src/Aries/controlrh/entities/puesto/rh_puesto.entity';
 import { sat_cuenta_nv1 } from 'src/Aries/controlcontabilidad/entities/sat_cuenta_nv1.entity';
 import { sat_cuenta_nv2 } from 'src/Aries/controlcontabilidad/entities/sat_cuenta_nv2.entity';
+import { eccs_producto_servicio } from 'src/Aries/controlapp/entities/eccs_producto_servicio.entity';
 
 
 @Injectable()
@@ -53,6 +54,7 @@ export class DatabaseConnectionService {
         sat_cuenta_nv1,
         sat_cuenta_nv2,
         
+        eccs_producto_servicio,
 
 
 
