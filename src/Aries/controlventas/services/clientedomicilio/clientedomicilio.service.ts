@@ -15,13 +15,13 @@ export class ClienteDomicilioService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp_ventas".fn_get_catalogo_clientes_domiclio(${id}, ${id})`,
+        `select "arieserp_ventas".fn_get_catalogo_clientes_domicilio(${id}, ${id})`,
       );
       return {
         Success:  true,
         Titulo:   'AriesERP - Modulo Ventas - Obtener Clientes.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].fn_get_catalogo_clientes_domiclio,
+        Response: data[0].fn_get_catalogo_clientes_domicilio,
       };
     } catch (error) {
       throw new HttpException(
