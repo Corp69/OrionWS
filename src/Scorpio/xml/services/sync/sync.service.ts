@@ -9,6 +9,7 @@ import { ResponseDto } from '@shared/dtos/Response.dto';
 import { clientHttp } from '@shared/client/clienthttp';
 
 import { SocialService } from '../social/social.service';
+import { SocialLstDto } from '../../dtos/social';
 
 @Injectable()
 export class SyncService {
@@ -21,20 +22,24 @@ export class SyncService {
   
   public async XML_Sync( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
-      
+
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+
+      //FUNCION
+      const data = await connection.query(
+        `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
+      );     
+
       // agregar razon social con el proveedor
       const socialResponse = await this.socialService.XML_Social_Create(clientId, id);
 
+      
       if (!socialResponse.Success) {
         return socialResponse;
       }
 
-      // Obtener la conexión adecuada según el cliente.
-      const connection = await this.dbConnectionService.getConnection(clientId);
-      //FUNCION
-      const data = await connection.query(
-        `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
-      );            
+              
       // construccion de XML - create social
       const Body: SyncDto = new SyncDto(
         data[0].sp_build_empresa_xml.XML[0].value,

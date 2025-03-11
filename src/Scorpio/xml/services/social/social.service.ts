@@ -108,7 +108,7 @@ export class SocialService {
 
       console.log("respuesta de agregar: ",response)
 
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo || response.codigo !== 0 || response.codigo !== 101 ){
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
