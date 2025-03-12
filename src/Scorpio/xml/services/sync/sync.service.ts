@@ -26,20 +26,18 @@ export class SyncService {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
 
-      //FUNCION
-      const data = await connection.query(
-        `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
-      );     
-
       // agregar razon social con el proveedor
       const socialResponse = await this.socialService.XML_Social_Create(clientId, id);
 
-      
       if (!socialResponse.Success) {
         return socialResponse;
       }
+      
+      //FUNCION
+      const data = await connection.query(
+        `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
+      );
 
-              
       // construccion de XML - create social
       const Body: SyncDto = new SyncDto(
         data[0].sp_build_empresa_xml.XML[0].value,
@@ -62,6 +60,34 @@ export class SyncService {
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Syncronizar',
           Mensaje: 'Operación no se realizó',
           Response: response,
+        };
+      }
+
+      // construccion de XML - list social
+      const BodyLst: SocialLstDto = new SocialLstDto(
+        data[0].sp_build_empresa_xml.XML[0].value,
+        data[0].sp_build_empresa_xml.XML[14].value,
+        data[0].sp_build_empresa_xml.XML[1].value,
+      );
+
+      //peticion con Axios
+      const responseLst = await this.http.httpPost(
+        `${data[0].sp_build_empresa_xml.XML[6].value}`,
+        JSON.stringify(BodyLst),
+      );
+
+      // Buscar el RFC en la lista del proveedor
+      const razonSocial = responseLst.razonesSociales.find(
+        (razon: any) => razon.rfc === data[0].sp_build_empresa_xml.Empresa.rfc
+      );
+
+      // Validar si el RFC existe pero está deshabilitado
+      if (razonSocial && razonSocial.habilitado === 0) {
+        return {
+          Success: false,
+          Titulo: 'Scorpio XL - Modulo XML - Razon Social Sincronizar',
+          Mensaje: `En proceso de sincronización con el SAT`,
+          Response: '',
         };
       }
 
