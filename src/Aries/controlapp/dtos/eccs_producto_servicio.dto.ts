@@ -34,8 +34,6 @@ export class Eccs_producto_servicioDto {
     description: 'codigo: codigo de identificacion del producto.',
   })
   @IsString(      { message: 'codigo: debe ser String' })
-  @MinLength(3,   { message: 'El codigo: debe tener almenos 3 caracteres.' })
-  @MaxLength(30,  { message: 'El codigo: no debe exceder a 30 caracteres.' })
   codigo: string;
 
 
