@@ -74,7 +74,7 @@ export class DomicilioEmpleadoDTO {
   })
   @IsNumber({}, { message: 'El id_pais debe ser un número.' })
   @Min(1,       { message: 'id_pais: debe tener al menos 1.' })
-  @Max(99,      { message: 'id_pais: no debe tener más de 99.' })
+  @Max(200,      { message: 'id_pais: no debe tener más de 99.' })
   id_pais: number;
 
   @ApiProperty({
