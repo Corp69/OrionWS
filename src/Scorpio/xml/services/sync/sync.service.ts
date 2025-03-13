@@ -9,6 +9,7 @@ import { ResponseDto } from '@shared/dtos/Response.dto';
 import { clientHttp } from '@shared/client/clienthttp';
 
 import { SocialService } from '../social/social.service';
+import { SocialLstDto } from '../../dtos/social';
 
 @Injectable()
 export class SyncService {
@@ -21,20 +22,22 @@ export class SyncService {
   
   public async XML_Sync( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
-      
+
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+
       // agregar razon social con el proveedor
       const socialResponse = await this.socialService.XML_Social_Create(clientId, id);
 
       if (!socialResponse.Success) {
         return socialResponse;
       }
-
-      // Obtener la conexión adecuada según el cliente.
-      const connection = await this.dbConnectionService.getConnection(clientId);
+      
       //FUNCION
       const data = await connection.query(
         `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
-      );            
+      );
+
       // construccion de XML - create social
       const Body: SyncDto = new SyncDto(
         data[0].sp_build_empresa_xml.XML[0].value,
@@ -51,12 +54,42 @@ export class SyncService {
 
       console.log("respuesta de agregar: ",response)
 
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo !== 0){
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Syncronizar',
           Mensaje: 'Operación no se realizó',
           Response: response,
+        };
+      }
+
+      // construccion de XML - list social
+      const BodyLst: SocialLstDto = new SocialLstDto(
+        data[0].sp_build_empresa_xml.XML[0].value,
+        data[0].sp_build_empresa_xml.XML[14].value,
+        data[0].sp_build_empresa_xml.XML[1].value,
+      );
+
+      //peticion con Axios
+      const responseLst = await this.http.httpPost(
+        `${data[0].sp_build_empresa_xml.XML[6].value}`,
+        JSON.stringify(BodyLst),
+      );
+
+      // Buscar el RFC en la lista del proveedor
+      const razonSocial = responseLst.razonesSociales.find(
+        (razon: any) => razon.rfc === data[0].sp_build_empresa_xml.Empresa.rfc
+      );
+
+      console.log("razon social: ",razonSocial)
+
+      // Validar si el RFC existe pero está deshabilitado
+      if (!razonSocial || razonSocial.habilitado !== 1) {
+        return {
+          Success: false,
+          Titulo: 'Scorpio XL - Modulo XML - Razon Social Sincronizar',
+          Mensaje: `En proceso de sincronización con el SAT`,
+          Response: '',
         };
       }
 

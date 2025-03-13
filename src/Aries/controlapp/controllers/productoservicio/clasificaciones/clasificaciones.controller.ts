@@ -1,14 +1,14 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Eccs_clasificacion_producto_servicioDto } from 'src/Aries/controlapp/dtos/eccs_clasificacion_producto_servicio.dto';
+import { ProductoservicioClasificacionesService } from 'src/Aries/controlapp/services/productoservicio/clasificaciones/clasificaciones.service';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { ProductoservicioService } from '../../services/productoservicio/productoservicio.service';
-import { Eccs_producto_servicioDto } from '../../dtos/eccs_producto_servicio.dto';
 
 @ApiTags('OrionWS - AriesERP - Modulo App.')
-@Controller('arieserp/productoservicio')
+@Controller('arieserp/productoservicio/clasificaciones')
 @Auth()
-export class ProductoservicioController {
-  constructor(private readonly Service: ProductoservicioService) {}
+export class ProductoservicioClasificacionesController {
+  constructor(private readonly Service: ProductoservicioClasificacionesService ) {}
 
   @Get('catalogo/:id')
   @ApiParam({
@@ -18,16 +18,16 @@ export class ProductoservicioController {
     type: Number, // Especificamos que el tipo es un número
   })
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+    summary: 'AriesERP - Modulo App - Producto servicio - clasificaciones Catalogo.',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+    description: 'AriesERP - Modulo App - Producto servicio - clasificaciones Catalogo.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+          Titulo: 'AriesERP - Modulo App - Producto servicio - clasificaciones Catalogo.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: {},
         },
@@ -36,7 +36,7 @@ export class ProductoservicioController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+    description: 'AriesERP - Modulo App - Producto servicio - clasificaciones Catalogo.',
     content: {
       'application/json': {
         example: {
@@ -56,24 +56,24 @@ export class ProductoservicioController {
   @Get('obtener/:id')
   @ApiParam({
     name: 'id',
-    description: 'Filtro: id hace referencia al producto.',
+    description: 'Filtro: id hace referencia a la clasificación.',
     required: true,
     type: Number, // Especificamos que el tipo es un número
   })
   @ApiOperation({
     summary:
-      'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+      'AriesERP - Modulo App - Producto servicio - Obtner la clasificación - Producto Servicio.',
   })
   @ApiResponse({
     status: 200,
     description:
-      'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+      'AriesERP - Modulo App - Producto servicio - Obtner la clasificación - Producto Servicio.',
     content: {
       'application/json': {
         example: {
           Success: true,
           Titulo:
-            'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+            'AriesERP - Modulo App - Producto servicio - Obtner la clasificación - Producto Servicio.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: {},
         },
@@ -83,7 +83,7 @@ export class ProductoservicioController {
   @ApiResponse({
     status: 401,
     description:
-      'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+      'AriesERP - Modulo App - Producto servicio - Obtner la clasificación - Producto Servicio.',
     content: {
       'application/json': {
         example: {
@@ -102,16 +102,16 @@ export class ProductoservicioController {
 
   @Post('agregar')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Agregar',
+    summary: 'AriesERP - Modulo App - Producto servicio - clasificación - Agregar',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Agregar',
+    description: 'AriesERP - Modulo App - Producto servicio - clasificación - Agregar',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Agregar',
+          Titulo: 'AriesERP - Modulo App - Producto servicio - clasificación - Agregar',
           Mensaje: 'Operación Realizada con exito.',
           Response: 'Se agrego correctamente!!',
         },
@@ -120,7 +120,7 @@ export class ProductoservicioController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Agregar',
+    description: 'AriesERP - Modulo App - Producto servicio - clasificación - Agregar',
     content: {
       'application/json': {
         example: {
@@ -134,24 +134,24 @@ export class ProductoservicioController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Crear(
-    @Body() Eccs_producto_servicioDto: Eccs_producto_servicioDto,
+    @Body() Eccs_clasificacion_producto_servicioDto: Eccs_clasificacion_producto_servicioDto,
     @GetUser('id') idUser: number,
   ) {
-    return this.Service.Agregar(idUser, Eccs_producto_servicioDto);
+    return this.Service.Agregar(idUser, Eccs_clasificacion_producto_servicioDto);
   }
 
   @Post('actualizar')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+    summary: 'AriesERP - Modulo App - Producto servicio - Clasificación  - Actualizar.',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+    description: 'AriesERP - Modulo App - Producto servicio - Clasificación  - Actualizar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+          Titulo: 'AriesERP - Modulo App - Producto servicio - Clasificación  - Actualizar.',
           Mensaje: 'Operación Realizada con exito.',
           Response: 'Se agrego correctamente!!',
         },
@@ -160,7 +160,7 @@ export class ProductoservicioController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+    description: 'AriesERP - Modulo App - Producto servicio - Clasificación  - Actualizar.',
     content: {
       'application/json': {
         example: {
@@ -174,26 +174,26 @@ export class ProductoservicioController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public actualizar(
-    @Body() Eccs_producto_servicioDto: Eccs_producto_servicioDto,
+    @Body() Eccs_clasificacion_producto_servicioDto: Eccs_clasificacion_producto_servicioDto,
     @GetUser('id') idUser: number,
   ) {
-    return this.Service.Actualizar(idUser, Eccs_producto_servicioDto);
+    return this.Service.Actualizar(idUser, Eccs_clasificacion_producto_servicioDto);
   }
 
 
 
   @Post('eliminar/:id')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio  - Eliminar.',
+    summary: 'AriesERP - Modulo App - Producto servicio - clasificación   - Eliminar.',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Eliminar.',
+    description: 'AriesERP - Modulo App - Producto servicio - clasificación  - Eliminar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Eliminar.',
+          Titulo: 'AriesERP - Modulo App - Producto servicio - clasificación  - Eliminar.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: 'Registro eliminado.',
         },
@@ -202,7 +202,7 @@ export class ProductoservicioController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Eliminar.',
+    description: 'AriesERP - Modulo App - Producto servicio - clasificación  - Eliminar.',
     content: {
       'application/json': {
         example: {

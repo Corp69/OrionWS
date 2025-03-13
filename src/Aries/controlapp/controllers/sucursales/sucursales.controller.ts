@@ -180,6 +180,12 @@ export class SucursalesController {
   }
 
   @Post('eliminar/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: id hace referencia al producto a eliminar. ',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({
     summary: 'AriesERP - Modulo Compras - Sucursales - Eliminar.',
   })

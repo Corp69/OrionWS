@@ -12,7 +12,9 @@ import { SucursalesService } from './services/sucursales/sucursales.service';
 import { SucursalesDomicilioController } from './controllers/sucursales domicilio/sucursalesdomicilio.controller';
 import { SucursalesDomiciliosService } from './services/sucursalesdomicilio/sucursalesdomicilio.service';
 import { ProductoservicioController } from './controllers/productoservicio/productoservicio.controller';
-import { ProductoservicioService } from './services/productoservicio/sucursales.service';
+import { ProductoservicioService } from './services/productoservicio/productoservicio.service';
+import { ProductoservicioClasificacionesController } from './controllers/productoservicio/clasificaciones/clasificaciones.controller';
+import { ProductoservicioClasificacionesService } from './services/productoservicio/clasificaciones/clasificaciones.service';
 
 @Module({
     controllers: 
@@ -21,16 +23,25 @@ import { ProductoservicioService } from './services/productoservicio/sucursales.
       EmpresaController, 
       SucursalesController,
       SucursalesDomicilioController,
+      //--============================================================================
+      // Productos y servicios
       ProductoservicioController,
+      // sub nivel
+      ProductoservicioClasificacionesController
     ],
     providers:   
     [ 
       ControlAppService,
       DatabaseConnectionService, 
-      ProductoservicioService,
       EmpresaService,
       SucursalesService,
-      SucursalesDomiciliosService  
+      SucursalesDomiciliosService,
+      //--============================================================================
+      // Productos y servicios
+      ProductoservicioService,
+      // sub nivel
+      ProductoservicioClasificacionesService
+
     ],
     imports: [
         AuthModule,

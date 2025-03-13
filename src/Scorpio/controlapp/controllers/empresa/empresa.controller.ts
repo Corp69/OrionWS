@@ -19,6 +19,43 @@ import { EmpresasService } from '../../services/empresas/empresas.service';
 export class EmpresaController {
   constructor(private readonly Service: EmpresasService) {}
 
+  @Post('lstsync')
+  @ApiOperation({ summary: 'Scorpio XL - Modulo App - Empresas.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Scorpio XL - Modulo App - Empresas.',
+    content: {
+      'application/json': {
+        example: {
+          Success: true,
+          Titulo:  'Scorpio XL - Modulo App - Empresas.',
+          Mensaje: 'Operacion Realizada con exito.',
+          Response: ''
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Scorpio XL - Modulo App - Empresas.',
+    content: {
+      'application/json': {
+        example: {
+          message: 'No tienes Autorizacion.',
+          statusCode: 401,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+  @ApiResponse({ status: 401, description: 'Token Invalido' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+  public getLstSync(
+    @GetUser('id') idUser: number,
+  ) {
+    return this.Service.getLstSync(idUser);
+  }
+
   @Get('obtener/:id')
   @ApiParam({
     name: 'id',
