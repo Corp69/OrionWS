@@ -54,7 +54,7 @@ export class SyncService {
 
       console.log("respuesta de agregar: ",response)
 
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo !== 0){
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Syncronizar',
@@ -81,8 +81,10 @@ export class SyncService {
         (razon: any) => razon.rfc === data[0].sp_build_empresa_xml.Empresa.rfc
       );
 
+      console.log("razon social: ",razonSocial)
+
       // Validar si el RFC existe pero está deshabilitado
-      if (razonSocial && razonSocial.habilitado === 0) {
+      if (!razonSocial || razonSocial.habilitado !== 1) {
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Sincronizar',

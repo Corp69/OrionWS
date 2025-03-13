@@ -83,11 +83,11 @@ export class SocialService {
         `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
       );
 
-      let SocialCreate: SocialCreateDto = new SocialCreateDto();
+      let SocialCreate: SocialCreateDto;
       
       if(data[0].sp_build_empresa_xml.Empresa.id_scorpio_tipo_sync == 1){
         // construccion de XML - create social
-        let SocialCreate: SocialCreateDto = new SocialCreateDto(
+        SocialCreate = new SocialCreateDto(
           data[0].sp_build_empresa_xml.XML[0].value,
           data[0].sp_build_empresa_xml.XML[14].value,
           data[0].sp_build_empresa_xml.XML[1].value,
@@ -109,7 +109,7 @@ export class SocialService {
       }
       else{
       // construccion de XML - create social
-      let SocialCreate: SocialCreateDto = new SocialCreateDto(
+      SocialCreate = new SocialCreateDto(
         data[0].sp_build_empresa_xml.XML[0].value,
         data[0].sp_build_empresa_xml.XML[14].value,
         data[0].sp_build_empresa_xml.XML[1].value,
@@ -138,7 +138,7 @@ export class SocialService {
       
       console.log("respuesta de agregar: ",response)
 
-      if(response.codigo || response.codigo !== 0 || response.codigo !== 101 ){
+      if(response.codigo !== 0 && response.codigo !== 111 ){
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
