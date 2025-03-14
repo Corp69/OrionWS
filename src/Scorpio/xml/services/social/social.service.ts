@@ -238,7 +238,7 @@ export class SocialService {
       );
 
 
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo !== 0){
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',

@@ -51,10 +51,10 @@ export class MulticomService {
       const response = await this.http.httpPost(data[0].sp_build_xml_generar_solicitud_multicomprobante.XML[3].valor, Solicita);
       
 
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo !== 0){
         return {
           Success: false,
-          Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
+          Titulo: 'Scorpio XL - Modulo XML - Multicomprobantes Solicitar',
           Mensaje: 'Operación no se realizó',
           Response: response,
         };
@@ -70,7 +70,7 @@ export class MulticomService {
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
-        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Comprobante',
+        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Solicitar',
         Mensaje: 'Operación Realizada con exito.',
         Response: response,
       };
@@ -110,7 +110,7 @@ export class MulticomService {
       if(response.codigo || response.codigo !== 0){
         return {
           Success: false,
-          Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
+          Titulo: 'Scorpio XL - Modulo XML - Multicomprobante Verificar',
           Mensaje: 'Operación no se realizó',
           Response: response,
         };
@@ -120,7 +120,7 @@ export class MulticomService {
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
-        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Comprobante',
+        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
         Mensaje: 'Operación Realizada con exito.',
         Response: response,
       };
@@ -129,7 +129,7 @@ export class MulticomService {
       throw new HttpException(
         {
           Success: false,
-          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Comprobante',
+          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
           Mensaje: 'Operación no se realizó',
           Response: error.message || error,
         },
