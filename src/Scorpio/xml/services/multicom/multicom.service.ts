@@ -106,8 +106,6 @@ export class MulticomService {
       
       //peticion con axios
       const response = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[6].valor, Body );
-      console.log(response)
-      console.log(Body)
 
       if(response.codigo || response.codigo !== 0){
         return {

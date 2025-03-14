@@ -52,7 +52,7 @@ export class SyncService {
         JSON.stringify(Body),
       );
 
-      console.log("respuesta de agregar: ",response)
+ 
 
       if(response.codigo !== 0){
         return {
@@ -81,7 +81,6 @@ export class SyncService {
         (razon: any) => razon.rfc === data[0].sp_build_empresa_xml.Empresa.rfc
       );
 
-      console.log("razon social: ",razonSocial)
 
       // Validar si el RFC existe pero está deshabilitado
       if (!razonSocial || razonSocial.habilitado !== 1) {
@@ -93,7 +92,6 @@ export class SyncService {
         };
       }
 
-      console.log("Respuesta de sincronizar",response)
       
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {

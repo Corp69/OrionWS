@@ -44,7 +44,7 @@ export class SolicitaDto {
   })
   @IsNumber()
   @Min(1, { message: 'montominimo debe tener al menos 1 caracter' })
-  @Max(100, { message: 'montominimo debe tener maximo 100' })
+  @Max(2000, { message: 'montominimo debe tener maximo 2000' })
   montominimo: number;
 
   @ApiProperty({
@@ -53,7 +53,7 @@ export class SolicitaDto {
   })
   @IsNumber()
   @Min(1, { message: 'montomaximo debe tener al menos 1 caracter' })
-  @Max(1000, { message: 'montomaximo debe tener maximo 100' })
+  @Max(2000, { message: 'montomaximo debe tener maximo 2000' })
   montomaximo: number;
 
   @ApiProperty({

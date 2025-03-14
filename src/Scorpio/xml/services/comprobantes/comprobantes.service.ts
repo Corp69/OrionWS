@@ -81,7 +81,6 @@ export class ComprobantesService {
         id_xml_peticion: response.solicitud
       });
 
-      console.log(resp)
      
 
       //Retornamos la respuesta formateada si la solicitud fue exitosa
@@ -122,7 +121,6 @@ export class ComprobantesService {
       //peticion con axios
       const response = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[4].valor, Body);
 
-      console.log(response)
 
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
