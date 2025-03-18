@@ -49,7 +49,6 @@ export class SocialService {
         JSON.stringify(Body),
       );
 
-      console.log(response.razonesSociales)
 
       return {
         Success: true,
@@ -134,9 +133,7 @@ export class SocialService {
         `${data[0].sp_build_empresa_xml.XML[5].value}`,
         JSON.stringify(SocialCreate),
       );
-      console.log("body de social create: ",SocialCreate);
       
-      console.log("respuesta de agregar: ",response)
 
       if(response.codigo !== 0 && response.codigo !== 111 ){
         return {
@@ -240,8 +237,6 @@ export class SocialService {
         JSON.stringify(Body),
       );
 
-      console.log("respuesta desde social delete: ", response)
-      console.log("respuesta desde social delete: ", Body)
 
       if(response.codigo || response.codigo !== 0){
         return {
