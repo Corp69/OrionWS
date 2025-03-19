@@ -75,6 +75,6 @@ export class MulticomController {
     @GetUser('id') idUser: number,
     @Param('id') id: number 
   ) {
-    return this.Service.XML_MultComprobante_Verificar(idUser, id);
+    return this.Service.XML_MultComprobante_Verificar_XML_JSON(idUser, id);
   }
 }
