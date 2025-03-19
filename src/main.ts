@@ -15,10 +15,12 @@ async function bootstrap() {
                 
                 'https://eccs-production.up.railway.app',
                 'https://scorpioxl.eccs.com.mx',
+                'scorpioxl.eccs.com.mx',
 
 
                 'eccs-production-373d.up.railway.app',
                 'https://arieserp.eccs.com.mx',
+                'arieserp.eccs.com.mx',
 
                 'https://eccs-production-7562.up.railway.app',
                 'https://info.eccs.com.mx',
