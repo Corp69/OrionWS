@@ -81,6 +81,24 @@ export class clientHttp {
     return urlObject.toString();
   }
 
+  //Helper
+  public removerFirma(input: string): string {
+    // Decodifica el contenido binario utilizando Buffer
+    const decoded = Buffer.from(input, 'base64').toString('utf-8');
+
+    // Expresión regular para encontrar el XML dentro de la cadena
+    const xmlRegex = /<\?xml[\s\S]*<cfdi:Comprobante[\s\S]*<\/cfdi:Comprobante>/;
+
+    // Extrae solo el XML usando la expresión regular
+    const xmlMatch = decoded.match(xmlRegex);
+
+    if (xmlMatch) {
+      return xmlMatch[0]; // Devuelve solo el XML
+    }
+
+    throw new Error('No XML content found');
+  }
+
   
 
 }
