@@ -12,6 +12,9 @@ import {
 } from '../../dtos/multicomp';
 import { clientHttp } from '@shared/client/clienthttp';
 
+const {convertXML}  = require("simple-xml-to-json")
+
+
 
 
 @Injectable()
@@ -51,10 +54,10 @@ export class MulticomService {
       const response = await this.http.httpPost(data[0].sp_build_xml_generar_solicitud_multicomprobante.XML[3].valor, Solicita);
       
 
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo !== 0){
         return {
           Success: false,
-          Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
+          Titulo: 'Scorpio XL - Modulo XML - Multicomprobantes Solicitar',
           Mensaje: 'Operación no se realizó',
           Response: response,
         };
@@ -70,7 +73,7 @@ export class MulticomService {
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
-        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Comprobante',
+        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Solicitar',
         Mensaje: 'Operación Realizada con exito.',
         Response: response,
       };
@@ -106,23 +109,20 @@ export class MulticomService {
       
       //peticion con axios
       const response = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[6].valor, Body );
-      console.log(response)
-      console.log(Body)
 
       if(response.codigo || response.codigo !== 0){
         return {
           Success: false,
-          Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
+          Titulo: 'Scorpio XL - Modulo XML - Multicomprobante Verificar',
           Mensaje: 'Operación no se realizó',
           Response: response,
         };
       }
-      
-
+  
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
-        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Comprobante',
+        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
         Mensaje: 'Operación Realizada con exito.',
         Response: response,
       };
@@ -131,7 +131,7 @@ export class MulticomService {
       throw new HttpException(
         {
           Success: false,
-          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Comprobante',
+          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
           Mensaje: 'Operación no se realizó',
           Response: error.message || error,
         },
@@ -139,4 +139,92 @@ export class MulticomService {
       );
     }
   }
+  
+  //Verificar solicitud de multicomprobantes
+  public async XML_MultComprobante_Verificar_XML_JSON( clientId: number,  id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      
+      //Funcion
+      const data = await connection.query(`select "scorpio_xml".sp_build_xml_verifica(${id});`);
+      // construccion de XML - create social
+      const Body: MultiVerificaDto = new MultiVerificaDto(
+        data[0].sp_build_xml_verifica.XML[0].valor,
+        data[0].sp_build_xml_verifica.XML[7].valor,
+        data[0].sp_build_xml_verifica.XML[1].valor,
+        data[0].sp_build_xml_verifica.solicitud.valor
+      );
+      
+      //peticion con axios
+      const res = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[6].valor, Body );
+
+      if(res.codigo !== 0){
+        return {
+          Success: false,
+          Titulo: 'Scorpio XL - Modulo XML - Multicomprobante Verificar',
+          Mensaje: 'Operación no se realizó',
+          Response: res,
+        };
+      }
+
+      //peticion con axios
+      const params = await this.http.buildQueryParams( res.respuesta[0] );
+
+
+      // convertir a JSON 
+      const url = await this.http.buildUrl( res.respuesta[0] );
+
+      const xml = await this.http.httpGet( url, params );
+
+      // const response = await this.http.removerFirma( xml );
+
+      const cleanedResponse = await this.removeBeforeXml(xml);
+      
+      // console.log(cleanedResponse.slice(4));
+
+
+      const xmlFinal = await this.removeAfterClosingTag(cleanedResponse.slice(4));
+
+      // console.log(xmlFinal);
+
+
+      //devolver el JSON
+      const myJson = convertXML(xmlFinal)
+      console.log(JSON.stringify(myJson))
+      // Retornamos la respuesta formateada si la solicitud fue exitosa
+      return {
+        Success: true,
+        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
+        Mensaje: 'Operación Realizada con exito.',
+        Response: myJson,
+      };
+    } catch (error) {
+      console.error('Error en la solicitud HTTP:', error.message);
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
+          Mensaje: 'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
+  public removeBeforeXml(data: string): string {
+    const regex = /.*(?=\.xml)/; // Coincide con todo antes de ".xml" (sin incluirlo)
+    return data.replace(regex, ''); // Reemplaza todo lo anterior por una cadena vacía
+  }
+
+  public removeAfterClosingTag(data: string): string {
+    // Usamos una expresión regular para encontrar `</cfdi:Comprobante>` y todo lo que sigue
+    const regex = /(<\/cfdi:Comprobante>).*$/;
+    return data.replace(regex, '$1'); // Reemplazamos todo después de `</cfdi:Comprobante>`
+  }
+
+
+
+
 }

@@ -49,6 +49,7 @@ export class SocialService {
         JSON.stringify(Body),
       );
 
+
       return {
         Success: true,
         Titulo: 'Scorpio XL - Modulo XML - Razon Social Lista',
@@ -80,35 +81,61 @@ export class SocialService {
       const data = await connection.query(
         `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
       );
+
+      let SocialCreate: SocialCreateDto;
+      
+      if(data[0].sp_build_empresa_xml.Empresa.id_scorpio_tipo_sync == 1){
+        // construccion de XML - create social
+        SocialCreate = new SocialCreateDto(
+          data[0].sp_build_empresa_xml.XML[0].value,
+          data[0].sp_build_empresa_xml.XML[14].value,
+          data[0].sp_build_empresa_xml.XML[1].value,
+          data[0].sp_build_empresa_xml.Empresa.nombrecomercial,
+          data[0].sp_build_empresa_xml.Empresa.fechainiciosync,
+          data[0].sp_build_empresa_xml.Empresa.maxcomprobantesmensual,
+          `+52${data[0].sp_build_empresa_xml.Empresa.celular}`,
+
+          new FielDTO(
+            "", //data[0].sp_build_empresa_xml.Empresa.pfx,
+            "", //data[0].sp_build_empresa_xml.Empresa.passpfx,
+          ), // fieliel
+          new CiecDTO(
+            data[0].sp_build_empresa_xml.Empresa.rfc,
+            data[0].sp_build_empresa_xml.Empresa.pass,
+          ),
+          'ciec',
+        );
+      }
+      else{
       // construccion de XML - create social
-      const SocialCreate: SocialCreateDto = new SocialCreateDto(
+      SocialCreate = new SocialCreateDto(
         data[0].sp_build_empresa_xml.XML[0].value,
         data[0].sp_build_empresa_xml.XML[14].value,
         data[0].sp_build_empresa_xml.XML[1].value,
         data[0].sp_build_empresa_xml.Empresa.nombrecomercial,
         data[0].sp_build_empresa_xml.Empresa.fechainiciosync,
         data[0].sp_build_empresa_xml.Empresa.maxcomprobantesmensual,
-        data[0].sp_build_empresa_xml.Empresa.celular,
+        `+52${data[0].sp_build_empresa_xml.Empresa.celular}`,
 
         new FielDTO(
           data[0].sp_build_empresa_xml.Empresa.pfx,
           data[0].sp_build_empresa_xml.Empresa.passpfx,
         ), // fiel
         new CiecDTO(
-          data[0].sp_build_empresa_xml.Empresa.rfc,
-          data[0].sp_build_empresa_xml.Empresa.pass,
+          "", //data[0].sp_build_empresa_xml.Empresa.rfc,
+          "", //data[0].sp_build_empresa_xml.Empresa.pass,
         ),
         'fiel',
       );
+    }
       //peticion con Axios
       const response = await this.clientHttp.httpPost(
         `${data[0].sp_build_empresa_xml.XML[5].value}`,
         JSON.stringify(SocialCreate),
       );
+      
 
-      console.log("respuesta de agregar: ",response)
-
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo !== 0 && response.codigo !== 111 ){
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',
@@ -210,10 +237,8 @@ export class SocialService {
         JSON.stringify(Body),
       );
 
-      console.log("respuesta desde social delete: ", response)
-      console.log("respuesta desde social delete: ", Body)
 
-      if(response.codigo || response.codigo !== 0){
+      if(response.codigo !== 0){
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Razon Social Agregar',

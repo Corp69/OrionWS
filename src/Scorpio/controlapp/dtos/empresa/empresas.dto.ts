@@ -1,11 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Max,
   MaxLength,
   Min,
   MinLength,
+  ValidateIf,
 } from 'class-validator';
 
 export class EmpresasDTO {
@@ -33,20 +36,24 @@ export class EmpresasDTO {
     description: 'Password de la ciec',
     uniqueItems: true,
   })
+  @IsOptional()
+  @ValidateIf((obj) => obj.pass !== '')
   @IsString({ message: 'pass: debe ser String' })
   @MinLength(3, { message: 'pass: debe tener al menos 3.' })
   @MaxLength(60, { message: 'pass: no debe exceder a 60 digitos.' })
-  pass: string;
+  pass?: string;
 
   @ApiProperty({
     example: '12345',
     description: 'Password de la ciec',
     uniqueItems: true,
   })
-  @IsString({ message: 'passpfx: debe ser String' })
-  @MinLength(3, { message: 'passpfx: debe tener al menos 3.' })
-  @MaxLength(60, { message: 'passpfx: no debe exceder a 60 digitos.' })
-  passpfx: string;
+  @IsOptional()
+  @ValidateIf((obj) => obj.passpfx !== '')
+  @IsString({ message: 'passpfx: debe ser un string.' })
+  @MinLength(3, { message: 'passpfx: debe tener al menos 3 caracteres.', each: false })
+  @MaxLength(60, { message: 'passpfx: no debe exceder 60 caracteres.' })
+  passpfx?: string;
 
   @ApiProperty({
     example: 'esta sobre una avenida sobre alteria',
@@ -111,4 +118,15 @@ export class EmpresasDTO {
   @Min(1,       { message: 'No Comprobantes mensual debe tener al menos 1.' })
   @Max(999,     { message: 'No Comprobantes mensual no debe tener más de 99.' })
   maxcomprobantesmensual:  number;
+
+  @ApiProperty({
+    example: 1,
+    description: 'ID: identificador del tipo de sincronización.',
+  })
+  @IsNumber({}, { message: 'El id_estatus debe ser un númerico.' })
+  @Min(1,       { message: 'id_estatus: debe tener al menos 1.' })
+  @Max(99,      { message: 'id_estatus: no debe tener más de 99.' })
+  id_scorpio_tipo_sync: number;
+
+  
 }

@@ -8,7 +8,7 @@ import {
 export class eccs_proveedor_domicilio {
 
     @PrimaryGeneratedColumn()            id:                        number;
-    @Column('bigint')                  cp:                        number;
+    @Column('bigint')                    cp:                        number;
     @Column('varchar')                   calle:                     string;
     @Column('varchar')                   num_ext:                   string;
     @Column('varchar')                   num_int:                   string;

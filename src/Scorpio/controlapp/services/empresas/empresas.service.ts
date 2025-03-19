@@ -42,17 +42,42 @@ export class EmpresasService {
     }
   }
 
+  public async getLstSync( clientId: number): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
+      //FUNCION
+      const data = await connection.query(`select id, descripcion from scorpio_tipo_sync  where activo is true`);
+      return {
+        Success:  true,
+        Titulo:   'Scorpio XL - Modulo App - Empresas.',
+        Mensaje:  'Operacion Realizada con exito.',
+        Response: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          Success:  false,
+          Titulo:   'Scorpio XL- Modulo App - Empresas.',
+          Mensaje:  'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+
   public async getEmpresa( clientId: number, id: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`SELECT "scorpio_empresas".fn_empresas_obj(${id})`);
+      const data = await connection.query(`SELECT "scorpio_empresas".fn_get_empresa(${id})`);
       return {
         Success:  true,
         Titulo:   'Scorpio XL - Modulo App - Empresas.',
         Mensaje:  'Operacion Realizada con exito.',
-        Response: data[0].fn_empresas_obj,
+        Response: data[0].fn_get_empresa,
       };
     } catch (error) {
       throw new HttpException(

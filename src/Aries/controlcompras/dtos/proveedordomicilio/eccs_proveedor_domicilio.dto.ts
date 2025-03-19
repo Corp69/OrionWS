@@ -55,8 +55,8 @@ export class DomicilioProveedorDTO {
     example: '12',
     description: 'Numero interior del domicilio del proveedor.',
   })
-  @IsString({ message: 'correo_personal: debe ser String' })
-  @MaxLength(4, { message: 'correo_personal no debe exceder a 3 digitos.' })
+  @IsString({ message: 'num_int: debe ser String' })
+  @MaxLength(4, { message: 'num_int no debe exceder a 3 digitos.' })
   num_int: string;
 
   @ApiProperty({

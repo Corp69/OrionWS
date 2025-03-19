@@ -2,13 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 //Dtos
-import { SucursalDTO } from '../../dtos/arieserp_sucursal.dto';
+import { Eccs_clasificacion_producto_servicioDto } from '../../../dtos/eccs_clasificacion_producto_servicio.dto';
 //entidades
-import { arieserp_sucursal } from '../../entities/arieserp_sucursal.entity';
+import { eccs_clasificacion_producto_servicio } from '../../../entities/eccs_clasificacion_producto_servicio.entity';
 
 
 @Injectable()
-export class ProductoservicioService {
+export class ProductoservicioClasificacionesService {
 
 
   constructor(
@@ -21,19 +21,19 @@ export class ProductoservicioService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `SELECT "arieserp".fn_get_catalogo_producto_servicio(${id})`,
+        `SELECT "arieserp".fn_get_catalogo_producto_servicio_clasificaciones(${id})`,
       );
       return {
         Success:  true,
-        Titulo:   "AriesERP - Modulo App - Producto Servicio - Catalogo.",
+        Titulo:   "AriesERP - Modulo App - Producto Servicio - Clasificaciones Catalogo.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_get_catalogo_producto_servicio,
+        Response: data[0].fn_get_catalogo_producto_servicio_clasificaciones,
       };
     } catch (error) {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   "AriesERP - Modulo App - Producto Servicio - Catalogo.",
+          Titulo:   "AriesERP - Modulo App - Producto Servicio - Clasificaciones Catalogo.",
           Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
@@ -49,13 +49,13 @@ export class ProductoservicioService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `SELECT "arieserp".fn_get_eccs_producto_servicio(${id})`,
+        `SELECT "arieserp".fn_get_producto_servicio(${id})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo App - Producto - Obtner Producto Servicio.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_get_eccs_producto_servicio,
+        Response: data[0].fn_get_producto_servicio,
       };
     } catch (error) {
       throw new HttpException(
@@ -70,17 +70,17 @@ export class ProductoservicioService {
     }
   }
 
-  public async Agregar( clientId: number, SucursalDTO: SucursalDTO  ): Promise<ResponseDto<any>> {
+  public async Agregar( clientId: number, Eccs_clasificacion_producto_servicioDto: Eccs_clasificacion_producto_servicioDto  ): Promise<ResponseDto<any>> {
     try {
       let connection = await this.dbConnectionService.getConnection(clientId);
-      let repository = connection.getRepository(arieserp_sucursal);
-      let { id, ...DataDto } = SucursalDTO;
+      let repository = connection.getRepository(eccs_clasificacion_producto_servicio);
+      let { id, ...DataDto } = Eccs_clasificacion_producto_servicioDto;
       let response  = await repository.save(repository.create(DataDto)); 
       
       return {
         Success:  true,
         Id:       response.id,
-        Titulo:   "AriesERP - Modulo App - Sucursales - Agregar",
+        Titulo:   "AriesERP - Modulo App - producto servicio  - Agregar",
         Mensaje:  "Operacion Realizada con exito.",
         Response: "Se agrego correctamente!!",
       };
@@ -88,7 +88,7 @@ export class ProductoservicioService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   "AriesERP - Modulo App - Sucursales - Agregar",
+          Titulo:   "AriesERP - Modulo App - producto servicio  - Agregar",
           Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
@@ -97,18 +97,18 @@ export class ProductoservicioService {
     }
   }
 
-  public async Actualizar( clientId: number, SucursalDTO: SucursalDTO ): Promise<ResponseDto<any>> {
+  public async Actualizar( clientId: number, Eccs_clasificacion_producto_servicioDto: Eccs_clasificacion_producto_servicioDto ): Promise<ResponseDto<any>> {
     try {
 
       const connection = await this.dbConnectionService.getConnection(clientId);
-      const Repository = await connection.getRepository(arieserp_sucursal);
-      const row        = await Repository.preload(SucursalDTO);
+      const Repository = await connection.getRepository(eccs_clasificacion_producto_servicio);
+      const row        = await Repository.preload(Eccs_clasificacion_producto_servicioDto);
       const response   = await Repository.save(row);
 
       return {
         Success:  true,
         Id:       response.id,
-        Titulo:   "AriesERP - Modulo App - Sucursales - Actualizar",
+        Titulo:   "AriesERP - Modulo App - Producto Servicio - Actualizar",
         Mensaje:  "Operacion Realizada con exito.",
         Response: "Se Actualizó correctamente!!",
       };
@@ -116,7 +116,7 @@ export class ProductoservicioService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   "AriesERP - Modulo App - Sucursales - Actualizar",
+          Titulo:   "AriesERP - Modulo App - Producto Servicio - Actualizar",
           Mensaje:  "Operación no se realizó",
           Response: error.message || error,
         },
@@ -130,10 +130,10 @@ export class ProductoservicioService {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`delete from arieserp_sucursal where id = ${ id }`);
+      const data = await connection.query(`delete from eccs_clasificacion_producto_servicio where id = ${ id }`);
       return {
         Success:  true,
-        Titulo:   'AriesERP - Modulo App - Empresas Elimiar',
+        Titulo:   'AriesERP - Modulo App - Producto Elimiar',
         Mensaje:  'Operacion Realizada con exito.',
         Response: "Registro eliminado.",
       };
@@ -141,7 +141,7 @@ export class ProductoservicioService {
       throw new HttpException(
         {
           Success:  false,
-          Titulo:   'AriesERP - Modulo App - Empresas Elimiar',
+          Titulo:   'AriesERP - Modulo App - Producto Elimiar',
           Mensaje:  'Operación no se realizó',
           Response: error.message || error,
         },
