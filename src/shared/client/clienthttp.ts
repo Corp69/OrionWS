@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom, lastValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
+import { convertXML } from 'simple-xml-to-json';
 
 @Injectable()
 export class clientHttp {
@@ -29,75 +30,63 @@ export class clientHttp {
     }
   }
 
-  //Armamos los parametros
-  public buildQueryParams(url: string): Record<string, string> {
-    const parsedUrl = new URL(url);
-    const queryParams: Record<string, string> = {};
-
-    parsedUrl.searchParams.forEach((value, key) => {
-      queryParams[key] = value;
-    });
-
-    return queryParams;
-  }
-
-  public buildUrl(url: string): string {
-    const parsedUrl = new URL(url);
-
-    // Elimina los parámetros query
-    parsedUrl.search = '';
-
-    return parsedUrl.toString();
-  }
-
-  public async httpGet(url: string, queryParams?: Record<string, string>): Promise<any> {
+  public async httpGet(url: string): Promise<any> {
     try {
-      const fullUrl = this.buildUrlWithParams(url, queryParams);
-
-      const response = await lastValueFrom(
-        this.httpService.get<any>(fullUrl).pipe(
-          catchError((error: AxiosError) => {
-            console.error('Error:', error.response?.data || error.message);
-            throw new Error('Algo pasó en el servicio HTTP');
-          }),
-        )
+      const response = await this.httpService.get<any>( url ).pipe(
+         catchError((error: AxiosError) => {
+           console.error('Error:', error.response?.data || error.message);
+           throw new Error('algo paso en el servicio: http ');
+         }),
       );
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error en la solicitud HTTP GET:', error);
       throw error;
     }
   }
 
-  private buildUrlWithParams(url: string, queryParams?: Record<string, string>): string {
-    if (!queryParams) return url;
+  public async getXml(url: string): Promise<any> {
+    try {
+      // Extraer y construir URL y parámetros directamente
+      const urlSolicitud = new URL(url);
+      const queryParams: Record<string, string> = {};
+  
+      //Se extraen los query params
+      urlSolicitud.searchParams.forEach((value, key) => {
+        queryParams[key] = value;
+      });
+  
+      urlSolicitud.search = '';
+  
+      // Construir URL completa con parámetros
+      const urlCompleta = new URL(urlSolicitud.toString());
+      Object.entries(queryParams).forEach(([key, value]) => {
+        urlCompleta.searchParams.append(key, value);
+      });
+  
+      // Peticion para obtener el XML
+      const response = await lastValueFrom(
+        this.httpService.get<any>(urlCompleta.toString())
+      )
 
-    const urlObject = new URL(url);
-    Object.entries(queryParams).forEach(([key, value]) => {
-      urlObject.searchParams.append(key, value);
-    });
-
-    return urlObject.toString();
-  }
-
-  //Helper
-  public removerFirma(input: string): string {
-    // Decodifica el contenido binario utilizando Buffer
-    const decoded = Buffer.from(input, 'base64').toString('utf-8');
-
-    // Expresión regular para encontrar el XML dentro de la cadena
-    const xmlRegex = /<\?xml[\s\S]*<cfdi:Comprobante[\s\S]*<\/cfdi:Comprobante>/;
-
-    // Extrae solo el XML usando la expresión regular
-    const xmlMatch = decoded.match(xmlRegex);
-
-    if (xmlMatch) {
-      return xmlMatch[0]; // Devuelve solo el XML
+      //Guarda el contenido de la respuesta
+      const xmlContenido = response.data;
+  
+      // Limpieza del XML, elimina lo que es innecesario al principio y al final del XML
+      const xmlLimpio = xmlContenido.replace(/.*(?=\.xml)/, '');
+      const xmlFinal = xmlLimpio.slice(4).replace(/(<\/cfdi:Comprobante>).*$/, '$1');
+  
+      // Convertir XML a JSON
+      return JSON.stringify(convertXML(xmlFinal));
+    } catch (error) {
+      console.error('Error en la función getXml:', error);
+      throw error;
     }
-
-    throw new Error('No XML content found');
   }
+
+
+  
 
   
 

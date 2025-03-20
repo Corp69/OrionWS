@@ -169,35 +169,15 @@ export class MulticomService {
       }
 
       //peticion con axios
-      const params = await this.http.buildQueryParams( res.respuesta[0] );
+      const response = await this.http.getXml(res.respuesta[0]);
+      console.log(response)
 
-
-      // convertir a JSON 
-      const url = await this.http.buildUrl( res.respuesta[0] );
-
-      const xml = await this.http.httpGet( url, params );
-
-      // const response = await this.http.removerFirma( xml );
-
-      const cleanedResponse = await this.removeBeforeXml(xml);
-      
-      // console.log(cleanedResponse.slice(4));
-
-
-      const xmlFinal = await this.removeAfterClosingTag(cleanedResponse.slice(4));
-
-      // console.log(xmlFinal);
-
-
-      //devolver el JSON
-      const myJson = convertXML(xmlFinal)
-      console.log(JSON.stringify(myJson))
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
         Mensaje: 'Operación Realizada con exito.',
-        Response: myJson,
+        Response: response,
       };
     } catch (error) {
       console.error('Error en la solicitud HTTP:', error.message);
@@ -213,16 +193,7 @@ export class MulticomService {
     }
   }
 
-  public removeBeforeXml(data: string): string {
-    const regex = /.*(?=\.xml)/; // Coincide con todo antes de ".xml" (sin incluirlo)
-    return data.replace(regex, ''); // Reemplaza todo lo anterior por una cadena vacía
-  }
-
-  public removeAfterClosingTag(data: string): string {
-    // Usamos una expresión regular para encontrar `</cfdi:Comprobante>` y todo lo que sigue
-    const regex = /(<\/cfdi:Comprobante>).*$/;
-    return data.replace(regex, '$1'); // Reemplazamos todo después de `</cfdi:Comprobante>`
-  }
+ 
 
 
 
