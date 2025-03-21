@@ -78,7 +78,7 @@ export class clientHttp {
       const xmlFinal = xmlLimpio.slice(4).replace(/(<\/cfdi:Comprobante>).*$/, '$1');
   
       // Convertir XML a JSON
-      return JSON.stringify(convertXML(xmlFinal));
+      return convertXML(xmlFinal);
     } catch (error) {
       console.error('Error en la función getXml:', error);
       throw error;
