@@ -12,6 +12,9 @@ import {
 } from '../../dtos/multicomp';
 import { clientHttp } from '@shared/client/clienthttp';
 
+const {convertXML}  = require("simple-xml-to-json")
+
+
 
 
 @Injectable()
@@ -115,7 +118,59 @@ export class MulticomService {
           Response: response,
         };
       }
+  
+      // Retornamos la respuesta formateada si la solicitud fue exitosa
+      return {
+        Success: true,
+        Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
+        Mensaje: 'Operación Realizada con exito.',
+        Response: response,
+      };
+    } catch (error) {
+      console.error('Error en la solicitud HTTP:', error.message);
+      throw new HttpException(
+        {
+          Success: false,
+          Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
+          Mensaje: 'Operación no se realizó',
+          Response: error.message || error,
+        },
+        HttpStatus.OK,
+      );
+    }
+  }
+  
+  //Verificar solicitud de multicomprobantes
+  public async XML_MultComprobante_Verificar_XML_JSON( clientId: number,  id: number ): Promise<ResponseDto<any>> {
+    try {
+      // Obtener la conexión adecuada según el cliente.
+      const connection = await this.dbConnectionService.getConnection(clientId);
       
+      //Funcion
+      const data = await connection.query(`select "scorpio_xml".sp_build_xml_verifica(${id});`);
+      // construccion de XML - create social
+      const Body: MultiVerificaDto = new MultiVerificaDto(
+        data[0].sp_build_xml_verifica.XML[0].valor,
+        data[0].sp_build_xml_verifica.XML[7].valor,
+        data[0].sp_build_xml_verifica.XML[1].valor,
+        data[0].sp_build_xml_verifica.solicitud.valor
+      );
+      
+      //peticion con axios
+      const res = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[6].valor, Body );
+
+      if(res.codigo !== 0){
+        return {
+          Success: false,
+          Titulo: 'Scorpio XL - Modulo XML - Multicomprobante Verificar',
+          Mensaje: 'Operación no se realizó',
+          Response: res,
+        };
+      }
+
+      //peticion con axios
+      const response = await this.http.getXml(res.respuesta[0]);
+      console.log(response)
 
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
@@ -137,4 +192,10 @@ export class MulticomService {
       );
     }
   }
+
+ 
+
+
+
+
 }
