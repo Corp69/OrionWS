@@ -18,6 +18,8 @@ import { sat_cuenta_nv1 } from 'src/Aries/controlcontabilidad/entities/sat_cuent
 import { sat_cuenta_nv2 } from 'src/Aries/controlcontabilidad/entities/sat_cuenta_nv2.entity';
 import { eccs_producto_servicio } from 'src/Aries/controlapp/entities/eccs_producto_servicio.entity';
 import { eccs_clasificacion_producto_servicio } from 'src/Aries/controlapp/entities/eccs_clasificacion_producto_servicio.entity';
+import { eccs_producto_servicio_costos } from 'src/Aries/controlapp/entities/eccs_producto_servicio_costos.entity';
+import { eccs_producto_servicio_precios } from 'src/Aries/controlapp/entities/eccs_producto_servicio_precios.entity';
 
 
 @Injectable()
@@ -57,6 +59,8 @@ export class DatabaseConnectionService {
         
         eccs_producto_servicio,
         eccs_clasificacion_producto_servicio,
+        eccs_producto_servicio_costos,
+        eccs_producto_servicio_precios,
 
 
 

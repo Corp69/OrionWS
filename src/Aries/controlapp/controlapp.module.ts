@@ -15,6 +15,10 @@ import { ProductoservicioController } from './controllers/productoservicio/produ
 import { ProductoservicioService } from './services/productoservicio/productoservicio.service';
 import { ProductoservicioClasificacionesController } from './controllers/productoservicio/clasificaciones/clasificaciones.controller';
 import { ProductoservicioClasificacionesService } from './services/productoservicio/clasificaciones/clasificaciones.service';
+import { ProductoservicioCostoController } from './controllers/productoservicio/costos/costos.controller';
+import { ProductoservicioCostoService } from './services/productoservicio/costos/costos.service';
+import { ProductoservicioPrecioController } from './controllers/productoservicio/precios/precios.controller';
+import { ProductoservicioPrecioService } from './services/productoservicio/precios/precios.service';
 
 @Module({
     controllers: 
@@ -26,6 +30,8 @@ import { ProductoservicioClasificacionesService } from './services/productoservi
       //--============================================================================
       // Productos y servicios
       ProductoservicioController,
+      ProductoservicioCostoController,
+      ProductoservicioPrecioController,
       // sub nivel
       ProductoservicioClasificacionesController
     ],
@@ -39,6 +45,8 @@ import { ProductoservicioClasificacionesService } from './services/productoservi
       //--============================================================================
       // Productos y servicios
       ProductoservicioService,
+      ProductoservicioCostoService,
+      ProductoservicioPrecioService,
       // sub nivel
       ProductoservicioClasificacionesService
 
