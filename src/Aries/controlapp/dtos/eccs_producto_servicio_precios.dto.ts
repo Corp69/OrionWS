@@ -46,7 +46,7 @@ export class Eccs_producto_servicio_preciosDto {
   })
   @IsNumber({}, { message: 'El id_eccs_usuario debe ser un número.' })
   @Min(1,       { message: 'El id_eccs_usuario: debe tener al menos 1.' })
-  @Max(10,      { message: 'El id_eccs_usuario: no debe tener más de 10.' })
+  @Max(999999,      { message: 'El id_eccs_usuario: no debe ecceder los 999999.' })
   id_eccs_usuario: number;
   
 
@@ -65,7 +65,7 @@ export class Eccs_producto_servicio_preciosDto {
   })
   @IsNumber({}, { message: 'El id_eccs_producto_servicio debe ser un número.' })
   @Min(1,       { message: 'El id_eccs_producto_servicio: debe tener al menos 1.' })
-  @Max(10,      { message: 'El id_eccs_producto_servicio: no debe tener más de 10.' })
+  @Max(9999999,      { message: 'El id_eccs_producto_servicio: no debe tener más de 9999999.' })
   id_eccs_producto_servicio: number;
   
   @ApiProperty({

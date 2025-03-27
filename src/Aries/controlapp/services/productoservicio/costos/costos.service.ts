@@ -16,13 +16,13 @@ export class ProductoservicioCostoService {
     private readonly dbConnectionService: DatabaseConnectionService,
   ) {}
 
-  public async Catalogo( clientId: number, id: number ): Promise<ResponseDto<any>> {
+  public async Catalogo( clientId: number, idcostos: number, idestatus: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp".fn_get_catalogo_producto_servicio_costos(${id}, ${id})`,
+        `select "arieserp".fn_get_catalogo_producto_servicio_costos(${idcostos}, ${idestatus})`,
       );
       return {
         Success:  true,

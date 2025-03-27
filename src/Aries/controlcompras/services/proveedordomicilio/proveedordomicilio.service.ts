@@ -11,14 +11,14 @@ export class ProveedorDomicilioService {
      private readonly dbConnectionService: DatabaseConnectionService
   ) {}
 
-   public async obtenerdomicilio( clientId: number , id:     number): Promise<ResponseDto<any>> {
+   public async obtenerdomicilio( clientId: number , idproveedor: number, idestatus: number ): Promise<ResponseDto<any>> {
   
       try {
         // Obtener la conexión adecuada según el cliente.
         const connection = await this.dbConnectionService.getConnection(clientId);
         //FUNCION
         const data = await connection.query(
-          `select "arieserp_compras".fn_get_catalogo_proveedores_domicilio(${id}, ${id})`,
+          `select "arieserp_compras".fn_get_catalogo_proveedores_domicilio(${idproveedor}, ${idestatus})`,
         );
         return {
           Success:  true,

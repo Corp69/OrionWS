@@ -83,7 +83,7 @@ export class Eccs_producto_servicio_costosDto {
   })
   @IsNumber({}, { message: 'El id_eccs_producto_servicio debe ser un número.' })
   @Min(1,       { message: 'El id_eccs_producto_servicio: debe tener al menos 1.' })
-  @Max(10,      { message: 'El id_eccs_producto_servicio: no debe tener más de 10.' })
+  @Max(9999999,      { message: 'El id_eccs_producto_servicio: no debe tener más de 9999999.' })
   id_eccs_producto_servicio: number;
   
   @ApiProperty({

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
 //servicios
 import { ProveedorDomicilioService } from '../../services/proveedordomicilio/proveedordomicilio.service';
@@ -16,7 +16,20 @@ export class ProveedordomicilioController {
 
     constructor(private readonly Service: ProveedorDomicilioService) {}
 
-    @Get('obtener/:id')
+    @Get('obtener/:idproveedor/:idestatus')
+    @ApiParam({
+        name: 'idproveedor',
+        description: 'Filtro: ID id cliente filtra los clientes ',
+        required: true,
+        type: Number, // Especificamos que el tipo es un número
+    })
+    @ApiParam({
+        name: 'idestatus',
+        description: 'Filtro: ID id estatus 1 activo filtra por estatus a cliente. ',
+        required: true,
+        type: Number, // Especificamos que el tipo es un número
+    })
+
     @ApiOperation({ summary: 'AriesERP - Modulo Compras -  Domicilio - Proveedores - Obtener.' })
     @ApiResponse({
     status: 200,
@@ -49,9 +62,14 @@ export class ProveedordomicilioController {
     @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
     @ApiResponse({ status: 401, description: 'Token Invalido' })
     @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-    public getConf(@GetUser('id') idUser: number, @Param('id')   id:     number) {
+    public getConf(
+        @GetUser('id')          idUser:             number,
+        @Param('idproveedor')   idproveedor:        number,
+        @Param('idestatus')     idestatus:          number,
+
+    ) {
     
-    return this.Service.obtenerdomicilio(idUser, id);
+    return this.Service.obtenerdomicilio(idUser, idproveedor, idestatus);
     }
 
 

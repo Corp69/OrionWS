@@ -11,12 +11,18 @@ import { Auth, GetUser } from 'src/auth/decorators';
 export class ProductoservicioCostoController {
   constructor(private readonly Service: ProductoservicioCostoService ) {}
 
-  @Get('catalogo/:id')
+  @Get('catalogo/:idcostos/:idestatus')
   @ApiParam({
-    name: 'id',
-    description: 'Filtro: id hace referencia al estatus del producto.',
+    name: 'idcostos',
+    description: 'Filtro: ID id cliente filtra los clientes ',
     required: true,
     type: Number, // Especificamos que el tipo es un número
+  })
+  @ApiParam({
+      name: 'idestatus',
+      description: 'Filtro: ID id estatus 1 activo filtra por estatus a cliente. ',
+      required: true,
+      type: Number, // Especificamos que el tipo es un número
   })
   @ApiOperation({
     summary: 'AriesERP - Modulo App - Producto servicio - costos Catalogo.',
@@ -50,8 +56,12 @@ export class ProductoservicioCostoController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public getCatalogo(@GetUser('id') idUser: number, @Param('id') id: number) {
-    return this.Service.Catalogo(idUser, id);
+  public getCatalogo(
+    @GetUser('id')      idUser:     number, 
+    @Param('idcostos')  idcostos:   number,
+    @Param('idestatus') idestatus:  number
+  ) {
+    return this.Service.Catalogo(idUser, idcostos, idestatus);
   }
 
   @Get('obtener/:id')
