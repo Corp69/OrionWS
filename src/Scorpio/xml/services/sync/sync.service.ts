@@ -10,24 +10,37 @@ import { clientHttp } from '@shared/client/clienthttp';
 
 import { SocialService } from '../social/social.service';
 import { SocialLstDto } from '../../dtos/social';
+import { EmpresasService } from 'src/Scorpio/controlapp/services/empresas/empresas.service';
+import { EmpresasDTO } from 'src/Scorpio/controlapp/dtos/empresa/empresas.dto';
 
 @Injectable()
 export class SyncService {
   constructor(
     private readonly dbConnectionService: DatabaseConnectionService,
     private readonly http: clientHttp,
-    private readonly socialService: SocialService
+    private readonly socialService: SocialService,
+    private readonly empresasService: EmpresasService
   ) {}
   
   
-  public async XML_Sync( clientId: number, id: number ): Promise<ResponseDto<any>> {
+  public async XML_Sync( clientId: number, id: number, EmpresasDTO:EmpresasDTO ): Promise<ResponseDto<any>> {
     try {
 
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
 
+      //Agregar empresa a la base de datos
+      const agregarResponse = await this.empresasService.Agregar(clientId, EmpresasDTO);
+      
+      if (!agregarResponse.Success) {
+        return agregarResponse;
+      }
+      console.log("Agregar empresa response: ", agregarResponse)
+
+      const idEmpresa = await connection.query(`SELECT id FROM scorpio_empresa ORDER BY id DESC LIMIT 1;`)
       // agregar razon social con el proveedor
-      const socialResponse = await this.socialService.XML_Social_Create(clientId, id);
+      const socialResponse = await this.socialService.XML_Social_Create(clientId, idEmpresa);
+      console.log("Crear razon social response: ", socialResponse)
 
       if (!socialResponse.Success) {
         return socialResponse;
@@ -35,7 +48,7 @@ export class SyncService {
       
       //FUNCION
       const data = await connection.query(
-        `SELECT "scorpio_xml".sp_build_empresa_xml(${id})`,
+        `SELECT "scorpio_xml".sp_build_empresa_xml(${idEmpresa})`,
       );
 
       // construccion de XML - create social
@@ -51,6 +64,8 @@ export class SyncService {
         `${data[0].sp_build_empresa_xml.XML[13].value}`,
         JSON.stringify(Body),
       );
+
+      console.log("sincornizsacion response: ",response)
 
  
 

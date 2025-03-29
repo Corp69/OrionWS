@@ -123,9 +123,9 @@ export class EmpresasDTO {
     example: 1,
     description: 'ID: identificador del tipo de sincronización.',
   })
-  @IsNumber({}, { message: 'El id_estatus debe ser un númerico.' })
-  @Min(1,       { message: 'id_estatus: debe tener al menos 1.' })
-  @Max(99,      { message: 'id_estatus: no debe tener más de 99.' })
+  @IsNumber({}, { message: 'El  id_scorpio_tipo_sync debe ser un númerico.' })
+  @Min(1,       { message: ' id_scorpio_tipo_sync: debe tener al menos 1.' })
+  @Max(99,      { message: ' id_scorpio_tipo_sync: no debe tener más de 99.' })
   id_scorpio_tipo_sync: number;
 
   

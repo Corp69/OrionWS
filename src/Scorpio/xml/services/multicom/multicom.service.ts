@@ -170,7 +170,6 @@ export class MulticomService {
 
       //peticion con axios
       const response = await this.http.getXml(res.respuesta[0]);
-      console.log(response)
 
       // Retornamos la respuesta formateada si la solicitud fue exitosa
       return {
