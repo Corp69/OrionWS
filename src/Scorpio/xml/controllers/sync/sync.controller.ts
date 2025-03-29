@@ -3,6 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SyncService } from '../../services/sync/sync.service';
 import { SyncDto, PeticionDto } from '../../dtos/sync';
 import { Auth, GetUser } from 'src/auth/decorators';
+import { EmpresasDTO } from 'src/Scorpio/controlapp/dtos/empresa/empresas.dto';
 
 @ApiTags('OrionWS - Scorpio XL - XML - Syncronizacion.')
 @Controller('scorpio/sync')
@@ -36,9 +37,10 @@ export class SyncController {
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Sync(
     @GetUser('id') idUser: number,
-    @Param('id')   id:     number
+    @Param('id')   id:     number,
+    @Body() EmpresasDTO: EmpresasDTO
   ) {
-    return this.Service.XML_Sync(idUser, id);
+    return this.Service.XML_Sync(idUser, id, EmpresasDTO);
   }
 
   @Post('lst')
