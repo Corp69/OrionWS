@@ -16,7 +16,7 @@ export class DomicilioProveedorDTO {
   @ApiProperty({
     example: 1,
     description:
-      'ID: identificador Unico del proveedor',
+      'ID: identificador Unico del proveedor', 
     uniqueItems: true,
   })
   id: number;
