@@ -19,6 +19,8 @@ import { ProductoservicioCostoController } from './controllers/productoservicio/
 import { ProductoservicioCostoService } from './services/productoservicio/costos/costos.service';
 import { ProductoservicioPrecioController } from './controllers/productoservicio/precios/precios.controller';
 import { ProductoservicioPrecioService } from './services/productoservicio/precios/precios.service';
+import { centroDatosAgregarService } from './services/controldatos/agregar/agregar.service';
+import { centroDatosAgregarController } from './controllers/controldatos/agregar/agregar.controller';
 
 @Module({
     controllers: 
@@ -33,7 +35,11 @@ import { ProductoservicioPrecioService } from './services/productoservicio/preci
       ProductoservicioCostoController,
       ProductoservicioPrecioController,
       // sub nivel
-      ProductoservicioClasificacionesController
+      ProductoservicioClasificacionesController,
+      
+      //--============================================================================
+      // Control datos
+      centroDatosAgregarController,
     ],
     providers:   
     [ 
@@ -48,7 +54,11 @@ import { ProductoservicioPrecioService } from './services/productoservicio/preci
       ProductoservicioCostoService,
       ProductoservicioPrecioService,
       // sub nivel
-      ProductoservicioClasificacionesService
+      ProductoservicioClasificacionesService,
+
+      //--============================================================================
+      // Control datos
+      centroDatosAgregarService,
 
     ],
     imports: [
