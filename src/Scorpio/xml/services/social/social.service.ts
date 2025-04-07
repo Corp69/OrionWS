@@ -128,11 +128,16 @@ export class SocialService {
         'fiel',
       );
     }
+
+    console.log(SocialCreate)
+    console.log(data[0].sp_build_empresa_xml.XML[5].value)
       //peticion con Axios
       const response = await this.clientHttp.httpPost(
         `${data[0].sp_build_empresa_xml.XML[5].value}`,
         JSON.stringify(SocialCreate),
       );
+
+      console.log('respuesta: ',response)
       
 
       if(response.codigo !== 0 && response.codigo !== 111 ){
