@@ -71,7 +71,7 @@ export class AuthService {
           Mensaje: "Operación no se realizó",
           Response:  this.dbErrorHandlerService.handleDBErrors(error) || error,
         },
-        HttpStatus.CONFLICT
+        HttpStatus.OK
       );
     }
   }

@@ -60,6 +60,9 @@ export class EccsController {
     return this.Service.getVersion( idUser );
   }   
 
+
+
+
   @ApiOperation({ summary: 'OrionWS: ECCS - Muestra Update: Realiza la actualizacion pendiente.' })
   @ApiResponse({
     status: 200,
@@ -104,14 +107,5 @@ export class EccsController {
     ) {
     return this.Service.getUpdate( EccsCodigoDTO, idUser );
   }   
-
-  @Post('test')
-  getTest(
-    @GetUser('id') idUser: number) {
-    return this.Service.test( idUser );
-  }   
-
-
-
-
+  
 }

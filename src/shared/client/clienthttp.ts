@@ -73,12 +73,19 @@ export class clientHttp {
       //Guarda el contenido de la respuesta
       const xmlContenido = response.data;
   
-      // Limpieza del XML, elimina lo que es innecesario al principio y al final del XML
-      const xmlLimpio = xmlContenido.replace(/.*(?=\.xml)/, '');
-      const xmlFinal = xmlLimpio.slice(4).replace(/(<\/cfdi:Comprobante>).*$/, '$1');
-  
-      // Convertir XML a JSON
-      return convertXML(xmlFinal);
+      // Expresión regular para capturar XMLs completos
+      const xmls = xmlContenido.match(/<\?xml[\s\S]*?<\/cfdi:Comprobante>/g) || [];
+
+      // Convertir cada XML a JSON
+      const jsons = xmls.map((xml, index) => {
+        try {
+          return { id: index + 1, data: convertXML(xml) };
+        } catch (error) {
+          return { id: index + 1, error: "Error al convertir XML a JSON", rawXml: xml };
+        }
+      });
+
+      return jsons;
     } catch (error) {
       console.error('Error en la función getXml:', error);
       throw error;
