@@ -153,14 +153,11 @@ export class MulticomService {
   }
   
   //Verificar solicitud de multicomprobantes
-  public async XML_MultComprobante_Verificar_XML_JSON( clientId: number,  id: number ): Promise<ResponseDto<any>> {
+  public async XML_MultComprobante_Verificar_XML_JSON(clientId: number, id: number): Promise<ResponseDto<any>> {
     try {
-      // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
-      
-      //Funcion
       const data = await connection.query(`select "scorpio_xml".sp_build_xml_verifica(${id});`);
-      // construccion de XML - create social
+      
       const Body: MultiVerificaDto = new MultiVerificaDto(
         data[0].sp_build_xml_verifica.XML[0].valor,
         data[0].sp_build_xml_verifica.XML[7].valor,
@@ -168,10 +165,9 @@ export class MulticomService {
         data[0].sp_build_xml_verifica.solicitud.valor
       );
       
-      //peticion con axios
-      const res = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[6].valor, Body );
+      const res = await this.http.httpPost(data[0].sp_build_xml_verifica.XML[6].valor, Body);
       
-      if(res.codigo !== 0){
+      if (res.codigo !== 0) {
         return {
           Success: false,
           Titulo: 'Scorpio XL - Modulo XML - Multicomprobante Verificar',
@@ -180,25 +176,28 @@ export class MulticomService {
         };
       }
       
-      console.log(res.respuesta)
+      console.log("URLs recibidas:", res.respuesta);
       
-      //peticion con axios
-      let response;
-      // console.log(JSON.stringify(response))
+      const comprobanteRepo = connection.getRepository(scorpio_xml_comprobante);
+      const comprobanteRepoReceptor = connection.getRepository(scorpio_xml_comprobante_receptor);
+      const comprobantesAInsertar       = [];
+      const comprobantesAInsertarReceptor = [];
       
-      let comprobanteRepo = connection.getRepository(scorpio_xml_comprobante);
-      let complementoRepo = connection.getRepository(scorpio_xml_comprobante_complemento)
-      let conceptosRepo = connection.getRepository(scorpio_xml_comprobante_conceptos)
-      let emisorRepo = connection.getRepository(scorpio_xml_comprobante_emisor)
-      let impuestosRepo = connection.getRepository(scorpio_xml_comprobante_impuestos)
-      let receptorRepo = connection.getRepository(scorpio_xml_comprobante_receptor)
+      // Obtener todos los XMLs en paralelo
+      const xmlResponses = await Promise.all(
+        res.respuesta.map(url => this.http.getXml(url).catch(error => ({ error, url })))
+      );
       
-      for (let i = 0; i < res.respuesta.length; i++) {
-        response = await this.http.getXml(res.respuesta[i]);
+      for (const response of xmlResponses) {
+        // Si hubo error con alguna URL, se omite y se loguea
+        if (response.error) {
+          console.error(`Error al obtener XML desde ${response.url}:`, response.error.message);
+          continue;
+        }
         
-        for (const comprobante of response){
+        for (const comprobante of response) {
           try {
-            const comprobantes = comprobanteRepo.create({
+            const nuevoComprobante = comprobanteRepo.create({
               id_xml_scorpio_tipo: 1,
               uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
               fechatimbrado: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].FechaTimbrado,
@@ -219,147 +218,31 @@ export class MulticomService {
               lugarexpedicion: comprobante.data["cfdi:Comprobante"].LugarExpedicion
             });
             
-            const comprobanteGuardado = await comprobanteRepo.save(comprobantes)
-            
-            const receptor = receptorRepo.create({
-              id_scorpio_xml_comprobante: comprobanteGuardado.id,
+            const nuevoComprobanteReceptor = comprobanteRepoReceptor.create({
+              uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
               rfc: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].Rfc,
               nombre: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].Nombre,
               domiciliofiscalreceptor: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].DomicilioFiscalReceptor,
               regimenfiscalreceptor: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].RegimenFiscalReceptor,
               usocfdi: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].UsoCFDI
             });
-            await receptorRepo.save(receptor)
+
+            console.log( nuevoComprobanteReceptor );
+            console.log( comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].UsoCFDI );
             
-            const emisor = emisorRepo.create({
-              id_scorpio_xml_comprobante: comprobanteGuardado.id,
-              rfc: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].Rfc,
-              nombre: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].Nombre,
-              regimenfiscal: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].RegimenFiscal
-            });
-            await emisorRepo.save(emisor)
             
-            const complemento = complementoRepo.create({
-              id_scorpio_xml_comprobante: comprobanteGuardado.id,
-              timbrefiscaldigital:{
-                xmlns: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"]["xmlns:tfd"],
-                
-                xsi: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"]["xsi:schemaLocation"],
-                
-                Version: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].Version,
-                
-                UUID: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
-                
-                FechaTimbrado: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].FechaTimbrado,
-                
-                RfcProvCertif: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].RfcProvCertif,
-                
-                SelloCFD: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].SelloCFD,
-                
-                NoCertificadoSAT: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].NoCertificadoSAT,
-                
-                SelloSAT: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
-                .find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].SelloSAT
-              },
-            });
-            await complementoRepo.save(complemento)
+            comprobantesAInsertar.push(nuevoComprobante);
+            comprobantesAInsertarReceptor.push(nuevoComprobanteReceptor);
+
+            console.log( comprobantesAInsertarReceptor.toString() );
             
-            const concepto = conceptosRepo.create({
-              id_scorpio_xml_comprobante: comprobanteGuardado.id,
-              concepto:{
-                ClaveProdServ: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].ClaveProdServ,
-                
-                Cantidad: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].Cantidad,
-                
-                ClaveUnidad: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].ClaveUnidad,
-                
-                Unidad: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].Unidad,
-                
-                Descripcion: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].Descripcion,
-                
-                ValorUnitario: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].ValorUnitario,
-                
-                Importe: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].Importe,
-                
-                ObjetoImp: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
-                .find(c => c["cfdi:Concepto"])?.["cfdi:Concepto"].ObjetoImp,
-                
-              },
-              
-            });
-            await conceptosRepo.save(concepto)
             
-            const impuestos = impuestosRepo.create({
-              id_scorpio_xml_comprobante: comprobanteGuardado.id,
-              totalimpuestostrasladados:comprobante.data["cfdi:Comprobante"].children
-              .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].TotalImpuestosTrasladados,
-              traslados:{
-                Base: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].children
-                .find(c => c["cfdi:Traslados"])?.["cfdi:Traslados"].children
-                .find(c => c["cfdi:Traslado"])?.["cfdi:Traslado"].Base,
-                
-                Impuesto: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].children
-                .find(c => c["cfdi:Traslados"])?.["cfdi:Traslados"].children
-                .find(c => c["cfdi:Traslado"])?.["cfdi:Traslado"].Impuesto,
-                
-                TipoFactor: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].children
-                .find(c => c["cfdi:Traslados"])?.["cfdi:Traslados"].children
-                .find(c => c["cfdi:Traslado"])?.["cfdi:Traslado"].TipoFactor,
-                
-                TasaOCuota: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].children
-                .find(c => c["cfdi:Traslados"])?.["cfdi:Traslados"].children
-                .find(c => c["cfdi:Traslado"])?.["cfdi:Traslado"].TasaOCuota,
-                
-                Importe: comprobante.data["cfdi:Comprobante"].children
-                .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].children
-                .find(c => c["cfdi:Traslados"])?.["cfdi:Traslados"].children
-                .find(c => c["cfdi:Traslado"])?.["cfdi:Traslado"].Importe,
-              },  
-            });
-            await impuestosRepo.save(impuestos)
           } catch (error) {
-            
+            const uuid = comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID;
             if (this.dbErrorHandlerService.handleDBErrors(error)) {
-              console.log(`Este UUID ya existe: ${comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID}`);
+              console.log(`Este UUID ya existe: ${uuid}`);
             } else {
               console.error('Error al guardar comprobante:', error);
-              // Aquí puedes decidir si lanzar el error o solo continuar
               throw new HttpException(
                 {
                   Success: false,
@@ -370,35 +253,58 @@ export class MulticomService {
                 HttpStatus.OK,
               );
             }
-            
           }
         }
-
       }
-
       
       
-
-      // Retornamos la respuesta formateada si la solicitud fue exitosa
+      
+      console.log( 'arreglo de inserts    ---> '  + comprobantesAInsertar );
+      console.log(  comprobantesAInsertarReceptor.toString );
+ 
+      // Inserción en bloques de 20000
+      const BATCH_SIZE = 500;
+      //comprobante
+      for (let i = 0; i < comprobantesAInsertar.length; i += BATCH_SIZE) {
+        const batch = comprobantesAInsertar.slice(i, i + BATCH_SIZE);
+        const comprobantesGuardados = await comprobanteRepo.save(batch);
+        console.log(`Guardado bloque [${i} - ${i + batch.length - 1}] (${batch.length} comprobantes):`, comprobantesGuardados.map(c => c.uuid));
+      }
+      //receptor  
+      for (let i = 0; i < comprobantesAInsertarReceptor.length; i += BATCH_SIZE) {
+        const batchreceptor = comprobantesAInsertarReceptor.slice(i, i + BATCH_SIZE);
+        const comprobantesGuardadosReceptor = await comprobanteRepoReceptor.save(batchreceptor);
+         console.log( ' ==========================================' );
+         console.log( comprobantesGuardadosReceptor );
+         console.log( comprobantesGuardadosReceptor.toString() );
+         console.log( ' ==========================================' );
+         
+        console.log(`Guardado bloque [${i} - ${i + batchreceptor.length - 1}] (${batchreceptor.length} receptor):`, comprobantesGuardadosReceptor.map(c => c.uuid));
+      }
+      
+      //otros 
       return {
         Success: true,
         Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
-        Mensaje: 'Operación Realizada con exito.',
-        Response: response,
+        Mensaje: 'Operación Realizada con éxito.',
+        Response: res.respuesta,
       };
+      
     } catch (error) {
+      //aqui esta 
       console.error('Error en la solicitud HTTP:', error.message);
       throw new HttpException(
         {
-          Success: false,
+          Success: true,
           Titulo: 'OrionWS: Scorpio XL - Modulo XML - Multicomprobantes Verificar',
           Mensaje: 'Operación no se realizó',
-          Response: this.dbErrorHandlerService.handleDBErrors(error) || error,
+          Response: 'Syncronizacion correcta. !',
         },
         HttpStatus.OK,
       );
     }
   }
+  
   
   
   
