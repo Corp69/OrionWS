@@ -8,7 +8,7 @@ import {
 export class scorpio_xml_comprobante_receptor{
 
     @PrimaryGeneratedColumn()                id:                             number;
-    @Column('varchar')                           uuid:                           string;
+    @Column('varchar')                       uuid:                           string;
     @Column('varchar')                       rfc:                            string;
     @Column('varchar')                       nombre:                         string;
     @Column('varchar')                       domiciliofiscalreceptor:        string;

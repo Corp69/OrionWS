@@ -78,7 +78,7 @@ export class insertarComprobante {
                     await receptorRepo.save(receptor)
                     
                     const emisor = emisorRepo.create({
-                        id_scorpio_xml_comprobante: comprobanteGuardado.id,
+                        uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
                         rfc: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].Rfc,
                         nombre: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].Nombre,
                         regimenfiscal: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].RegimenFiscal
@@ -86,7 +86,7 @@ export class insertarComprobante {
                     await emisorRepo.save(emisor)
                     
                     const complemento = complementoRepo.create({
-                        id_scorpio_xml_comprobante: comprobanteGuardado.id,
+                        uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
                         timbrefiscaldigital:{
                             xmlns: comprobante.data["cfdi:Comprobante"].children
                             .find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children
@@ -128,7 +128,7 @@ export class insertarComprobante {
                     await complementoRepo.save(complemento)
                     
                     const concepto = conceptosRepo.create({
-                        id_scorpio_xml_comprobante: comprobanteGuardado.id,
+                        uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
                         concepto:{
                             ClaveProdServ: comprobante.data["cfdi:Comprobante"].children
                             .find(c => c["cfdi:Conceptos"])?.["cfdi:Conceptos"].children
@@ -168,7 +168,7 @@ export class insertarComprobante {
                     await conceptosRepo.save(concepto)
                     
                     const impuestos = impuestosRepo.create({
-                        id_scorpio_xml_comprobante: comprobanteGuardado.id,
+                        uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
                         totalimpuestostrasladados:comprobante.data["cfdi:Comprobante"].children
                         .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].TotalImpuestosTrasladados,
                         traslados:{
