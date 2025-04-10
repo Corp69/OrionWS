@@ -15,6 +15,12 @@ import { ProductoservicioController } from './controllers/productoservicio/produ
 import { ProductoservicioService } from './services/productoservicio/productoservicio.service';
 import { ProductoservicioClasificacionesController } from './controllers/productoservicio/clasificaciones/clasificaciones.controller';
 import { ProductoservicioClasificacionesService } from './services/productoservicio/clasificaciones/clasificaciones.service';
+import { ProductoservicioCostoController } from './controllers/productoservicio/costos/costos.controller';
+import { ProductoservicioCostoService } from './services/productoservicio/costos/costos.service';
+import { ProductoservicioPrecioController } from './controllers/productoservicio/precios/precios.controller';
+import { ProductoservicioPrecioService } from './services/productoservicio/precios/precios.service';
+import { centroDatosAgregarService } from './services/controldatos/agregar/agregar.service';
+import { centroDatosAgregarController } from './controllers/controldatos/agregar/agregar.controller';
 
 @Module({
     controllers: 
@@ -26,8 +32,14 @@ import { ProductoservicioClasificacionesService } from './services/productoservi
       //--============================================================================
       // Productos y servicios
       ProductoservicioController,
+      ProductoservicioCostoController,
+      ProductoservicioPrecioController,
       // sub nivel
-      ProductoservicioClasificacionesController
+      ProductoservicioClasificacionesController,
+      
+      //--============================================================================
+      // Control datos
+      centroDatosAgregarController,
     ],
     providers:   
     [ 
@@ -39,8 +51,14 @@ import { ProductoservicioClasificacionesService } from './services/productoservi
       //--============================================================================
       // Productos y servicios
       ProductoservicioService,
+      ProductoservicioCostoService,
+      ProductoservicioPrecioService,
       // sub nivel
-      ProductoservicioClasificacionesService
+      ProductoservicioClasificacionesService,
+
+      //--============================================================================
+      // Control datos
+      centroDatosAgregarService,
 
     ],
     imports: [

@@ -9,13 +9,13 @@ export class ClienteDomicilioService {
   
   constructor(  private readonly dbConnectionService: DatabaseConnectionService ) {}
 
-  public async obtenerdomicilio( clientId: number, id:     number ): Promise<ResponseDto<any>> {
+  public async obtenerdomicilio( clientId: number, idcliente:  number, idestatus: number ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select "arieserp_ventas".fn_get_catalogo_clientes_domicilio(${id}, ${id})`,
+        `select "arieserp_ventas".fn_get_catalogo_clientes_domicilio(${idcliente}, ${idestatus})`,
       );
       return {
         Success:  true,
@@ -91,7 +91,7 @@ export class ClienteDomicilioService {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      await connection.query(`delete from eccs_cliente_domicilio where id = ${ id }`);
+      const data = await connection.query(`delete from eccs_cliente_domicilio where id = ${ id }`);
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo Ventas - Clientes - Eliminar",

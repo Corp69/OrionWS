@@ -14,12 +14,17 @@ async function bootstrap() {
                 'http://localhost:4200', 
                 'http://localhost:4000', 
                 
-                'https://scorpio-production.up.railway.app',
-                'https://arieserp-production.up.railway.app',
-                'https://scorpio.eccs.com.mx',
-                'https://scorpio.eccs.com.mx',
+                'https://eccs-production.up.railway.app',
+                'https://scorpioxl.eccs.com.mx',
+                'scorpioxl.eccs.com.mx',
+
+
+                'eccs-production-373d.up.railway.app',
                 'https://arieserp.eccs.com.mx',
-                'https://eccs.arieserp.com.mx',
+                'arieserp.eccs.com.mx',
+
+                'https://eccs-production-7562.up.railway.app',
+                'https://info.eccs.com.mx',
 
                  'http://localhost:8100',
                  'https://localhost'

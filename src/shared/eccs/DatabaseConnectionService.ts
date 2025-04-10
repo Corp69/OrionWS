@@ -24,6 +24,9 @@ import { scorpio_xml_comprobante_conceptos } from 'src/Scorpio/xml/entities/comp
 import { scorpio_xml_comprobante_emisor } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_emisor.entity';
 import { scorpio_xml_comprobante_receptor } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_receptor.entity';
 import { scorpio_xml_comprobante_impuestos } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_impuestos.entity';
+import { eccs_producto_servicio_costos } from 'src/Aries/controlapp/entities/eccs_producto_servicio_costos.entity';
+import { eccs_producto_servicio_precios } from 'src/Aries/controlapp/entities/eccs_producto_servicio_precios.entity';
+import { eccs_centro_datos } from 'src/Aries/controlapp/entities/eccs_centro_datos.entity';
 
 
 @Injectable()
@@ -63,6 +66,10 @@ export class DatabaseConnectionService {
         
         eccs_producto_servicio,
         eccs_clasificacion_producto_servicio,
+        eccs_producto_servicio_costos,
+        eccs_producto_servicio_precios,
+
+        eccs_centro_datos,
 
 
 

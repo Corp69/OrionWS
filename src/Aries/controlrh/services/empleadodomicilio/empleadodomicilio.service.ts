@@ -11,13 +11,13 @@ export class EmpleadoDomicilioService {
   
   constructor(  private readonly dbConnectionService: DatabaseConnectionService ) {}
 
-  public async obtenerDomicilio( clientId: number, id: number  ): Promise<ResponseDto<any>> {
+  public async obtenerDomicilio( clientId: number, idempleado: number, idestatus: number  ): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `SELECT "arieserp_rh".fn_get_catalogo_empleados_domicilio(${id}, ${id})`,
+        `SELECT "arieserp_rh".fn_get_catalogo_empleados_domicilio(${idempleado}, ${idestatus})`,
       );
       return {
         Success:  true,

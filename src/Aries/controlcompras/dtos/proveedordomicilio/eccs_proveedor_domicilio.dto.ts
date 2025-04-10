@@ -16,7 +16,7 @@ export class DomicilioProveedorDTO {
   @ApiProperty({
     example: 1,
     description:
-      'ID: identificador Unico del proveedor',
+      'ID: identificador Unico del proveedor', 
     uniqueItems: true,
   })
   id: number;
@@ -74,7 +74,7 @@ export class DomicilioProveedorDTO {
   })
   @IsNumber({}, { message: 'El id_pais debe ser un número.' })
   @Min(1,       { message: 'id_pais: debe tener al menos 1.' })
-  @Max(99,      { message: 'id_pais: no debe tener más de 99.' })
+  @Max(200,      { message: 'id_pais: no debe tener más de 200.' })
   id_pais: number;
 
   @ApiProperty({
