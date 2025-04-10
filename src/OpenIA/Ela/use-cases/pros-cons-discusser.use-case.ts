@@ -4,8 +4,6 @@ interface Options {
   prompt: string;
 }
 
-
-
 export const prosConsDicusserUseCase = async (openai: OpenAI, { prompt }: Options) => {
 
   const response = await openai.chat.completions.create({
@@ -27,8 +25,6 @@ export const prosConsDicusserUseCase = async (openai: OpenAI, { prompt }: Option
     temperature: 0.8,
     max_tokens: 500
   })
-
-
 
   return response.choices[0].message;
 }

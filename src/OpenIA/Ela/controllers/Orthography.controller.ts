@@ -15,7 +15,6 @@ export class OrthographyController {
 
   constructor(private readonly Service: OrthographyService ) {}
   
-
   @Post('orthography-check')
   public orthographyCheck(
     @Body() orthographyDto: OrthographyDto,
@@ -28,8 +27,6 @@ export class OrthographyController {
   ) {
     return this.Service.prosConsDicusser(ProsConsDiscusserDto);
   }
-
-
 
   @Post('pros-cons-discusser-stream')
   public async prosConsDicusserStream(
@@ -52,15 +49,12 @@ export class OrthographyController {
 
   }
 
-
   @Post('translate')
   public translateText(
     @Body() translateDto: TranslateDto,
   ) {
     return  this.Service.translateText(translateDto);
   }
-
-
 
   @Get('text-to-audio/:fileId')
   async textToAudioGetter(
@@ -75,7 +69,6 @@ export class OrthographyController {
 
   }
 
-  
   @Post('text-to-audio')
   async textToAudio(
     @Body() textToAudioDto: TextToAudioDto,
@@ -88,7 +81,5 @@ export class OrthographyController {
     res.sendFile(filePath);
 
   }
-
-
 
 }
