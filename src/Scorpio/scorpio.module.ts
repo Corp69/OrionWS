@@ -17,26 +17,15 @@ import { MulticomService }            from './xml/services/multicom/multicom.ser
 // Control app Controllers 
 import { EmpresaController }          from './controlapp/controllers/empresa/empresa.controller';
 import { CertificadosController }     from './controlapp/controllers/certificados/certificados.controller';
+import { ConfiguracionesController }  from './controlapp/controllers/configuraciones/configuraciones.controller';
+import { SolicitudController }        from './controlapp/controllers/solicitud/solicitud.controller';
 //Contol app Services
 import { EmpresasService }            from './controlapp/services/empresas/empresas.service';
 import { CertificadosService }        from './controlapp/services/certificados/certificados.service';
 // Modulos de Scorpio
-import { ControlcfdiModule }          from './controlcfdi/controlcfdi.module';
-import { ControlsatModule }           from './controlsat/controlsat.module';
-import { ControlsoporteModule }       from './controlsoporte/controlsoporte.module';
-import { ControlverificacionModule }  from './controlverificacion/controlverificacion.module';
-import { ControlexportacionesModule } from './controlexportaciones/controlexportaciones.module';
-import { ConfiguracionesController } from './controlapp/controllers/configuraciones/configuraciones.controller';
-import { ControlimpuestosModule }     from './controlimpuestos/controlimpuestos.module';
-import { ControlbancoModule }         from './controlbanco/controlbanco.module';
-import { ControlconfigModule }        from './controlconfig/controlconfig.module';
-import { ControlbitacoraModule }      from './controlbitacora/controlbitacora.module';
-import { ConfiguracionesService } from './controlapp/services/configuraciones/configuraciones.service';
-import { SolicitudController } from './controlapp/controllers/solicitud/solicitud.controller';
-import { SolicitudService } from './controlapp/services/solicitud/solicitud.service';
-import { clientHttp } from '@shared/client/clienthttp';
-
-
+import { ConfiguracionesService }     from './controlapp/services/configuraciones/configuraciones.service';
+import { SolicitudService }           from './controlapp/services/solicitud/solicitud.service';
+import { clientHttp }                 from '@shared/client/clienthttp';
 //http cliente axios
 import { HttpModule } from '@nestjs/axios';
 import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
@@ -79,17 +68,7 @@ import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
         HttpModule,
         AuthModule,
         ConfigModule,
-        TypeOrmModule.forFeature([]),
-        // Modulos de scorpio
-        ControlcfdiModule,
-        ControlsatModule,
-        ControlsoporteModule,
-        ControlverificacionModule,
-        ControlexportacionesModule,
-        ControlimpuestosModule,
-        ControlbancoModule,
-        ControlconfigModule,
-        ControlbitacoraModule
+        TypeOrmModule.forFeature([])
       ],
     exports: [ TypeOrmModule ]
 })
