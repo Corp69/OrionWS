@@ -9,11 +9,13 @@ import { SocialController }           from './xml/controllers/social/social.cont
 import { SyncController }             from './xml/controllers/sync/sync.controller';
 import { ComprobantesController }     from './xml/controllers/comprobantes/comprobantes.controller';
 import { MulticomController }         from './xml/controllers/multicom/multicom.controller';
+import { ExcelController }            from './xml/controllers/excel/excel.controller';
 // XML SERVICES
 import { SocialService }              from './xml/services/social/social.service';
 import { SyncService }                from './xml/services/sync/sync.service';
 import { ComprobantesService }        from './xml/services/comprobantes/comprobantes.service';
 import { MulticomService }            from './xml/services/multicom/multicom.service';
+import { ExcelService }               from './xml/services/excel/excel.service';
 // Control app Controllers 
 import { EmpresaController }          from './controlapp/controllers/empresa/empresa.controller';
 import { CertificadosController }     from './controlapp/controllers/certificados/certificados.controller';
@@ -41,7 +43,9 @@ import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
       ComprobantesController, 
       MulticomController, 
       CertificadosController, 
-      ConfiguracionesController, SolicitudController
+      ConfiguracionesController, 
+      SolicitudController, 
+      ExcelController
 
       //MODULO SCORPIO
    ],
@@ -62,7 +66,8 @@ import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
       SocialService, 
       SyncService, 
       ComprobantesService, 
-      MulticomService
+      MulticomService, 
+      ExcelService
     ],
     imports: [
         HttpModule,
