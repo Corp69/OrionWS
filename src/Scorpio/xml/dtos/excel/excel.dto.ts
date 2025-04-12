@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNumber, Matches, Max, MAX, Min } from 'class-validator';
+import { IsDate, IsNumber, IsString, Matches, Max, MAX, MaxLength, Min, MinLength } from 'class-validator';
 
 export class excelDto {
 
@@ -7,21 +7,25 @@ export class excelDto {
     example: '01-01-2025',
     description: '_fechainicio: para realizar el inicio del rango a consultar',
   })
+  @IsString({ message: '_fechainicio debe ser un string' })
+  @MinLength(10, { message: '_fechainicio debe tener exactamente 10 caracteres' })
+  @MaxLength(10, { message: '_fechainicio debe tener exactamente 10 caracteres' })
   @Matches(/^\d{2}-\d{2}-\d{4}$/, {
-    message: '_fechainicio: debe tener el formato YYYY-MM-DD',
+    message: '_fechainicio debe tener el formato DD-MM-YYYY',
   })
-  @IsDate({ message: '_fechainicio: debe ser una fecha válida' })
-  readonly _fechainicio: Date;
+  readonly _fechainicio: string;
 
   @ApiProperty({
-    example: '01-12-2025',
-    description: '_fechatermina: para realizar el fin del rango a consultar',
+    example: '01-01-2025',
+    description: '_fechatermina: para realizar el inicio del rango a consultar',
   })
+  @IsString({ message: '_fechatermina debe ser un string' })
+  @MinLength(10, { message: '_fechatermina debe tener exactamente 10 caracteres' })
+  @MaxLength(10, { message: '_fechatermina debe tener exactamente 10 caracteres' })
   @Matches(/^\d{2}-\d{2}-\d{4}$/, {
-    message: '_fechatermina debe tener el formato YYYY-MM-DD',
+    message: '_fechatermina debe tener el formato DD-MM-YYYY',
   })
-  @IsDate({ message: '_fechatermina: debe ser una fecha válida' })
-  readonly _fechatermina: Date;
+  readonly _fechatermina: string;
 
   @ApiProperty({
     example: 3,

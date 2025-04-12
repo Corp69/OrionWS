@@ -16,8 +16,8 @@ export class ExcelService {
             //FUNCION
             const data = await connection.query(
               `SELECT "scorpio_xml".fn_get_xml_comprobantes_excel(
-            ${excelDto._fechainicio},
-            ${excelDto._fechatermina},
+            '${excelDto._fechainicio}',
+            '${excelDto._fechatermina}',
             ${excelDto._id_tipo}
               )`,
             );
