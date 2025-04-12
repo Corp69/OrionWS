@@ -228,6 +228,7 @@ export class MulticomService {
             });
             
             const nuevoComprobanteReceptor = comprobanteRepoReceptor.create({
+              id_scorpio_xml_comprobante: 0,
               uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
               rfc: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].Rfc,
               nombre: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].Nombre,
@@ -237,6 +238,7 @@ export class MulticomService {
             });
             
             const nuevoComprobanteEmisor = comprobanteRepoEmisor.create({
+              id_scorpio_xml_comprobante: 0,
               uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
               rfc: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].Rfc,
               nombre: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Emisor"])?.["cfdi:Emisor"].Nombre,
@@ -244,6 +246,7 @@ export class MulticomService {
             });
             
             const nuevoComprobanteComplemento = comprobanteRepoComplemento.create({
+              id_scorpio_xml_comprobante: 0,
               uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
               timbrefiscaldigital:{
                 xmlns: comprobante.data["cfdi:Comprobante"].children
@@ -285,6 +288,7 @@ export class MulticomService {
             });
             
             const nuevoComprobanteConceptos = comprobanteRepoConceptos.create({
+              id_scorpio_xml_comprobante: 0,
               uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
               concepto:{
                 ClaveProdServ: comprobante.data["cfdi:Comprobante"].children
@@ -323,6 +327,7 @@ export class MulticomService {
             });
             
             const nuevoComprobanteImpuestos = comprobanteRepoImpuestos.create({
+              id_scorpio_xml_comprobante: 0,
               uuid: comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID,
               totalimpuestostrasladados:comprobante.data["cfdi:Comprobante"].children
               .find(c => c["cfdi:Impuestos"])?.["cfdi:Impuestos"].TotalImpuestosTrasladados,
@@ -400,7 +405,19 @@ export class MulticomService {
         const batch = comprobantesAInsertar.slice(i, i + BATCH_SIZE);
         const comprobantesGuardados = await comprobanteRepo.save(batch);
         console.log(`Guardado bloque [${i} - ${i + batch.length - 1}] (${batch.length} comprobantes):`, comprobantesGuardados.map(c => c.uuid));
+        console.log("id del comprobante: ", comprobantesGuardados.map(c => c.id));
+      
+        for (let j = 0; j < comprobantesGuardados.length; j++) {
+          const index = i + j;
+          comprobantesAInsertarReceptor[index].id_scorpio_xml_comprobante = comprobantesGuardados[j].id;
+          comprobantesAInsertarEmisor[index].id_scorpio_xml_comprobante = comprobantesGuardados[j].id;
+          comprobantesAInsertarComplemento[index].id_scorpio_xml_comprobante = comprobantesGuardados[j].id;
+          comprobantesAInsertarConceptos[index].id_scorpio_xml_comprobante = comprobantesGuardados[j].id;
+          comprobantesAInsertarImpuestos[index].id_scorpio_xml_comprobante = comprobantesGuardados[j].id;
+        }
+
       }
+      console.log(comprobantesAInsertarReceptor)
       //receptor  
       for (let i = 0; i < comprobantesAInsertarReceptor.length; i += BATCH_SIZE) {
         const batchreceptor = comprobantesAInsertarReceptor.slice(i, i + BATCH_SIZE);
