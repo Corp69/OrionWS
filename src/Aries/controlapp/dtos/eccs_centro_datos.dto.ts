@@ -32,6 +32,8 @@ export class eccs_centro_datosDto {
     description: 'Valor: info sobre los datos.',
   })
   @IsString({ message: 'Valor: debe ser String' })
+  @MinLength(5,   { message: 'Valor: debe tener almenos 5  caracteres.' })
+  @MaxLength(1000, { message: 'Valor: no debe exceder a 1000 caracteres.' })
   valor: string;
 
   @ApiProperty({

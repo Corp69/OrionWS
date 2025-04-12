@@ -21,6 +21,8 @@ import { ProductoservicioPrecioController } from './controllers/productoservicio
 import { ProductoservicioPrecioService } from './services/productoservicio/precios/precios.service';
 import { centroDatosAgregarService } from './services/controldatos/agregar/agregar.service';
 import { centroDatosAgregarController } from './controllers/controldatos/agregar/agregar.controller';
+import { centroDatosVisualizarController } from './controllers/controldatos/visualizar/visualizar.controller';
+import { centroDatosVisualizarService } from './services/controldatos/visualizar/visualizar.service';
 
 @Module({
     controllers: 
@@ -40,6 +42,9 @@ import { centroDatosAgregarController } from './controllers/controldatos/agregar
       //--============================================================================
       // Control datos
       centroDatosAgregarController,
+
+      // Control datos Visualizar
+      centroDatosVisualizarController,
     ],
     providers:   
     [ 
@@ -59,6 +64,9 @@ import { centroDatosAgregarController } from './controllers/controldatos/agregar
       //--============================================================================
       // Control datos
       centroDatosAgregarService,
+
+      // Control datos Visualizar
+      centroDatosVisualizarService,
 
     ],
     imports: [

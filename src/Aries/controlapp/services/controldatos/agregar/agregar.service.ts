@@ -15,13 +15,13 @@ export class centroDatosAgregarService {
     private readonly dbConnectionService: DatabaseConnectionService,
   ) {}
 
-  public async Catalogo( clientId: number): Promise<ResponseDto<any>> {
+  public async Catalogo( clientId: number, idaplicacion: number, idmodulo: number): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select * from "eccs".fn_get_catalogo_centro_datos()`,
+        `select * from "eccs".fn_get_catalogo_centro_datos(${idaplicacion}, ${idmodulo})`,
       );
       return {
         Success:  true,
@@ -43,19 +43,19 @@ export class centroDatosAgregarService {
   }
 
 
-  public async getDatos( clientId: number): Promise<ResponseDto<any>> {
+  public async getDatos( clientId: number, id: number): Promise<ResponseDto<any>> {
     try {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select * from "eccs".fn_get_catalogo_centro_datos()`,
+        `select * from "eccs".fn_get_centro_datos_row(${id})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo App - Producto - Obtner Producto Servicio.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_get_catalogo_centro_datos,
+        Response: data[0].fn_get_centro_datos_row,
       };
     } catch (error) {
       throw new HttpException(
@@ -150,29 +150,5 @@ export class centroDatosAgregarService {
     }
   }
 
-  public async ExcuteQuery( clientId: number, query: string ): Promise<ResponseDto<any>> {
-    try {
-      // Obtener la conexión adecuada según el cliente.
-      const connection = await this.dbConnectionService.getConnection(clientId);
-      //FUNCION
-      const data = await connection.query(`${ query }`);
-      return {
-        Success:  true,
-        Titulo:   'AriesERP - Modulo App - Centro de datos',
-        Mensaje:  'Consulta generada con exito.',
-        Response:  data,
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          Success:  false,
-          Titulo:   'AriesERP - Modulo App - Producto Elimiar',
-          Mensaje:  'Operación no se realizó',
-          Response: error.message || error,
-        },
-        HttpStatus.OK,
-      );
-    }
-  }
 
 }

@@ -4,19 +4,25 @@ import { Auth, GetUser } from 'src/auth/decorators';
 import { centroDatosAgregarService } from 'src/Aries/controlapp/services/controldatos/agregar/agregar.service';
 import { eccs_centro_datosDto } from 'src/Aries/controlapp/dtos/eccs_centro_datos.dto';
 
-@ApiTags('OrionWS - AriesERP - Modulo App.')
+@ApiTags('OrionWS - AriesERP - Modulo App - Control datos')
 @Controller('arieserp/controldatos/agregar')
 @Auth()
 export class centroDatosAgregarController {
   constructor(private readonly Service: centroDatosAgregarService) {}
 
-  @Get('catalogo')
-  // @ApiParam({
-  //   name: 'id',
-  //   description: 'Filtro: id hace referencia al estatus del producto.',
-  //   required: true,
-  //   type: Number, // Especificamos que el tipo es un número
-  // })
+  @Get('catalogo/:idaplicacion/:idmodulo')
+  @ApiParam({
+    name: 'idaplicacion',
+    description: 'Filtro: id hace referencia a la aplicación.',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
+  @ApiParam({
+    name: 'idmodulo',
+    description: 'Filtro: id hace referencia al modulo.',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({
     summary: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
   })
@@ -49,11 +55,21 @@ export class centroDatosAgregarController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public getCatalogo(@GetUser('id') idUser: number) {
-    return this.Service.Catalogo(idUser);
+  public getCatalogo(
+    @GetUser('id') idUser: number,
+    @Param('idaplicacion')  idaplicacion:   number,
+    @Param('idmodulo') idmodulo:  number
+  ) {
+    return this.Service.Catalogo(idUser, idaplicacion, idmodulo);
   }
 
-  @Get('obtener')
+  @Get('obtener/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Filtro: id hace referencia el modulo.',
+    required: true,
+    type: Number, // Especificamos que el tipo es un número
+  })
   @ApiOperation({
     summary:
       'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
@@ -90,8 +106,8 @@ export class centroDatosAgregarController {
   @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
-  public getProducto(@GetUser('id') idUser: number) {
-    return this.Service.getDatos(idUser);
+  public getProducto(@GetUser('id') idUser: number, @Param('id') id: number) {
+    return this.Service.getDatos(idUser, id);
   }
 
   @Post('crear')
