@@ -18,6 +18,12 @@ import { sat_cuenta_nv1 } from 'src/Aries/controlcontabilidad/entities/sat_cuent
 import { sat_cuenta_nv2 } from 'src/Aries/controlcontabilidad/entities/sat_cuenta_nv2.entity';
 import { eccs_producto_servicio } from 'src/Aries/controlapp/entities/eccs_producto_servicio.entity';
 import { eccs_clasificacion_producto_servicio } from 'src/Aries/controlapp/entities/eccs_clasificacion_producto_servicio.entity';
+import { scorpio_xml_comprobante } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante.entity';
+import { scorpio_xml_comprobante_complemento } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_complemento.entity';
+import { scorpio_xml_comprobante_conceptos } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_conceptos.entity';
+import { scorpio_xml_comprobante_emisor } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_emisor.entity';
+import { scorpio_xml_comprobante_receptor } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_receptor.entity';
+import { scorpio_xml_comprobante_impuestos } from 'src/Scorpio/xml/entities/comprobantes/scorpio_xml_comprobante_impuestos.entity';
 import { eccs_producto_servicio_costos } from 'src/Aries/controlapp/entities/eccs_producto_servicio_costos.entity';
 import { eccs_producto_servicio_precios } from 'src/Aries/controlapp/entities/eccs_producto_servicio_precios.entity';
 import { eccs_centro_datos } from 'src/Aries/controlapp/entities/eccs_centro_datos.entity';
@@ -69,7 +75,13 @@ export class DatabaseConnectionService {
 
         //Scorpio XL 
         scorpio_empresa,
-        xml_comprobante_solicita_metada
+        xml_comprobante_solicita_metada,
+        scorpio_xml_comprobante,
+        scorpio_xml_comprobante_complemento,
+        scorpio_xml_comprobante_conceptos,
+        scorpio_xml_comprobante_emisor,
+        scorpio_xml_comprobante_receptor,
+        scorpio_xml_comprobante_impuestos
       
       ],  // Asegúrate de agregar la entidad aquí
       extra: {

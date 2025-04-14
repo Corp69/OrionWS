@@ -12,6 +12,7 @@ async function bootstrap() {
         origin: [
               
                 'http://localhost:4200', 
+                'http://localhost:4000', 
                 
                 'https://eccs-production.up.railway.app',
                 'https://scorpioxl.eccs.com.mx',

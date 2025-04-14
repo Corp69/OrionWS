@@ -36,6 +36,7 @@ export class EccsService {
     }
   }
 
+  //actualizacion por plataforma
   public async getUpdate(EccsCodigoDTO: EccsCodigoDTO, idUser: number ): Promise<ResponseDto<any>> {
     try {
       const dataCodigo = await this.dataSource.query(`select sum( id + 0 ) id  from eccs_empresas_actualizacion where codigo = '${EccsCodigoDTO._codigo}' and id_eccs_empresas = ${idUser} and id_eccs_status = 9`);
@@ -113,36 +114,6 @@ export class EccsService {
       );
     }
   }
-
-  public async test(idUser: number): Promise<ResponseDto<any>> {
-    try {
-      // Obtener la conexión adecuada según el cliente.
-      let connection = await this.dbConnectionService.getConnection(idUser);
-      // Ejecutar la consulta en la base de datos seleccionada.
-      const data = await connection.query(
-        `INSERT INTO testdatasource (descripcion) VALUES ( 'xxxx')`
-      );
-      return {
-        Success: true,
-        Titulo: "OrionWS webservice - Modulo - Datasource.",
-        Mensaje: "Operacion Realizada con exito.",
-        Response: data,
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          Success: false,
-          Titulo: "OrionWS webservice - Modulo - Datasource.",
-          Mensaje: "Operación no se realizó",
-          Response: error.message || error,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
-  }
-
-
-
 
 
 }

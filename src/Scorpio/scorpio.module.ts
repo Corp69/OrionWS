@@ -31,6 +31,8 @@ import { clientHttp }                 from '@shared/client/clienthttp';
 //http cliente axios
 import { HttpModule } from '@nestjs/axios';
 import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
+import { DBErrorHandlerService } from '@shared/errors/DBErrorHandlerService';
+import { insertarComprobante } from './xml/services/helper/insertarComprobante.service';
 
 @Module({
     controllers: 
@@ -67,7 +69,10 @@ import { ProdigiaErrorService } from '@shared/errors/ProdigiaErrorService';
       SyncService, 
       ComprobantesService, 
       MulticomService, 
-      ExcelService
+      ExcelService,
+
+      DBErrorHandlerService,
+      insertarComprobante
     ],
     imports: [
         HttpModule,
