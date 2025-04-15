@@ -35,12 +35,10 @@ export class SyncService {
       if (!agregarResponse.Success) {
         return agregarResponse;
       }
-      console.log("Agregar empresa response: ", agregarResponse)
 
       const idEmpresa = await connection.query(`SELECT id FROM scorpio_empresa ORDER BY id DESC LIMIT 1;`)
       // agregar razon social con el proveedor
       const socialResponse = await this.socialService.XML_Social_Create(clientId, idEmpresa);
-      console.log("Crear razon social response: ", socialResponse)
 
       if (!socialResponse.Success) {
         return socialResponse;
@@ -64,10 +62,6 @@ export class SyncService {
         `${data[0].sp_build_empresa_xml.XML[13].value}`,
         JSON.stringify(Body),
       );
-
-      console.log("sincornizsacion response: ",response)
-
- 
 
       if(response.codigo !== 0){
         return {

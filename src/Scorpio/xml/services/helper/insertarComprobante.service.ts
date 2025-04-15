@@ -48,7 +48,6 @@ export class insertarComprobante {
         for (const response of xmlResponses) {
             // Si hubo error con alguna URL, se omite y se loguea
             if (response.error) {
-                console.error(`Error al obtener XML desde ${response.url}:`, response.error.message);
                 continue;
             }
             
@@ -207,26 +206,17 @@ export class insertarComprobante {
                         },  
                     });
                     
-                    console.log( nuevoComprobanteReceptor );
-                    console.log( comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Receptor"])?.["cfdi:Receptor"].UsoCFDI );
-                    
-                    
                     comprobantesAInsertar.push(nuevoComprobante);
                     comprobantesAInsertarReceptor.push(nuevoComprobanteReceptor);
                     comprobantesAInsertarEmisor.push(nuevoComprobanteEmisor);
                     comprobantesAInsertarConceptos.push(nuevoComprobanteConceptos);
                     comprobantesAInsertarComplemento.push(nuevoComprobanteComplemento);
-                    comprobantesAInsertarImpuestos.push(nuevoComprobanteImpuestos);
-                    
-                    console.log( comprobantesAInsertarReceptor.toString() );
-                    
+                    comprobantesAInsertarImpuestos.push(nuevoComprobanteImpuestos);                    
                     
                 } catch (error) {
                     const uuid = comprobante.data["cfdi:Comprobante"].children.find(c => c["cfdi:Complemento"])?.["cfdi:Complemento"].children.find(c => c["tfd:TimbreFiscalDigital"])?.["tfd:TimbreFiscalDigital"].UUID;
                     if (this.dbErrorHandlerService.handleDBErrors(error)) {
-                        console.log(`Este UUID ya existe: ${uuid}`);
                     } else {
-                        console.error('Error al guardar comprobante:', error);
                         throw new HttpException(
                             {
                                 Success: false,
@@ -240,20 +230,13 @@ export class insertarComprobante {
                 }
             }
         }
-        
-        
-        
-        console.log( 'arreglo de inserts    ---> '  + comprobantesAInsertar );
-        console.log(  comprobantesAInsertarReceptor.toString );
-        
+   
         // Inserción en bloques de 20000
         const BATCH_SIZE = 500;
         //comprobante
         for (let i = 0; i < comprobantesAInsertar.length; i += BATCH_SIZE) {
             const batch = comprobantesAInsertar.slice(i, i + BATCH_SIZE);
             const comprobantesGuardados = await comprobanteRepo.save(batch);
-            console.log(`Guardado bloque [${i} - ${i + batch.length - 1}] (${batch.length} comprobantes):`, comprobantesGuardados.map(c => c.uuid));
-            console.log("id del comprobante: ", comprobantesGuardados.map(c => c.id));
             
             for (let j = 0; j < comprobantesGuardados.length; j++) {
                 const index = i + j;
@@ -265,61 +248,35 @@ export class insertarComprobante {
             }
             
         }
-        console.log(comprobantesAInsertarReceptor)
         //receptor  
         for (let i = 0; i < comprobantesAInsertarReceptor.length; i += BATCH_SIZE) {
             const batchreceptor = comprobantesAInsertarReceptor.slice(i, i + BATCH_SIZE);
             const comprobantesGuardadosReceptor = await comprobanteRepoReceptor.save(batchreceptor);
-            console.log( ' ==========================================' );
-            console.log( comprobantesGuardadosReceptor );
-            console.log( comprobantesGuardadosReceptor.toString() );
-            console.log( ' ==========================================' );
-            
-            console.log(`Guardado bloque [${i} - ${i + batchreceptor.length - 1}] (${batchreceptor.length} receptor):`, comprobantesGuardadosReceptor.map(c => c.uuid));
+           
         }
         //emisor  
         for (let i = 0; i < comprobantesAInsertarEmisor.length; i += BATCH_SIZE) {
             const batchemisor = comprobantesAInsertarEmisor.slice(i, i + BATCH_SIZE);
             const comprobantesGuardadosEmisor = await comprobanteRepoEmisor.save(batchemisor);
-            console.log( ' ==========================================' );
-            console.log( comprobantesGuardadosEmisor );
-            console.log( comprobantesGuardadosEmisor.toString() );
-            console.log( ' ==========================================' );
             
-            console.log(`Guardado bloque [${i} - ${i + batchemisor.length - 1}] (${batchemisor.length} receptor):`, comprobantesGuardadosEmisor.map(c => c.uuid));
         }
         //complemento  
         for (let i = 0; i < comprobantesAInsertarComplemento.length; i += BATCH_SIZE) {
             const batchcomplemento = comprobantesAInsertarComplemento.slice(i, i + BATCH_SIZE);
             const comprobantesGuardadosComplemento = await comprobanteRepoComplemento.save(batchcomplemento);
-            console.log( ' ==========================================' );
-            console.log( comprobantesGuardadosComplemento );
-            console.log( comprobantesGuardadosComplemento.toString() );
-            console.log( ' ==========================================' );
             
-            console.log(`Guardado bloque [${i} - ${i + batchcomplemento.length - 1}] (${batchcomplemento.length} receptor):`, comprobantesGuardadosComplemento.map(c => c.uuid));
         }
         //conceptos  
         for (let i = 0; i < comprobantesAInsertarConceptos.length; i += BATCH_SIZE) {
             const batchconceptos = comprobantesAInsertarConceptos.slice(i, i + BATCH_SIZE);
             const comprobantesGuardadosConceptos = await comprobanteRepoConceptos.save(batchconceptos);
-            console.log( ' ==========================================' );
-            console.log( comprobantesGuardadosConceptos );
-            console.log( comprobantesGuardadosConceptos.toString() );
-            console.log( ' ==========================================' );
             
-            console.log(`Guardado bloque [${i} - ${i + batchconceptos.length - 1}] (${batchconceptos.length} receptor):`, comprobantesGuardadosConceptos.map(c => c.uuid));
         }
         //impuestos 
         for (let i = 0; i < comprobantesAInsertarImpuestos.length; i += BATCH_SIZE) {
             const batchimpuestos = comprobantesAInsertarImpuestos.slice(i, i + BATCH_SIZE);
             const comprobantesGuardadosImpuestos = await comprobanteRepoImpuestos.save(batchimpuestos);
-            console.log( ' ==========================================' );
-            console.log( comprobantesGuardadosImpuestos );
-            console.log( comprobantesGuardadosImpuestos.toString() );
-            console.log( ' ==========================================' );
             
-            console.log(`Guardado bloque [${i} - ${i + batchimpuestos.length - 1}] (${batchimpuestos.length} receptor):`, comprobantesGuardadosImpuestos.map(c => c.uuid));
         }
     }
 }
