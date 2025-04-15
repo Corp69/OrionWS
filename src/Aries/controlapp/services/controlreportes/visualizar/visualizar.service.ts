@@ -4,12 +4,10 @@ import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionSer
 //Dtos
 import { querydto } from 'src/Aries/controlapp/dtos/query.dto';
 //entidades
-import { eccs_centro_datos } from 'src/Aries/controlapp/entities/eccs_centro_datos.entity';
-
 
 
 @Injectable()
-export class centroDatosVisualizarService {
+export class reporteDatosPDFVisualizarService {
 
 
   constructor(

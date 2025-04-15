@@ -1,14 +1,16 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { centroDatosAgregarService } from 'src/Aries/controlapp/services/controldatos/agregar/agregar.service';
-import { eccs_centro_datosDto } from 'src/Aries/controlapp/dtos/eccs_centro_datos.dto';
+//Service
+import { reporteDatosAgregarService } from 'src/Aries/controlapp/services/controlreportes/agregar/agregar.service';
+//Dto
+import { eccs_reportes_vistaDto } from 'src/Aries/controlapp/dtos/eccs_reportes_vista.dto';
 
-@ApiTags('OrionWS - AriesERP - Modulo App - Control datos')
-@Controller('arieserp/controldatos/agregar')
+@ApiTags('OrionWS - AriesERP - Modulo App - Control Reportes')
+@Controller('arieserp/reportedatos/agregar')
 @Auth()
-export class centroDatosAgregarController {
-  constructor(private readonly Service: centroDatosAgregarService) {}
+export class reporteDatosAgregarController {
+  constructor(private readonly Service: reporteDatosAgregarService) {}
 
   @Get('catalogo/:idaplicacion/:idmodulo')
   @ApiParam({
@@ -144,10 +146,10 @@ export class centroDatosAgregarController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Crear(
-    @Body() eccs_centro_datosDto: eccs_centro_datosDto,
+    @Body() eccs_reportes_vistaDto: eccs_reportes_vistaDto,
     @GetUser('id') idUser: number,
   ) {
-    return this.Service.Agregar(idUser, eccs_centro_datosDto);
+    return this.Service.Agregar(idUser, eccs_reportes_vistaDto);
   }
 
   @Post('actualizar')
@@ -184,10 +186,10 @@ export class centroDatosAgregarController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public actualizar(
-    @Body() eccs_centro_datosDto: eccs_centro_datosDto,
+    @Body() eccs_reportes_vistaDto: eccs_reportes_vistaDto,
     @GetUser('id') idUser: number,
   ) {
-    return this.Service.Actualizar(idUser, eccs_centro_datosDto);
+    return this.Service.Actualizar(idUser, eccs_reportes_vistaDto);
   }
 
 

@@ -9,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class eccs_centro_datosDto {
+export class eccs_reportes_vistaDto {
   @IsNumber()
   @ApiProperty({
     example: 1,

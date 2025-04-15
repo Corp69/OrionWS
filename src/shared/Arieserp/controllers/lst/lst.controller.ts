@@ -59,6 +59,57 @@ export class LstController {
       return this.Service.getList(idUser, tabla);
     }
 
+//==================================================================================
+
+    @Post('modulo/:id')
+    @ApiParam({
+        name: 'tabla',
+        description: 'Filtro: tabla Control Datos ejemplo: [ eccs_modulo ] para generar un listado habra que pasar el id.',
+        required: true,
+        type: String, // Especificamos que el tipo es un número
+      })
+    @ApiOperation({ summary: 'AriesERP - Modulo Control Datos - listado.' })
+    @ApiResponse({
+      status: 200,
+      description: 'AriesERP- Modulo App - listado.',
+      content: {
+        'application/json': {
+          example: {
+            "Success": true,
+            "Titulo":  "OrionWS: AriesERP - Modulo App - listado.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": [
+                {
+                    "id": "1",
+                    "descripcion": "Modulo Aries / Scorpio"
+                }
+            ],
+          },
+        },
+      },
+    })
+    @ApiResponse({
+      status: 401,
+      description: 'AriesERP - Modulo App - listado.',
+      content: {
+        'application/json': {
+          example: {
+            message: 'No tienes Autorizacion.',
+            statusCode: 401,
+          },
+        },
+      },
+    })
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public lstModulos(
+        @GetUser('id') idUser: number,
+        @Param('id')   id:  number
+    ) {
+      return this.Service.obtenerModulo(idUser, id);
+    }
+
     //==================================================================================
     @Post('lstempresa')
     @ApiOperation({ summary: 'AriesERP - Modulo App - listado - empresa.' })
