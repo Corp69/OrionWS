@@ -21,6 +21,7 @@ import { eccs_clasificacion_producto_servicio } from 'src/Aries/controlapp/entit
 import { eccs_producto_servicio_costos } from 'src/Aries/controlapp/entities/eccs_producto_servicio_costos.entity';
 import { eccs_producto_servicio_precios } from 'src/Aries/controlapp/entities/eccs_producto_servicio_precios.entity';
 import { eccs_centro_datos } from 'src/Aries/controlapp/entities/eccs_centro_datos.entity';
+import { eccs_reportes_vista } from 'src/Aries/controlapp/entities/eccs_reportes_vista.entity';
 
 
 @Injectable()
@@ -64,6 +65,7 @@ export class DatabaseConnectionService {
         eccs_producto_servicio_precios,
 
         eccs_centro_datos,
+        eccs_reportes_vista,
 
 
 

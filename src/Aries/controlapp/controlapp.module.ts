@@ -23,6 +23,8 @@ import { centroDatosAgregarService } from './services/controldatos/agregar/agreg
 import { centroDatosAgregarController } from './controllers/controldatos/agregar/agregar.controller';
 import { centroDatosVisualizarController } from './controllers/controldatos/visualizar/visualizar.controller';
 import { centroDatosVisualizarService } from './services/controldatos/visualizar/visualizar.service';
+import { reporteDatosAgregarService } from './services/controlreportes/agregar/agregar.service';
+import { reporteDatosAgregarController } from './controllers/controlreportes/agregar/agregar.controller';
 
 @Module({
     controllers: 
@@ -42,6 +44,10 @@ import { centroDatosVisualizarService } from './services/controldatos/visualizar
       //--============================================================================
       // Control datos
       centroDatosAgregarController,
+
+      //--============================================================================
+      // Control datos
+      reporteDatosAgregarController,
 
       // Control datos Visualizar
       centroDatosVisualizarController,
@@ -64,6 +70,10 @@ import { centroDatosVisualizarService } from './services/controldatos/visualizar
       //--============================================================================
       // Control datos
       centroDatosAgregarService,
+
+      //--============================================================================
+      // Reporte datos
+      reporteDatosAgregarService,
 
       // Control datos Visualizar
       centroDatosVisualizarService,
