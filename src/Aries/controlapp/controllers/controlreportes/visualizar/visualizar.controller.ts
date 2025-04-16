@@ -5,7 +5,7 @@ import { reporteDatosPDFVisualizarService } from 'src/Aries/controlapp/services/
 
 import { Auth, GetUser } from "src/auth/decorators";
 
-@ApiTags('OrionWS - AriesERP - Modulo App - Control datos')
+@ApiTags('OrionWS - AriesERP - Modulo App - Reportes PDF')
 @Controller('arieserp/reportedatos/visualizar')
 @Auth()
 export class reporteDatosPDFVisualizarController {
@@ -14,16 +14,16 @@ export class reporteDatosPDFVisualizarController {
 
   @Post('datacenter')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    summary: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+          Titulo: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
           Mensaje: 'Operación Realizada con exito.',
           Response: 'Se agrego correctamente!!',
         },
@@ -32,7 +32,7 @@ export class reporteDatosPDFVisualizarController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
     content: {
       'application/json': {
         example: {

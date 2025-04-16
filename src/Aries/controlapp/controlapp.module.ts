@@ -25,6 +25,7 @@ import { centroDatosVisualizarController } from './controllers/controldatos/visu
 import { centroDatosVisualizarService } from './services/controldatos/visualizar/visualizar.service';
 import { reporteDatosAgregarService } from './services/controlreportes/agregar/agregar.service';
 import { reporteDatosAgregarController } from './controllers/controlreportes/agregar/agregar.controller';
+import { reporteDatosPDFVisualizarController } from './controllers/controlreportes/visualizar/visualizar.controller';
 
 @Module({
     controllers: 
@@ -51,6 +52,9 @@ import { reporteDatosAgregarController } from './controllers/controlreportes/agr
 
       // Control datos Visualizar
       centroDatosVisualizarController,
+
+      // Reportes PDF Visualizar
+      reporteDatosPDFVisualizarController,
     ],
     providers:   
     [ 

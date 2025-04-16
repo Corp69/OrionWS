@@ -18,7 +18,7 @@ export class querydto{
         description: 'hola mundo',
     })
     @IsString({ message: 'valor: debe ser String' })
-    @MinLength(10, { message: 'El valor debe tener al menos 10 caracteres.' })
+    @MinLength(5, { message: 'El valor debe tener al menos 5 caracteres.' })
     @MaxLength(1500, { message: 'El valor no debe exceder a 1500 caracteres.' })
     valor: string;
 

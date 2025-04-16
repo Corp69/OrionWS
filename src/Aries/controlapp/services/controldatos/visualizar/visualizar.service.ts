@@ -23,7 +23,6 @@ export class centroDatosVisualizarService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(`${ querydto.valor }`);
-      console.log( data );
       
       return {
         Success:  true,
