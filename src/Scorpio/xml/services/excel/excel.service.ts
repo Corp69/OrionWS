@@ -15,17 +15,18 @@ export class ExcelService {
             const connection = await this.dbConnectionService.getConnection(clientId);
             //FUNCION
             const data = await connection.query(
-              `SELECT "scorpio_xml".fn_get_xml_comprobantes_excel(
+              `SELECT "scorpio_xml".fn_get_xml_comprobantes(
             '${excelDto._fechainicio}',
             '${excelDto._fechatermina}',
-            ${excelDto._id_tipo}
+            ${excelDto._id_tipo},
+            ${excelDto._id_empresa}
               )`,
             );
             return {
               Success:  true,
               Titulo:   'Scorpio XL - Modulo XML - EXCEL - CATALOGO',
               Mensaje:  'Operacion Realizada con exito.',
-              Response: data[0].fn_get_xml_comprobantes_excel,
+              Response: data[0].fn_get_xml_comprobantes,
             };
           } catch (error) {
             throw new HttpException(

@@ -45,5 +45,34 @@ export class ListadoController {
         return this.Service.getList(idUser, tabla);
     }
     
+    @Post('lstempreas')
+    @ApiOperation({ summary: 'Scorpio XL - Modulo App - listado.' })
+    @ApiResponse({
+        status: 200,
+        description: 'Scorpio XL- Modulo App - listado.',
+        content: {
+        'application/json': {
+            example: {
+            "Success": true,
+            "Titulo":  "Scorpio XL - Modulo App - listado.",
+            "Mensaje": "Operacion Realizada con exito.",
+            "Response": [
+                {
+                    "id": "1",
+                    "descripcion": "test"
+                }
+            ],
+            },
+        },
+        },
+    })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public lstempreas(
+        @GetUser('id')    idUser: number
+    ) {
+        return this.Service.getlstEmpresas( idUser );
+    }
+    
 
 }
