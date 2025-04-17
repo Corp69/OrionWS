@@ -5,7 +5,7 @@ import { ProductoservicioPrecioService } from 'src/Aries/controlapp/services/pro
 
 import { Auth, GetUser } from 'src/auth/decorators';
 
-@ApiTags('OrionWS - AriesERP - Modulo App.')
+@ApiTags('OrionWS - AriesERP - Modulo App - Producto Servicio - Precios.')
 @Controller('arieserp/productoservicio/precio')
 @Auth()
 export class ProductoservicioPrecioController {

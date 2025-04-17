@@ -1,29 +1,30 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { querydto } from 'src/Aries/controlapp/dtos/query.dto';
-import { centroDatosVisualizarService } from 'src/Aries/controlapp/services/controldatos/visualizar/visualizar.service';
+import { visualizarDatosService } from 'src/Aries/controlapp/services/controldatos/visualizar/visualizarDatos.service';
+
 
 import { Auth, GetUser } from "src/auth/decorators";
 
-@ApiTags('OrionWS - AriesERP - Modulo App - Control datos')
+@ApiTags('OrionWS - AriesERP - Modulo App - Control datos - Visualizar')
 @Controller('arieserp/controldatos/visualizar')
 @Auth()
-export class centroDatosVisualizarController {
+export class VisualizarDatosController {
 
-    constructor(private readonly Service: centroDatosVisualizarService) {}
+    constructor(private readonly Service: visualizarDatosService) {}
 
   @Post('datacenter')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    summary: 'OrionWS - AriesERP - Modulo App - Control datos - Visualizar - query',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    description: 'OrionWS - AriesERP - Modulo App - Control datos - Visualizar - query',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+          Titulo: 'OrionWS - AriesERP - Modulo App - Control datos - Visualizar - query',
           Mensaje: 'Operación Realizada con exito.',
           Response: 'Se agrego correctamente!!',
         },
@@ -32,7 +33,7 @@ export class centroDatosVisualizarController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    description: 'OrionWS - AriesERP - Modulo App - Control datos - Visualizar - query',
     content: {
       'application/json': {
         example: {

@@ -4,12 +4,10 @@ import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionSer
 //Dtos
 import { querydto } from 'src/Aries/controlapp/dtos/query.dto';
 //entidades
-import { eccs_centro_datos } from 'src/Aries/controlapp/entities/eccs_centro_datos.entity';
-
 
 
 @Injectable()
-export class centroDatosVisualizarService {
+export class visualizarReportesService {
 
 
   constructor(
@@ -23,7 +21,6 @@ export class centroDatosVisualizarService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(`${ querydto.valor }`);
-      console.log( data );
       
       return {
         Success:  true,

@@ -4,7 +4,7 @@ import { Eccs_clasificacion_producto_servicioDto } from 'src/Aries/controlapp/dt
 import { ProductoservicioClasificacionesService } from 'src/Aries/controlapp/services/productoservicio/clasificaciones/clasificaciones.service';
 import { Auth, GetUser } from 'src/auth/decorators';
 
-@ApiTags('OrionWS - AriesERP - Modulo App.')
+@ApiTags('OrionWS - AriesERP - Modulo App - Producto Servicio - Clasificaciones.')
 @Controller('arieserp/productoservicio/clasificaciones')
 @Auth()
 export class ProductoservicioClasificacionesController {

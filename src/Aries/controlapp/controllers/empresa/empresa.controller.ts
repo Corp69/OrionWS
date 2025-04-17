@@ -6,7 +6,7 @@ import { EmpresaService } from '../../services/empresa/empresa.service';
 
 import { EmpresasDTO } from '../../dtos/arieserp_empresas.dto';
 
-@ApiTags('OrionWS - AriesERP - Modulo App.')
+@ApiTags('OrionWS - AriesERP - Modulo App - Empresa')
 @Controller('arieserp/empresa')
 @Auth()
 export class EmpresaController {

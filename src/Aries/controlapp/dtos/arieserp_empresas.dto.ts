@@ -82,8 +82,4 @@ export class EmpresasDTO {
   @Max(99,      { message: 'id_estatus no debe tener más de 99.' })
   id_estatus: number;
 
-  // @IsString({ message: 'celular: debe ser String' })
-  // @MinLength(3, { message: 'debe tener al menos 3 caracteres.' })
-  // @MaxLength(50, { message: 'debe exceder a 50 caracteres.' })
-  // readonly celular:    string;
 }

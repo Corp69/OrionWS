@@ -1,14 +1,17 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { centroDatosAgregarService } from 'src/Aries/controlapp/services/controldatos/agregar/agregar.service';
-import { eccs_centro_datosDto } from 'src/Aries/controlapp/dtos/eccs_centro_datos.dto';
+//Service
+import { agregarReporteService } from 'src/Aries/controlapp/services/controlreportes/agregarReportes/agregarReportes.service';
+//Dto
+import { eccs_reportes_vistaDto } from 'src/Aries/controlapp/dtos/eccs_reportes_vista.dto';
 
-@ApiTags('OrionWS - AriesERP - Modulo App - Control datos')
-@Controller('arieserp/controldatos/agregar')
+
+@ApiTags('OrionWS - AriesERP - Modulo App - Reportes PDF - Agregar')
+@Controller('arieserp/reportedatos/agregar')
 @Auth()
-export class centroDatosAgregarController {
-  constructor(private readonly Service: centroDatosAgregarService) {}
+export class AgregarReportesController {
+  constructor(private readonly Service: agregarReporteService) {}
 
   @Get('catalogo/:idaplicacion/:idmodulo')
   @ApiParam({
@@ -24,16 +27,16 @@ export class centroDatosAgregarController {
     type: Number, // Especificamos que el tipo es un número
   })
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+    summary: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Catalogo.',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Catalogo.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+          Titulo: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Catalogo.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: {},
         },
@@ -42,7 +45,7 @@ export class centroDatosAgregarController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Catalogo.',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Catalogo.',
     content: {
       'application/json': {
         example: {
@@ -72,18 +75,18 @@ export class centroDatosAgregarController {
   })
   @ApiOperation({
     summary:
-      'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+      'OrionWS - AriesERP - Modulo App - Reportes PDF - Obtener.',
   })
   @ApiResponse({
     status: 200,
     description:
-      'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+      'OrionWS - AriesERP - Modulo App - Reportes PDF - Obtener.',
     content: {
       'application/json': {
         example: {
           Success: true,
           Titulo:
-            'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+            'OrionWS - AriesERP - Modulo App - Reportes PDF - Obtener.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: {},
         },
@@ -93,7 +96,7 @@ export class centroDatosAgregarController {
   @ApiResponse({
     status: 401,
     description:
-      'AriesERP - Modulo App - Producto servicio - Obtner Producto Servicio.',
+      'OrionWS - AriesERP - Modulo App - Reportes PDF - Obtener.',
     content: {
       'application/json': {
         example: {
@@ -112,16 +115,16 @@ export class centroDatosAgregarController {
 
   @Post('crear')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Agregar',
+    summary: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Agregar',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Agregar',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Agregar',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Agregar',
+          Titulo: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Agregar',
           Mensaje: 'Operación Realizada con exito.',
           Response: 'Se agrego correctamente!!',
         },
@@ -130,7 +133,7 @@ export class centroDatosAgregarController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Agregar',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Agregar',
     content: {
       'application/json': {
         example: {
@@ -144,24 +147,24 @@ export class centroDatosAgregarController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public Crear(
-    @Body() eccs_centro_datosDto: eccs_centro_datosDto,
+    @Body() eccs_reportes_vistaDto: eccs_reportes_vistaDto,
     @GetUser('id') idUser: number,
   ) {
-    return this.Service.Agregar(idUser, eccs_centro_datosDto);
+    return this.Service.Agregar(idUser, eccs_reportes_vistaDto);
   }
 
   @Post('actualizar')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+    summary: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Actualizar.',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Actualizar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+          Titulo: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Actualizar.',
           Mensaje: 'Operación Realizada con exito.',
           Response: 'Se agrego correctamente!!',
         },
@@ -170,7 +173,7 @@ export class centroDatosAgregarController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Actualizar.',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Actualizar.',
     content: {
       'application/json': {
         example: {
@@ -184,26 +187,26 @@ export class centroDatosAgregarController {
   @ApiResponse({ status: 401, description: 'Token Invalido' })
   @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   public actualizar(
-    @Body() eccs_centro_datosDto: eccs_centro_datosDto,
+    @Body() eccs_reportes_vistaDto: eccs_reportes_vistaDto,
     @GetUser('id') idUser: number,
   ) {
-    return this.Service.Actualizar(idUser, eccs_centro_datosDto);
+    return this.Service.Actualizar(idUser, eccs_reportes_vistaDto);
   }
 
 
 
   @Post('eliminar/:id')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio  - Eliminar.',
+    summary: 'OrionWS - AriesERP - Modulo App - Reportes PDF  - Eliminar.',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Eliminar.',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Eliminar.',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Eliminar.',
+          Titulo: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Eliminar.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: 'Registro eliminado.',
         },
@@ -212,7 +215,7 @@ export class centroDatosAgregarController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Eliminar.',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Eliminar.',
     content: {
       'application/json': {
         example: {

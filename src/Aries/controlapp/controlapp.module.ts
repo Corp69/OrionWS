@@ -19,12 +19,14 @@ import { ProductoservicioCostoController } from './controllers/productoservicio/
 import { ProductoservicioCostoService } from './services/productoservicio/costos/costos.service';
 import { ProductoservicioPrecioController } from './controllers/productoservicio/precios/precios.controller';
 import { ProductoservicioPrecioService } from './services/productoservicio/precios/precios.service';
-import { centroDatosAgregarService } from './services/controldatos/agregar/agregar.service';
-import { centroDatosAgregarController } from './controllers/controldatos/agregar/agregar.controller';
-import { centroDatosVisualizarController } from './controllers/controldatos/visualizar/visualizar.controller';
-import { centroDatosVisualizarService } from './services/controldatos/visualizar/visualizar.service';
-import { reporteDatosAgregarService } from './services/controlreportes/agregar/agregar.service';
-import { reporteDatosAgregarController } from './controllers/controlreportes/agregar/agregar.controller';
+import { agregarDatosService } from './services/controldatos/agregar/agregarDatos.service';
+import { visualizarDatosService } from './services/controldatos/visualizar/visualizarDatos.service';
+import { agregarReporteService } from './services/controlreportes/agregarReportes/agregarReportes.service';
+import { AgregarDatosController } from './controllers/controldatos/agregarDatos/agregarDatos.controller';
+import { VisualizarDatosController } from './controllers/controldatos/visualizarDatos/visualizarDatos.controller';
+import { AgregarReportesController } from './controllers/controlreportes/agregarReportes/agregarReportes.controller';
+import { VisualizarReportesController } from './controllers/controlreportes/visualizarReportes/visualizarReportes.controller';
+import { visualizarReportesService } from './services/controlreportes/visualizarReportes/visualizarReportes.service';
 
 @Module({
     controllers: 
@@ -43,14 +45,17 @@ import { reporteDatosAgregarController } from './controllers/controlreportes/agr
       
       //--============================================================================
       // Control datos
-      centroDatosAgregarController,
+      AgregarDatosController,
 
       //--============================================================================
-      // Control datos
-      reporteDatosAgregarController,
+      // Control Reportes
+      AgregarReportesController,
 
       // Control datos Visualizar
-      centroDatosVisualizarController,
+      VisualizarDatosController,
+
+      // Reportes PDF Visualizar
+      VisualizarReportesController,
     ],
     providers:   
     [ 
@@ -69,14 +74,17 @@ import { reporteDatosAgregarController } from './controllers/controlreportes/agr
 
       //--============================================================================
       // Control datos
-      centroDatosAgregarService,
+      agregarDatosService,
 
       //--============================================================================
       // Reporte datos
-      reporteDatosAgregarService,
+      agregarReporteService,
 
       // Control datos Visualizar
-      centroDatosVisualizarService,
+      visualizarDatosService,
+
+      // Reporte Datos Visualizar
+      visualizarReportesService,
 
     ],
     imports: [

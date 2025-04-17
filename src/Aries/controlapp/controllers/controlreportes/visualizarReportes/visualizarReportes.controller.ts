@@ -1,29 +1,29 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { querydto } from 'src/Aries/controlapp/dtos/query.dto';
-import { reporteDatosPDFVisualizarService } from 'src/Aries/controlapp/services/controlreportes/visualizar/visualizar.service';
+import { visualizarReportesService } from 'src/Aries/controlapp/services/controlreportes/visualizarReportes/visualizarReportes.service';
 
 import { Auth, GetUser } from "src/auth/decorators";
 
-@ApiTags('OrionWS - AriesERP - Modulo App - Control datos')
+@ApiTags('OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar')
 @Controller('arieserp/reportedatos/visualizar')
 @Auth()
-export class reporteDatosPDFVisualizarController {
+export class VisualizarReportesController {
 
-    constructor(private readonly Service: reporteDatosPDFVisualizarService) {}
+    constructor(private readonly Service: visualizarReportesService) {}
 
   @Post('datacenter')
   @ApiOperation({
-    summary: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    summary: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
   })
   @ApiResponse({
     status: 200,
-    description: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
     content: {
       'application/json': {
         example: {
           Success: true,
-          Titulo: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+          Titulo: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
           Mensaje: 'Operación Realizada con exito.',
           Response: 'Se agrego correctamente!!',
         },
@@ -32,7 +32,7 @@ export class reporteDatosPDFVisualizarController {
   })
   @ApiResponse({
     status: 401,
-    description: 'AriesERP - Modulo App - Producto servicio - Visualizar - query',
+    description: 'OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar - query',
     content: {
       'application/json': {
         example: {

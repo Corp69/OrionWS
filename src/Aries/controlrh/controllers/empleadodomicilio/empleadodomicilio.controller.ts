@@ -5,7 +5,7 @@ import { EmpleadoDomicilioService } from '../../services/empleadodomicilio/emple
 import { DomicilioEmpleadoDTO } from '../../dtos/empledodomicilio/eccs_empleado_domicilio.dto';
 
 
-@ApiTags('OrionWS - AriesERP - Modulo RH.')
+@ApiTags('OrionWS - AriesERP - Modulo RH - Empleados - Domicilios.')
 @Controller('arieserp/empleadodomicilio')
 @Auth()
 export class EmpleadodomicilioController {
