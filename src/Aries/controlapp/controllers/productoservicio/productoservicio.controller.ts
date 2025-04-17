@@ -4,7 +4,7 @@ import { Auth, GetUser } from 'src/auth/decorators';
 import { ProductoservicioService } from '../../services/productoservicio/productoservicio.service';
 import { Eccs_producto_servicioDto } from '../../dtos/eccs_producto_servicio.dto';
 
-@ApiTags('OrionWS - AriesERP - Modulo App.')
+@ApiTags('OrionWS - AriesERP - Modulo App - Producto Servicio.')
 @Controller('arieserp/productoservicio')
 @Auth()
 export class ProductoservicioController {

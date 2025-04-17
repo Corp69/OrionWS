@@ -7,7 +7,7 @@ import { querydto } from 'src/Aries/controlapp/dtos/query.dto';
 
 
 @Injectable()
-export class reporteDatosPDFVisualizarService {
+export class visualizarReportesService {
 
 
   constructor(
@@ -21,7 +21,6 @@ export class reporteDatosPDFVisualizarService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(`${ querydto.valor }`);
-      console.log( data );
       
       return {
         Success:  true,

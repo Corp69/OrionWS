@@ -5,7 +5,7 @@ import { ProductoservicioCostoService } from 'src/Aries/controlapp/services/prod
 
 import { Auth, GetUser } from 'src/auth/decorators';
 
-@ApiTags('OrionWS - AriesERP - Modulo App.')
+@ApiTags('OrionWS - AriesERP - Modulo App - Producto Servicio - Costos.')
 @Controller('arieserp/productoservicio/costo')
 @Auth()
 export class ProductoservicioCostoController {
@@ -73,18 +73,18 @@ export class ProductoservicioCostoController {
   })
   @ApiOperation({
     summary:
-      'AriesERP - Modulo App - Producto servicio - Obtner los costos - Producto Servicio.',
+      'OrionWS - AriesERP - Modulo App - Producto Servicio - Costos - Producto Servicio.',
   })
   @ApiResponse({
     status: 200,
     description:
-      'AriesERP - Modulo App - Producto servicio - Obtner los costos - Producto Servicio.',
+      'OrionWS - AriesERP - Modulo App - Producto Servicio - Costos - Producto Servicio.',
     content: {
       'application/json': {
         example: {
           Success: true,
           Titulo:
-            'AriesERP - Modulo App - Producto servicio - Obtner los costos - Producto Servicio.',
+            'OrionWS - AriesERP - Modulo App - Producto Servicio - Costos - Producto Servicio.',
           Mensaje: 'Operacion Realizada con exito.',
           Response: {},
         },

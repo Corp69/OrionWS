@@ -9,7 +9,7 @@ import { eccs_centro_datos } from 'src/Aries/controlapp/entities/eccs_centro_dat
 
 
 @Injectable()
-export class centroDatosVisualizarService {
+export class visualizarDatosService {
 
 
   constructor(

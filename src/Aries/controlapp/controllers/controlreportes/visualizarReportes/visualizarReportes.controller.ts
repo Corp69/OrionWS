@@ -1,16 +1,16 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { querydto } from 'src/Aries/controlapp/dtos/query.dto';
-import { reporteDatosPDFVisualizarService } from 'src/Aries/controlapp/services/controlreportes/visualizar/visualizar.service';
+import { visualizarReportesService } from 'src/Aries/controlapp/services/controlreportes/visualizarReportes/visualizarReportes.service';
 
 import { Auth, GetUser } from "src/auth/decorators";
 
-@ApiTags('OrionWS - AriesERP - Modulo App - Reportes PDF')
+@ApiTags('OrionWS - AriesERP - Modulo App - Reportes PDF - Visualizar')
 @Controller('arieserp/reportedatos/visualizar')
 @Auth()
-export class reporteDatosPDFVisualizarController {
+export class VisualizarReportesController {
 
-    constructor(private readonly Service: reporteDatosPDFVisualizarService) {}
+    constructor(private readonly Service: visualizarReportesService) {}
 
   @Post('datacenter')
   @ApiOperation({

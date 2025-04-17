@@ -2,13 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ResponseDto } from 'src/shared/dtos/Response.dto';
 import { DatabaseConnectionService } from 'src/shared/eccs/DatabaseConnectionService';
 //Dtos
-import { eccs_reportes_vistaDto } from 'src/Aries/controlapp/dtos/eccs_reportes_vista.dto';
-
+import { eccs_centro_datosDto } from 'src/Aries/controlapp/dtos/eccs_centro_datos.dto';
 //entidades
-import { eccs_reportes_vista } from 'src/Aries/controlapp/entities/eccs_reportes_vista.entity';
+import { eccs_centro_datos } from 'src/Aries/controlapp/entities/eccs_centro_datos.entity';
+
 
 @Injectable()
-export class reporteDatosAgregarService {
+export class agregarDatosService {
 
 
   constructor(
@@ -21,13 +21,13 @@ export class reporteDatosAgregarService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select * from "eccs".fn_get_catalogo_reportes(${idaplicacion}, ${idmodulo})`,
+        `select * from "eccs".fn_get_catalogo_centro_datos(${idaplicacion}, ${idmodulo})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo App - Producto Servicio - Catalogo.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_get_catalogo_reportes,
+        Response: data[0].fn_get_catalogo_centro_datos,
       };
     } catch (error) {
       throw new HttpException(
@@ -49,13 +49,13 @@ export class reporteDatosAgregarService {
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
       const data = await connection.query(
-        `select * from "eccs".fn_get_reportes_row(${id})`,
+        `select * from "eccs".fn_get_centro_datos_row(${id})`,
       );
       return {
         Success:  true,
         Titulo:   "AriesERP - Modulo App - Producto - Obtner Producto Servicio.",
         Mensaje:  "Operacion Realizada con exito.",
-        Response: data[0].fn_get_reportes_row,
+        Response: data[0].fn_get_centro_datos_row,
       };
     } catch (error) {
       throw new HttpException(
@@ -70,11 +70,11 @@ export class reporteDatosAgregarService {
     }
   }
 
-  public async Agregar( clientId: number, eccs_reportes_vistaDto: eccs_reportes_vistaDto  ): Promise<ResponseDto<any>> {
+  public async Agregar( clientId: number, eccs_centro_datosDto: eccs_centro_datosDto  ): Promise<ResponseDto<any>> {
     try {
       let connection = await this.dbConnectionService.getConnection(clientId);
-      let repository = connection.getRepository(eccs_reportes_vista);
-      let { id, ...DataDto } = eccs_reportes_vistaDto;
+      let repository = connection.getRepository(eccs_centro_datos);
+      let { id, ...DataDto } = eccs_centro_datosDto;
       let response  = await repository.save(repository.create(DataDto)); 
       
       return {
@@ -97,12 +97,12 @@ export class reporteDatosAgregarService {
     }
   }
 
-  public async Actualizar( clientId: number, eccs_reportes_vistaDto: eccs_reportes_vistaDto ): Promise<ResponseDto<any>> {
+  public async Actualizar( clientId: number, eccs_centro_datosDto: eccs_centro_datosDto ): Promise<ResponseDto<any>> {
     try {
 
       const connection = await this.dbConnectionService.getConnection(clientId);
-      const Repository = await connection.getRepository(eccs_reportes_vista);
-      const row        = await Repository.preload(eccs_reportes_vistaDto);
+      const Repository = await connection.getRepository(eccs_centro_datos);
+      const row        = await Repository.preload(eccs_centro_datosDto);
       const response   = await Repository.save(row);
 
       return {
@@ -130,7 +130,7 @@ export class reporteDatosAgregarService {
       // Obtener la conexión adecuada según el cliente.
       const connection = await this.dbConnectionService.getConnection(clientId);
       //FUNCION
-      const data = await connection.query(`delete from eccs_reportes_vista where id = ${ id }`);
+      const data = await connection.query(`delete from eccs_centro_datos where id = ${ id }`);
       return {
         Success:  true,
         Titulo:   'AriesERP - Modulo App - Producto Elimiar',

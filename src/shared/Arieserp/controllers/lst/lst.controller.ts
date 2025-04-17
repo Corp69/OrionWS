@@ -199,6 +199,20 @@ export class LstController {
     ) {
       return this.Service.getlstSucursalD(idUser);
     }
+
+
+  //==================================================================================
+
+
+    @Post('pdf')
+    @ApiResponse({ status: 401, description: 'Token Invalido' })
+    @ApiResponse({ status: 404, description: 'Ruta no encontrada' })
+    @ApiResponse({ status: 500, description: 'Error interno del servidor' })
+    public generarPDF(
+        @GetUser('id')    idUser: number
+    ) {
+      return this.Service.generarPDF(idUser);
+    }
  
 
 
